@@ -10,24 +10,33 @@ namespace synchronizer
             foreach (var curevent in events)
             {
                 if (curevent.GetId() == needToCheck.GetId())
+                {
                     notExist = false;
+                    break;
+                }
             }
             return notExist;
         }
+
         private bool IfExist(SynchronEvent needToCheck, List<SynchronEvent> events)
         {
             var exist = false;
             foreach (var curevent in events)
             {
                 if (curevent.GetId() == needToCheck.GetId())
+                {
                     exist = true;
+                    break;
+                }
             }
             return exist;
         }
+
         private bool NeedToUpdate(SynchronEvent standartEvent, SynchronEvent compareEvent)
         {
             return !standartEvent.CompareOnEqual(compareEvent);
         }
+
         public List<SynchronEvent> GetDifferenceToPush(List<SynchronEvent> sourceList, List<SynchronEvent> targetList)
         {
             var difference = new List<SynchronEvent>();

@@ -12,8 +12,6 @@ namespace synchronizer
         {
             InitializeComponent();
             dateTimePicker2.Value = (dateTimePicker1.Value).AddMonths(1);
-            label4.Text = _outlook;
-            label5.Text = _google;
         }
 
         
@@ -41,18 +39,6 @@ namespace synchronizer
         }
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            var buffer = label4.Text;
-            label4.Text = label5.Text;
-            label5.Text = buffer;
-        }
-
-        private void label4_Click(object sender, EventArgs e)
         {
 
         }

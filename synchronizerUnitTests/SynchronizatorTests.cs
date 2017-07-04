@@ -24,11 +24,7 @@ namespace synchronizerUnitTests
             Assert.True(calendarA.GetAllItems(startData, finishDate).Count == calendarB.GetAllItems(startData, finishDate).Count
                 && calendarB.GetAllItems(startData, finishDate).Count == 0);
         }
-        [Fact]
-        public void badTest()
-        {
-            Assert.True(false);
-        }
+        
         [Fact]
         public void TwoCalendarsOneNonEmpty_AddedToNext1()
         {
