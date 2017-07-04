@@ -41,6 +41,7 @@
             this.astbMin_label = new System.Windows.Forms.Label();
             this.astbMax_label = new System.Windows.Forms.Label();
             this.autosync_timer = new System.Windows.Forms.Timer(this.components);
+            this.syncStatuc_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.autosync_trackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -155,11 +156,21 @@
             // 
             this.autosync_timer.Tick += new System.EventHandler(this.autosync_timer_Tick);
             // 
+            // syncStatuc_label
+            // 
+            this.syncStatuc_label.AutoSize = true;
+            this.syncStatuc_label.Location = new System.Drawing.Point(12, 255);
+            this.syncStatuc_label.Name = "syncStatuc_label";
+            this.syncStatuc_label.Size = new System.Drawing.Size(163, 13);
+            this.syncStatuc_label.TabIndex = 11;
+            this.syncStatuc_label.Text = "Данные не синхронизированы";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 277);
+            this.Controls.Add(this.syncStatuc_label);
             this.Controls.Add(this.astbMax_label);
             this.Controls.Add(this.astbMin_label);
             this.Controls.Add(this.autosync_trackBar);
@@ -193,6 +204,7 @@
         private System.Windows.Forms.Label astbMin_label;
         private System.Windows.Forms.Label astbMax_label;
         private System.Windows.Forms.Timer autosync_timer;
+        private System.Windows.Forms.Label syncStatuc_label;
     }
 }
 

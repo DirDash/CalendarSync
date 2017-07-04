@@ -18,6 +18,12 @@ namespace synchronizer
         
         private void button1_Click(object sender, EventArgs e)
         {
+            Sync();
+        }
+
+        private void Sync()
+        {
+            syncStatuc_label.Text = "Синхронизация...";
             var startDate = dateTimePicker1.Value;
             var finishDate = dateTimePicker2.Value;
 
@@ -27,6 +33,7 @@ namespace synchronizer
             var calendars = new List<ICalendarService> { outlookService, googleService };
 
             new Syncronizator().ApplyAllUpdates(startDate, finishDate, calendars);
+            syncStatuc_label.Text = "Данные синхронизированы";
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -51,6 +58,7 @@ namespace synchronizer
                 autosync_trackBar.Visible = true;
                 astbMin_label.Visible = true;
                 astbMax_label.Visible = true;
+                Sync();
                 autosync_timer.Enabled = true;
             }
             else
@@ -69,7 +77,7 @@ namespace synchronizer
 
         private void autosync_timer_Tick(object sender, EventArgs e)
         {
-            button1_Click(sender, e);
+            Sync();
         }
     }
 }
