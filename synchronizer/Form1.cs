@@ -12,6 +12,7 @@ namespace synchronizer
         {
             InitializeComponent();
             dateTimePicker2.Value = (dateTimePicker1.Value).AddMonths(1);
+            autosync_timer.Interval = autosync_trackBar.Value * 60000;
         }
 
         
@@ -41,6 +42,34 @@ namespace synchronizer
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void autosync_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autosync_checkBox.Checked)
+            {
+                autosync_trackBar.Visible = true;
+                astbMin_label.Visible = true;
+                astbMax_label.Visible = true;
+                autosync_timer.Enabled = true;
+            }
+            else
+            {
+                autosync_trackBar.Visible = false;
+                astbMin_label.Visible = false;
+                astbMax_label.Visible = false;
+                autosync_timer.Enabled = false;
+            }
+        }
+
+        private void autosync_trackBar_Scroll(object sender, EventArgs e)
+        {
+            autosync_timer.Interval = autosync_trackBar.Value * 60000;
+        }
+
+        private void autosync_timer_Tick(object sender, EventArgs e)
+        {
+            button1_Click(sender, e);
         }
     }
 }

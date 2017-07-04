@@ -144,6 +144,12 @@ namespace synchronizer
                     {
                         eventToCheck.Description = needToUpdate.GetDescription();
                         eventToCheck.Summary = needToUpdate.GetSubject();
+                        EventDateTime start = new EventDateTime();
+                        start.DateTime = needToUpdate.GetStart();
+                        eventToCheck.Start = start;
+                        EventDateTime end = new EventDateTime();
+                        end.DateTime = needToUpdate.GetFinish();
+                        eventToCheck.End = end;
 
                         EventAttendee[] attendees = new EventAttendee[needToUpdate.GetParticipants().Count];
                         List<string> AllParticipants = needToUpdate.GetParticipants();

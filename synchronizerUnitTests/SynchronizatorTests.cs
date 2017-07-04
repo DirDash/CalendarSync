@@ -70,11 +70,29 @@ namespace synchronizerUnitTests
 
             calendarA.AddEvent(curEvent);
             calendarB.AddEvent(curEvent.SetPlacement("2").SetSubject("check"));
-
             
             synchronizer.ApplyAllUpdates(startData, finishDate, new List<ICalendarService> { calendarA, calendarB });
 
             Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetSubject() == "check");
+        }
+
+        [Fact]
+        public void NeedToUpdateTime_Updated()
+        {
+            var synchronizer = new Syncronizator();
+            var calendarA = new CalendarServiceStub();
+            var calendarB = new CalendarServiceStub();
+            DateTime startData = DateTime.Now;
+            DateTime finishDate = startData.AddMonths(1);
+            var curEvent = new SynchronEvent().SetId("1234").SetStart(startData.AddMinutes(15)).SetFinish(finishDate)
+                .SetPlacement("1").SetSource("2");
+
+            calendarA.AddEvent(curEvent);
+            calendarB.AddEvent(curEvent.SetPlacement("2").SetStart(startData.AddMinutes(30)));
+
+            synchronizer.ApplyAllUpdates(startData, finishDate, new List<ICalendarService> { calendarA, calendarB });
+
+            Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetStart() == startData.AddMinutes(30));
         }
     }
 
