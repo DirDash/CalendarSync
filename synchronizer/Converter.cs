@@ -12,6 +12,7 @@ namespace synchronizer
     {
         private readonly string _outlook = "Outlook";
         private readonly string _google = "Google";
+
         public SynchronEvent ConvertOutlookToMyEvent(Microsoft.Office.Interop.Outlook.AppointmentItem outlookItem)
         {
             var result = new SynchronEvent()
@@ -35,7 +36,7 @@ namespace synchronizer
                 else
                 {
                     result.SetSource(_google);
-                    outlookItem.Categories = "Orange Category";
+                    outlookItem.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
                     outlookItem.Save();
                 }
             }
@@ -69,7 +70,7 @@ namespace synchronizer
                 Start = eventDateTime,
                 End = eventDateTimeEnd,
                 Description = synchronEvent.GetDescription(),
-                ColorId = "11",
+                ColorId = SyncronizationConfigManager.GoogleCategoryColorIDForImported,
             };
 
             if(synchronEvent.GetAllDay())
@@ -144,6 +145,7 @@ namespace synchronizer
             {
                 result.SetId(googleEvent.ExtendedProperties.Shared[_outlook]);
                 result.SetSource(_outlook);
+                googleEvent.ColorId = "1";
             }
             else
             {
@@ -180,7 +182,7 @@ namespace synchronizer
             if (synchronEvent.GetSource() == _google)
             {
                 result.Mileage = synchronEvent.GetId();
-                result.Categories = "Orange Category";
+                result.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
             }
             return result;
         }

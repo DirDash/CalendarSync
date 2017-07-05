@@ -162,7 +162,7 @@ namespace synchronizer
         {
             return id;
         }
-
+        
         public bool CompareOnEqual(SynchronEvent compareEvent)
         {
             bool result = true;

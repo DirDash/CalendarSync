@@ -150,6 +150,7 @@ namespace synchronizer
                         EventDateTime end = new EventDateTime();
                         end.DateTime = needToUpdate.GetFinish();
                         eventToCheck.End = end;
+                        eventToCheck.ColorId = SyncronizationConfigManager.GoogleCategoryColorIDForImported;
 
                         EventAttendee[] attendees = new EventAttendee[needToUpdate.GetParticipants().Count];
                         List<string> AllParticipants = needToUpdate.GetParticipants();
