@@ -1,30 +1,81 @@
 ﻿using System;
 using System.Configuration;
-using System.Collections.Generic;
 
 namespace synchronizer
 {
     public static class SyncronizationConfigManager
     {
-        public static bool Autosyncronization { get; private set; }
-        public static int AutosyncIntervalInSeconds { get; private set; }
-        public static string OutlookCategoryForImported { get; private set; }
-        public static string GoogleCategoryColorIDForImported { get; private set; }
+        private static int _synchronizationIntervalInDays;
+        private static bool _autosyncronizationMode;
+        private static int _autosyncIntervalInSeconds;
+        private static string _outlookCategoryForImported;
+        private static string _googleCategoryColorIDForImported;
+
+        public static int SynchronizationIntervalInDays
+        {
+            get { return _synchronizationIntervalInDays; }
+            set
+            {
+                _synchronizationIntervalInDays = value;
+                ChangeConfigValue("syncIntervalInDays", value.ToString());
+            }
+        }
+
+        public static bool AutosyncronizationMode
+        {
+            get { return _autosyncronizationMode; }
+            set
+            {
+                _autosyncronizationMode = value;
+                ChangeConfigValue("autosync", value.ToString());
+            }
+        }
+
+        public static int AutosyncIntervalInSeconds
+        {
+            get { return _autosyncIntervalInSeconds; }
+            set
+            {
+                _autosyncIntervalInSeconds = value;
+                ChangeConfigValue("autosyncIntervalSec", value.ToString());
+            }
+        }
+
+        public static string OutlookCategoryForImported
+        {
+            get { return _outlookCategoryForImported; }
+            set
+            {
+                _outlookCategoryForImported = value;
+                ChangeConfigValue("outlookCategoryForImported", value);
+            }
+        }
+
+        public static string GoogleCategoryColorIDForImported
+        {
+            get { return _googleCategoryColorIDForImported; }
+            set
+            {
+                _googleCategoryColorIDForImported = value;
+                ChangeConfigValue("googleColorIDForImported", value);
+            }
+        }
 
         static SyncronizationConfigManager()
         {
-            RefreshConfigKeys();
+            LoadConfigKeys();
         }
 
-        private static void RefreshConfigKeys()
+        private static void LoadConfigKeys()
         {
+            SynchronizationIntervalInDays = int.Parse(ConfigurationManager.AppSettings["syncIntervalInDays"]);
             switch (ConfigurationManager.AppSettings["autosync"])
             {
-                case "false":
-                    Autosyncronization = false;
+                case "False":
+                    AutosyncronizationMode = false;
                     break;
-                case "true":
-                    Autosyncronization = true;
+                case "True":
+                    AutosyncronizationMode = true;
                     break;
             }
             AutosyncIntervalInSeconds = int.Parse(ConfigurationManager.AppSettings["autosyncIntervalSec"]);
@@ -32,13 +83,12 @@ namespace synchronizer
             GoogleCategoryColorIDForImported = ConfigurationManager.AppSettings["googleColorIDForImported"];
         }
 
-        public static void ChangeConfigValue(string configKey, string newConfigValue)
+        private static void ChangeConfigValue(string configKey, string newConfigValue)
         {
             Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             currentConfig.AppSettings.Settings[configKey].Value = newConfigValue;
             currentConfig.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
-            RefreshConfigKeys();
         }
     }
 }

@@ -50,6 +50,7 @@
             // 
             // from_dateTimePicker
             // 
+            this.from_dateTimePicker.Enabled = false;
             this.from_dateTimePicker.Location = new System.Drawing.Point(78, 35);
             this.from_dateTimePicker.Name = "from_dateTimePicker";
             this.from_dateTimePicker.Size = new System.Drawing.Size(138, 20);
@@ -82,6 +83,7 @@
             this.to_dateTimePicker.Name = "to_dateTimePicker";
             this.to_dateTimePicker.Size = new System.Drawing.Size(138, 20);
             this.to_dateTimePicker.TabIndex = 3;
+            this.to_dateTimePicker.ValueChanged += new System.EventHandler(this.to_dateTimePicker_ValueChanged);
             // 
             // label1
             // 

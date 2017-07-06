@@ -62,6 +62,7 @@ namespace synchronizer
             foreach (var currentEvent in events)
             {
                 var needToPush = new Converter().ConvertMyEventToGoogle(currentEvent);
+                needToPush.ColorId = SyncronizationConfigManager.GoogleCategoryColorIDForImported;
                 _service.Events.Insert(needToPush, request.CalendarId).Execute();
             }
             
@@ -97,15 +98,15 @@ namespace synchronizer
             }
         }
 
-        public List<SynchronEvent> GetAllItems(DateTime startData, DateTime finishData)
+        public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
         {
             InitGoogleService();
 
             // Define parameters of request.
             var request = _service.Events.List("primary");
 
-            request.TimeMin = startData;
-            request.TimeMax = finishData;
+            request.TimeMin = startTime;
+            request.TimeMax = finishTime;
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.MaxResults = 1000;

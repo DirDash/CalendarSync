@@ -49,9 +49,9 @@ namespace synchronizer
             foreach (var eventToPush in events)
             {
                 var current = new Converter().ConvertSynchronToOutlook(eventToPush);
+                current.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
                 current.Save();   
-            }
-            
+            }            
         }
 
         public void DeleteEvents(List<SynchronEvent> events)
@@ -129,6 +129,7 @@ namespace synchronizer
                         item.End = eventToUpdate.GetFinish();
                         item.Body = eventToUpdate.GetDescription();
                         item.Location = eventToUpdate.GetLocation();
+                        item.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
                         item.Save();
                     }
                 }

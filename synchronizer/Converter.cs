@@ -36,7 +36,6 @@ namespace synchronizer
                 else
                 {
                     result.SetSource(_google);
-                    outlookItem.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
                     outlookItem.Save();
                 }
             }
@@ -70,7 +69,6 @@ namespace synchronizer
                 Start = eventDateTime,
                 End = eventDateTimeEnd,
                 Description = synchronEvent.GetDescription(),
-                ColorId = SyncronizationConfigManager.GoogleCategoryColorIDForImported,
             };
 
             if(synchronEvent.GetAllDay())
@@ -182,7 +180,6 @@ namespace synchronizer
             if (synchronEvent.GetSource() == _google)
             {
                 result.Mileage = synchronEvent.GetId();
-                result.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
             }
             return result;
         }
