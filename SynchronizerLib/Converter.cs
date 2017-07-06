@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using Google.Apis.Calendar.v3.Data;
-using org.pdfclown.util;
 using outlook2 = Microsoft.Office.Interop.Outlook;
 using System.Text;
 using System;
 using System.Collections.Generic;
 
-namespace synchronizer
+namespace SynchronizerLib
 {
     public class Converter
     {
@@ -85,7 +84,7 @@ namespace synchronizer
             {
                 googleEvent.ExtendedProperties = new Event.ExtendedPropertiesData
                 {
-                    Shared = new BiDictionary<string, string> {{_outlook, synchronEvent.GetId()}}
+                    Shared = new Dictionary<string, string> {{_outlook, synchronEvent.GetId()}}
                 };
             }
            

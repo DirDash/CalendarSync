@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Assert = Xunit.Assert;
-using synchronizer;
+using SynchronizerLib;
 
-namespace synchronizerUnitTests
+namespace SynchronizerLibUnitTests
 {
     public class SynchronEventUnitTests
     {

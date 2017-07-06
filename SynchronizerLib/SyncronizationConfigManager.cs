@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace synchronizer
+namespace SynchronizerLib
 {
     public static class SyncronizationConfigManager
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace synchronizer
+namespace SynchronizerLib
 {
     public class OutlookService : ICalendarService
     {

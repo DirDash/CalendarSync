@@ -73,9 +73,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\synchronizer\synchronizer.csproj">
-      <Project>{555E2B1C-B677-433C-9A0D-A9C7912FF76A}</Project>
-      <Name>synchronizer</Name>
+    <ProjectReference Include="..\SynchronizerLib\SynchronizerLib.csproj">
+      <Project>{7d9990ea-7f3d-4236-b07b-9d309841c204}</Project>
+      <Name>SynchronizerLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

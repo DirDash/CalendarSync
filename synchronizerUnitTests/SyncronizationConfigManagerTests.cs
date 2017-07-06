@@ -2,17 +2,18 @@
 using Xunit;
 using Assert = Xunit.Assert;
 using System.Configuration;
+using SynchronizerLib;
 
-namespace synchronizerUnitTests
+namespace SynchronizerLibUnitTests
 {
     public class SyncronizationConfigManagerTests
     {
         [Fact]
         public void SetIsCorrect_ValueChanged()
         {
-            string newGoogleColorID = synchronizer.SyncronizationConfigManager.GoogleCategoryColorIDForImported + "0";
-            synchronizer.SyncronizationConfigManager.GoogleCategoryColorIDForImported = newGoogleColorID;
-            Assert.Equal(ConfigurationManager.AppSettings["googleColorIDForImported"], synchronizer.SyncronizationConfigManager.GoogleCategoryColorIDForImported);
+            string newGoogleColorID = SyncronizationConfigManager.GoogleCategoryColorIDForImported + "0";
+            SyncronizationConfigManager.GoogleCategoryColorIDForImported = newGoogleColorID;
+            Assert.Equal(ConfigurationManager.AppSettings["googleColorIDForImported"], SyncronizationConfigManager.GoogleCategoryColorIDForImported);
         }
     }
 }

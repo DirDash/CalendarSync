@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace synchronizer
+namespace SynchronizerLib
 {
     public class DifferenceFinder
     {

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using synchronizer;
+using SynchronizerLib;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace synchronizerUnitTests
+namespace SynchronizerLibUnitTests
 {
     public class EventsSieverUnitTests
     {
