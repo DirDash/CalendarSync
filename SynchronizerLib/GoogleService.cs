@@ -50,13 +50,6 @@ namespace SynchronizerLib
             
             // Define parameters of request.
             var request = _service.Events.List("primary");
-           
-            //request.TimeMin = DateTime.Now;
-            //request.ShowDeleted = false;
-            //request.SingleEvents = true;
-            //request.MaxResults = 1000;
-            //request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
             var inGoogleExist = request.Execute();
             foreach (var currentEvent in events)
             {
@@ -167,7 +160,6 @@ namespace SynchronizerLib
 
                         eventToCheck.Location = needToUpdate.GetLocation();
                         _service.Events.Update(eventToCheck, "primary", eventToCheck.Id).Execute();
-                        //Thread.Sleep(10000);
                     }
                 }
             }

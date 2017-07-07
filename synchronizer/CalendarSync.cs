@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using SynchronizerLib;
+using System.Diagnostics;
 
 namespace synchronizer
 {
     public partial class CalendarSyncForm : Form
     {
-        private Synchronizer synchronizer = new Synchronizer(new List<ICalendarService> { new OutlookService(), new GoogleService() });
+        private Synchronizer synchronizer = new SynchronizerLoggingDecorator(new List<ICalendarService> { new OutlookService(), new GoogleService() }, new Synchronizer(new List<ICalendarService> { new OutlookService(), new GoogleService() }));
 
         public CalendarSyncForm()
         {

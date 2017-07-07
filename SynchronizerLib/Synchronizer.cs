@@ -7,7 +7,7 @@ namespace SynchronizerLib
     {
         private DifferenceFinder _differenceFinder;
         private List<ICalendarService> _calendars;
-        
+
         public Synchronizer(List<ICalendarService> calendars)
         {
             _calendars = new List<ICalendarService>();
@@ -15,7 +15,7 @@ namespace SynchronizerLib
                 _calendars.Add(calendar);
         }
 
-        public void Synchronize(DateTime startDate, DateTime finishDate)
+        public virtual void Synchronize(DateTime startDate, DateTime finishDate)
         {
             List<List<SynchronEvent>> MeetingsInTheCalendars = new List<List<SynchronEvent>>();
             
