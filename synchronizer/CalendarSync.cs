@@ -7,6 +7,8 @@ namespace synchronizer
 {
     public partial class CalendarSyncForm : Form
     {
+        private Synchronizer synchronizer = new Synchronizer(new List<ICalendarService> { new OutlookService(), new GoogleService() });
+
         public CalendarSyncForm()
         {
             InitializeComponent();
@@ -32,13 +34,7 @@ namespace synchronizer
             syncStatus_label.Text = "Синхронизация...";
             var startDate = from_dateTimePicker.Value;
             var finishDate = to_dateTimePicker.Value;
-
-            ICalendarService outlookService = new OutlookService();
-            ICalendarService googleService = new GoogleService();
-
-            var calendars = new List<ICalendarService> { outlookService, googleService };
-
-            new Syncronizator().ApplyAllUpdates(startDate, finishDate, calendars);
+            synchronizer.Synchronize(startDate, finishDate);
             syncStatus_label.Text = "Данные синхронизированы" + " (" + DateTime.Now + ")";
         }
 
@@ -89,7 +85,6 @@ namespace synchronizer
         {
             if (to_dateTimePicker.Value < from_dateTimePicker.Value)
                 to_dateTimePicker.Value = from_dateTimePicker.Value.AddDays(1);
-
         }
     }
 }

@@ -13,13 +13,13 @@ namespace SynchronizerLibUnitTests
     {
         [Fact]
         public void CheckOnNonModyfing_NonOfThen()
-        {
-            var synchronizer = new Syncronizator();
+        {            
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
+            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
             DateTime finishDate = startData.AddMonths(1);
-            synchronizer.ApplyAllUpdates(startData, finishDate, new List<ICalendarService> { calendarA, calendarB });
+            synchronizer.Synchronize(startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate).Count == calendarB.GetAllItems(startData, finishDate).Count
                 && calendarB.GetAllItems(startData, finishDate).Count == 0);
@@ -27,15 +27,15 @@ namespace SynchronizerLibUnitTests
         
         [Fact]
         public void TwoCalendarsOneNonEmpty_AddedToNext1()
-        {
-            var synchronizer = new Syncronizator();
+        {            
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
+            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
             calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStart(DateTime.Now).SetFinish(DateTime.Now.AddDays(1))
                 .SetPlacement("1").SetSource("1"));
             DateTime finishDate = startData.AddMonths(1);
-            synchronizer.ApplyAllUpdates(startData, finishDate, new List<ICalendarService> { calendarA, calendarB });
+            synchronizer.Synchronize(startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate).Count == calendarB.GetAllItems(startData, finishDate).Count
                 && calendarB.GetAllItems(startData, finishDate).Count == 1);
@@ -43,15 +43,15 @@ namespace SynchronizerLibUnitTests
 
         [Fact]
         public void NeedToDelete_Deleted()
-        {
-            var synchronizer = new Syncronizator();
+        {            
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
+            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
             calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStart(DateTime.Now).SetFinish(DateTime.Now.AddDays(1))
                 .SetPlacement("1").SetSource("2"));
             DateTime finishDate = startData.AddMonths(1);
-            synchronizer.ApplyAllUpdates(startData, finishDate, new List<ICalendarService> { calendarA, calendarB });
+            synchronizer.Synchronize(startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate).Count == calendarB.GetAllItems(startData, finishDate).Count
                 && calendarB.GetAllItems(startData, finishDate).Count == 0);
@@ -59,10 +59,10 @@ namespace SynchronizerLibUnitTests
 
         [Fact]
         public void NeedToUpdate_Updated()
-        {
-            var synchronizer = new Syncronizator();
+        {           
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
+            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
             DateTime finishDate = startData.AddMonths(1);
             var curEvent = new SynchronEvent().SetId("1234").SetStart(startData.AddMinutes(15)).SetFinish(finishDate)
@@ -71,17 +71,17 @@ namespace SynchronizerLibUnitTests
             calendarA.AddEvent(curEvent);
             calendarB.AddEvent(curEvent.SetPlacement("2").SetSubject("check"));
             
-            synchronizer.ApplyAllUpdates(startData, finishDate, new List<ICalendarService> { calendarA, calendarB });
+            synchronizer.Synchronize(startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetSubject() == "check");
         }
 
         [Fact]
         public void NeedToUpdateTime_Updated()
-        {
-            var synchronizer = new Syncronizator();
+        {            
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
+            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
             DateTime finishDate = startData.AddMonths(1);
             var curEvent = new SynchronEvent().SetId("1234").SetStart(startData.AddMinutes(15)).SetFinish(finishDate)
@@ -90,7 +90,7 @@ namespace SynchronizerLibUnitTests
             calendarA.AddEvent(curEvent);
             calendarB.AddEvent(curEvent.SetPlacement("2").SetStart(startData.AddMinutes(30)));
 
-            synchronizer.ApplyAllUpdates(startData, finishDate, new List<ICalendarService> { calendarA, calendarB });
+            synchronizer.Synchronize(startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetStart() == startData.AddMinutes(30));
         }
