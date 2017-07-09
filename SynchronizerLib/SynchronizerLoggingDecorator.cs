@@ -8,16 +8,25 @@ namespace SynchronizerLib
         private Synchronizer _synchronizer;
         private ISyncLogger _logger;        
 
-        public SynchronizerLoggingDecorator(List<ICalendarService> calendars, Synchronizer synchronizer) : base (calendars)
+        public SynchronizerLoggingDecorator(Synchronizer synchronizer, ISyncLogger logger) : base ()
         {
             _synchronizer = synchronizer;
+            _logger = logger;
         }
 
         public override void Synchronize(DateTime startDate, DateTime finishDate)
         {
-            //_logger.Debug("start");
-            _synchronizer.Synchronize(startDate, finishDate);
-            //_logger.Debug("finish");
+            _logger.Info("Synchronization started.");
+            try
+            {
+                _synchronizer.Synchronize(startDate, finishDate);
+            }
+            catch (Exception exception)
+            {
+                _logger.Error(exception.Message);
+                throw exception;
+            }
+            _logger.Info("Synchonization finished.");
         }
     }
 }

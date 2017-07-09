@@ -410,6 +410,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{82d03054-cd13-486b-9690-dbb44f113f40}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SynchronizerLib\SynchronizerLib.csproj">
       <Project>{7d9990ea-7f3d-4236-b07b-9d309841c204}</Project>
       <Name>SynchronizerLib</Name>

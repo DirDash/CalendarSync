@@ -8,6 +8,11 @@ namespace SynchronizerLib
         private DifferenceFinder _differenceFinder;
         private List<ICalendarService> _calendars;
 
+        public Synchronizer()
+        {
+            _calendars = new List<ICalendarService>();
+        }
+
         public Synchronizer(List<ICalendarService> calendars)
         {
             _calendars = new List<ICalendarService>();
@@ -15,8 +20,19 @@ namespace SynchronizerLib
                 _calendars.Add(calendar);
         }
 
+        public void AddCalendar(ICalendarService newCalnedar)
+        {
+            _calendars.Add(newCalnedar);
+        }
+
+        public void RemoveCalendar(ICalendarService calendarToRemove)
+        {
+            _calendars.Remove(calendarToRemove);
+        }
+
         public virtual void Synchronize(DateTime startDate, DateTime finishDate)
         {
+            //throw new NullReferenceException(); // for testing
             List<List<SynchronEvent>> MeetingsInTheCalendars = new List<List<SynchronEvent>>();
             
             foreach (var currentCalendar in _calendars)
@@ -38,8 +54,7 @@ namespace SynchronizerLib
         private void OneWaySync(ICalendarService targetCalendarService, List<SynchronEvent> sourceMeetings, List<SynchronEvent> targetMeetings)
         {
             var nonExistInTarget = _differenceFinder.GetDifferenceToPush(sourceMeetings, targetMeetings);
-            var needToDeleteInTarget =
-                _differenceFinder.GetDifferenceToDelete(targetMeetings, sourceMeetings);
+            var needToDeleteInTarget = _differenceFinder.GetDifferenceToDelete(targetMeetings, sourceMeetings);
             var needToUpdateInTarget = _differenceFinder.GetDifferenceToUpdate(targetMeetings, sourceMeetings);
 
             targetCalendarService.PushEvents(nonExistInTarget);
