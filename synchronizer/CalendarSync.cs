@@ -8,8 +8,10 @@ namespace synchronizer
 {
     public partial class CalendarSyncForm : Form
     {
-        private Synchronizer synchronizer = new SynchronizerLoggingDecorator(new Synchronizer(new List<ICalendarService> { new OutlookService(), new GoogleService() }),
-                                                                             new NLogLogger());
+        private ISynchronizer synchronizer = new SynchronizerLoggingDecorator(new Synchronizer(new List<ICalendarService>
+                                                                                { new CalendarServiceLoggingDecorator(new OutlookService(), new NLogLogger()),
+                                                                                  new CalendarServiceLoggingDecorator(new GoogleService(), new NLogLogger()) }),
+                                                                              new NLogLogger());
 
         public CalendarSyncForm()
         {

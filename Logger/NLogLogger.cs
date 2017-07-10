@@ -1,7 +1,5 @@
 ﻿using System;
 using NLog;
-using NLog.Config;
-using NLog.Targets;
 using SynchronizerLib;
 
 namespace LoggerNamespace
@@ -55,13 +53,6 @@ namespace LoggerNamespace
         public string GetSource()
         {
             return _source;
-        }
-
-        public object Clone()
-        {
-            var clone = new NLogLogger();
-            clone.SetSource(_source);
-            return clone;
         }
     }
 }

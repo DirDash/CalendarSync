@@ -29,7 +29,17 @@ namespace SynchronizerLib
         public void PushEvents(List<SynchronEvent> events)
         {
             _calendarService.PushEvents(events);
-            _logger.Info(String.Format("Pushed {0} events.", events.Count));
+            string logMessage = String.Empty;
+            logMessage += String.Format("Pushed {0} events:", events.Count) + Environment.NewLine;
+            for (int i = 0; i < events.Count; i++)
+            {
+                logMessage += events[i].GetSubject() + " " + events[i].GetStart().ToString();
+                if (i < events.Count - 1)
+                    logMessage += Environment.NewLine;
+                else
+                    logMessage += ";";
+            }
+            _logger.Info(logMessage);
         }
 
         public void UpdateEvents(List<SynchronEvent> needToUpdate)

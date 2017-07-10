@@ -68,6 +68,7 @@
     <Compile Include="EventsSiever.cs" />
     <Compile Include="GoogleService.cs" />
     <Compile Include="ICalendarService.cs" />
+    <Compile Include="ISynchronizer.cs" />
     <Compile Include="ISyncLogger.cs" />
     <Compile Include="OutlookService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
