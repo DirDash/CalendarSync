@@ -12,6 +12,7 @@ namespace SynchronizerLib
         {
             _synchronizer = synchronizer;
             _logger = logger;
+            _logger.SetSource("Synchronizer");
         }
 
         public override void Synchronize(DateTime startDate, DateTime finishDate)

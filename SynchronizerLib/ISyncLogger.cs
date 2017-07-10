@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SynchronizerLib
 {
-    public interface ISyncLogger
+    public interface ISyncLogger : ICloneable
     {
         void Trace(string message);
 
@@ -19,5 +19,9 @@ namespace SynchronizerLib
         void Error(string message);
 
         void Fatal(string message);
+
+        void SetSource(string newSource);
+
+        string GetSource();
     }
 }
