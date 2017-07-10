@@ -13,15 +13,6 @@ namespace LoggerNamespace
 
         public NLogLogger()
         {
-            var config = new LoggingConfiguration();
-            var fileTarget = new FileTarget();
-            config.AddTarget("file", fileTarget);
-            fileTarget.FileName = "${basedir}/logs/${shortdate}.log";
-            fileTarget.Layout = "${longdate} ${uppercase:${level}} ${message}";
-            var fileRule = new LoggingRule("*", LogLevel.Trace, fileTarget);
-            config.LoggingRules.Add(fileRule);
-            LogManager.Configuration = config;
-            // ---
             _logger = LogManager.GetCurrentClassLogger();
             _source = String.Empty;
         }
@@ -68,7 +59,9 @@ namespace LoggerNamespace
 
         public object Clone()
         {
-            return new NLogLogger();
+            var clone = new NLogLogger();
+            clone.SetSource(_source);
+            return clone;
         }
     }
 }

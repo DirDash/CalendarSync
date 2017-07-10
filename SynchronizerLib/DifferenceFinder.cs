@@ -37,7 +37,7 @@ namespace SynchronizerLib
             return !standartEvent.CompareOnEqual(compareEvent);
         }
 
-        public List<SynchronEvent> GetDifferenceToPush(List<SynchronEvent> sourceList, List<SynchronEvent> targetList)
+        public virtual List<SynchronEvent> GetDifferenceToPush(List<SynchronEvent> sourceList, List<SynchronEvent> targetList)
         {
             var difference = new List<SynchronEvent>();
             foreach (var eventToCheck in sourceList)
@@ -48,7 +48,7 @@ namespace SynchronizerLib
             return difference;
         }
 
-        public List<SynchronEvent> GetDifferenceToDelete(List<SynchronEvent> needToCheck, List<SynchronEvent> standard)
+        public virtual List<SynchronEvent> GetDifferenceToDelete(List<SynchronEvent> needToCheck, List<SynchronEvent> standard)
         {
             var difference = new List<SynchronEvent>();
             foreach (var eventToCheck in needToCheck)
@@ -60,7 +60,7 @@ namespace SynchronizerLib
             return difference;
         }
 
-        public List<SynchronEvent> GetDifferenceToUpdate(List<SynchronEvent> needToCheck, List<SynchronEvent> standard)
+        public virtual List<SynchronEvent> GetDifferenceToUpdate(List<SynchronEvent> needToCheck, List<SynchronEvent> standard)
         {
             var difference = new List<SynchronEvent>();
             foreach(var eventToCheckInList1 in needToCheck)

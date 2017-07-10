@@ -13,6 +13,10 @@ namespace SynchronizerLib
             _synchronizer = synchronizer;
             _logger = logger;
             _logger.SetSource("Synchronizer");
+            for (int i = 0; i < _synchronizer.Calendars.Count; i++)
+            {
+                _synchronizer.Calendars[i] = new CalendarServiceLoggingDecorator(_synchronizer.Calendars[i], (ISyncLogger)_logger.Clone());
+            }           
         }
 
         public override void Synchronize(DateTime startDate, DateTime finishDate)
@@ -24,7 +28,7 @@ namespace SynchronizerLib
             }
             catch (Exception exception)
             {
-                _logger.Error(exception.Message);
+                _logger.Error(exception.ToString());
                 throw exception;
             }
             _logger.Info("Synchonization finished.");

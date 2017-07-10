@@ -14,15 +14,15 @@ namespace synchronizer
         public CalendarSyncForm()
         {
             InitializeComponent();
-            to_dateTimePicker.Value = (from_dateTimePicker.Value).AddDays(SyncronizationConfigManager.SynchronizationIntervalInDays);        
+            to_dateTimePicker.Value = (from_dateTimePicker.Value).AddDays(SynchronizationConfigManager.SynchronizationIntervalInDays);        
             autosync_timer.Interval = (int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalMilliseconds;
             LoadSettingsFromConfig();
         }
 
         private void LoadSettingsFromConfig()
         {
-            autosync_checkBox.Checked = SyncronizationConfigManager.AutosyncronizationMode;
-            autosync_trackBar.Value = (int)TimeSpan.FromSeconds(SyncronizationConfigManager.AutosyncIntervalInSeconds).TotalMinutes;
+            autosync_checkBox.Checked = SynchronizationConfigManager.AutosyncronizationMode;
+            autosync_trackBar.Value = (int)TimeSpan.FromSeconds(SynchronizationConfigManager.AutosyncIntervalInSeconds).TotalMinutes;
             autosync_trackBar_Scroll(this, new EventArgs());
         }
 
@@ -32,19 +32,24 @@ namespace synchronizer
         }
 
         private void Sync()
-        {
+        {            
             syncStatus_label.Text = "Синхронизация...";
             var startDate = from_dateTimePicker.Value;
             var finishDate = to_dateTimePicker.Value;
+            bool synchronizationSucceeded = true;
             try
             {
                 synchronizer.Synchronize(startDate, finishDate);
             }
-            catch (Exception exception)
+            catch
             {
-                MessageBox.Show(exception.Message);
+                synchronizationSucceeded = false;
+                MessageBox.Show("Что-то пошло не так. Данные не синхронизированы." + '\n' + ":(");
             }
-            syncStatus_label.Text = "Данные синхронизированы" + " (" + DateTime.Now + ")";
+            if (synchronizationSucceeded)
+                syncStatus_label.Text = "Данные синхронизированы" + " (" + DateTime.Now + ")";
+            else
+                syncStatus_label.Text = "Данные не синхронизированы";
         }
 
         private void exit_button_Click(object sender, EventArgs e)
@@ -56,7 +61,7 @@ namespace synchronizer
         {
             if (autosync_checkBox.Checked)
             {
-                SyncronizationConfigManager.AutosyncronizationMode = true;
+                SynchronizationConfigManager.AutosyncronizationMode = true;
                 autosync_trackBar.Visible = true;
                 astbMin_label.Visible = true;
                 astbMax_label.Visible = true;
@@ -67,7 +72,7 @@ namespace synchronizer
             }
             else
             {
-                SyncronizationConfigManager.AutosyncronizationMode = false;
+                SynchronizationConfigManager.AutosyncronizationMode = false;
                 autosync_trackBar.Visible = false;
                 astbMin_label.Visible = false;
                 astbMax_label.Visible = false;
@@ -80,7 +85,7 @@ namespace synchronizer
 
         private void autosync_trackBar_Scroll(object sender, EventArgs e)
         {
-            SyncronizationConfigManager.AutosyncIntervalInSeconds = ((int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalSeconds);
+            SynchronizationConfigManager.AutosyncIntervalInSeconds = ((int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalSeconds);
             autosyncInterval_label.Text = autosync_trackBar.Value.ToString();
             autosync_timer.Interval = (int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalMilliseconds;
         }

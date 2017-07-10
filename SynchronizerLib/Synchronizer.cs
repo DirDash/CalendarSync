@@ -6,28 +6,29 @@ namespace SynchronizerLib
     public class Synchronizer
     {
         private DifferenceFinder _differenceFinder;
-        private List<ICalendarService> _calendars;
+        public List<ICalendarService> Calendars { get; private set; }
 
         public Synchronizer()
         {
-            _calendars = new List<ICalendarService>();
+            Calendars = new List<ICalendarService>();
         }
 
         public Synchronizer(List<ICalendarService> calendars)
         {
-            _calendars = new List<ICalendarService>();
+            Calendars = new List<ICalendarService>();
             foreach (var calendar in calendars)
-                _calendars.Add(calendar);
+                Calendars.Add(calendar);
+            _differenceFinder = new DifferenceFinder();
         }
 
         public void AddCalendar(ICalendarService newCalnedar)
         {
-            _calendars.Add(newCalnedar);
+            Calendars.Add(newCalnedar);
         }
 
         public void RemoveCalendar(ICalendarService calendarToRemove)
         {
-            _calendars.Remove(calendarToRemove);
+            Calendars.Remove(calendarToRemove);
         }
 
         public virtual void Synchronize(DateTime startDate, DateTime finishDate)
@@ -35,18 +36,16 @@ namespace SynchronizerLib
             //throw new NullReferenceException(); // for testing
             List<List<SynchronEvent>> MeetingsInTheCalendars = new List<List<SynchronEvent>>();
             
-            foreach (var currentCalendar in _calendars)
+            foreach (var currentCalendar in Calendars)
                 MeetingsInTheCalendars.Add(new EventsSiever().SieveEventsOnPeriodOfTime(startDate, finishDate, currentCalendar.GetAllItems(startDate, finishDate)));
-
-            if (_differenceFinder == null)
-                _differenceFinder = new DifferenceFinder();
-            for (int i = 0; i < _calendars.Count;++i)
+                        
+            for (int i = 0; i < Calendars.Count;++i)
             {
-                for (int j = 0; j < _calendars.Count; ++j)
+                for (int j = 0; j < Calendars.Count; ++j)
                 {
                     if (i == j)
                         continue;
-                    OneWaySync(_calendars[i], MeetingsInTheCalendars[j], MeetingsInTheCalendars[i]);
+                    OneWaySync(Calendars[i], MeetingsInTheCalendars[j], MeetingsInTheCalendars[i]);
                 }
             }
         }

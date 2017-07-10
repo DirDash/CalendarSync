@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace SynchronizerLib
 {
-    public static class SyncronizationConfigManager
+    public static class SynchronizationConfigManager
     {
         private static int _synchronizationIntervalInDays;
         private static bool _autosyncronizationMode;
@@ -61,7 +61,7 @@ namespace SynchronizerLib
             }
         }
 
-        static SyncronizationConfigManager()
+        static SynchronizationConfigManager()
         {
             LoadConfigKeys();
         }

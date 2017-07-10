@@ -48,7 +48,7 @@ namespace SynchronizerLib
             foreach (var eventToPush in events)
             {
                 var current = new Converter().ConvertSynchronToOutlook(eventToPush);
-                current.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
+                current.Categories = SynchronizationConfigManager.OutlookCategoryForImported;
                 current.Save();   
             }            
         }
@@ -128,11 +128,16 @@ namespace SynchronizerLib
                         item.End = eventToUpdate.GetFinish();
                         item.Body = eventToUpdate.GetDescription();
                         item.Location = eventToUpdate.GetLocation();
-                        item.Categories = SyncronizationConfigManager.OutlookCategoryForImported;
+                        item.Categories = SynchronizationConfigManager.OutlookCategoryForImported;
                         item.Save();
                     }
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return "Outlook Calendar Service";
         }
     }
 }

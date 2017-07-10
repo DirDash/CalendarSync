@@ -54,7 +54,7 @@ namespace SynchronizerLib
             foreach (var currentEvent in events)
             {
                 var needToPush = new Converter().ConvertMyEventToGoogle(currentEvent);
-                needToPush.ColorId = SyncronizationConfigManager.GoogleCategoryColorIDForImported;
+                needToPush.ColorId = SynchronizationConfigManager.GoogleCategoryColorIDForImported;
                 _service.Events.Insert(needToPush, request.CalendarId).Execute();
             }
             
@@ -143,7 +143,7 @@ namespace SynchronizerLib
                         EventDateTime end = new EventDateTime();
                         end.DateTime = needToUpdate.GetFinish();
                         eventToCheck.End = end;
-                        eventToCheck.ColorId = SyncronizationConfigManager.GoogleCategoryColorIDForImported;
+                        eventToCheck.ColorId = SynchronizationConfigManager.GoogleCategoryColorIDForImported;
 
                         EventAttendee[] attendees = new EventAttendee[needToUpdate.GetParticipants().Count];
                         List<string> AllParticipants = needToUpdate.GetParticipants();
@@ -163,6 +163,11 @@ namespace SynchronizerLib
                     }
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return "Google Calendar Service";
         }
     }
 }
