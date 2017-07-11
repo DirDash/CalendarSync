@@ -1,34 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Office.Interop.Outlook;
 
 namespace SynchronizerLib
 {
     public class OutlookService : ICalendarService
     {
-        private Microsoft.Office.Interop.Outlook.Application oApp = null;
-        private Microsoft.Office.Interop.Outlook.NameSpace mapiNamespace = null;
-        private Microsoft.Office.Interop.Outlook.MAPIFolder calendarFolder = null;
-        private Microsoft.Office.Interop.Outlook.Items outlookCalendarItems = null;
+        private Application oApp = null;
+        private NameSpace mapiNamespace = null;
+        private MAPIFolder calendarFolder = null;
+        private Items outlookCalendarItems = null;
         private DateTime minTime;
         private DateTime maxTime;
         private bool ifAlreadyInit = false;
+        private OutlookEventConverter _converter;
+
         private string GetDateInString(DateTime curDate)
         {
             string result = "";
-
             result += curDate.Day.ToString() + "/" +curDate.Month.ToString() + "/" + curDate.Year.ToString();
             result += " " + curDate.Hour.ToString() + ":" + curDate.Minute.ToString();
             return result;
         }
+
         private void InitOutlookService()
         {
-            if (!ifAlreadyInit)
-            {
-                oApp = new Microsoft.Office.Interop.Outlook.Application();
+            //if (!ifAlreadyInit)
+            //{
+                oApp = new Application();
                 mapiNamespace = oApp.GetNamespace("MAPI");
-                ;
-                calendarFolder =
-                mapiNamespace.GetDefaultFolder(Microsoft.Office.Interop.Outlook.OlDefaultFolders.olFolderCalendar);
+                calendarFolder = mapiNamespace.GetDefaultFolder(OlDefaultFolders.olFolderCalendar);
                 outlookCalendarItems = calendarFolder.Items;
 
                 outlookCalendarItems.Sort("[Start]");
@@ -38,8 +39,9 @@ namespace SynchronizerLib
                 string s2 = GetDateInString(maxTime);
                 var filterString = "[Start] >= '" + s1 + "' AND [End] < '" + s2 + "'";
                 outlookCalendarItems = outlookCalendarItems.Restrict(filterString);
+                _converter = new OutlookEventConverter();
                 ifAlreadyInit = true;
-            }
+            //}
         }
         
         public void PushEvents(List<SynchronEvent> events)
@@ -47,7 +49,7 @@ namespace SynchronizerLib
             InitOutlookService();
             foreach (var eventToPush in events)
             {
-                var current = new Converter().ConvertSynchronToOutlook(eventToPush);
+                var current = _converter.ConvertToOutlookEvent(eventToPush);
                 current.Categories = SynchronizationConfigManager.OutlookCategoryForImported;
                 current.Save();   
             }            
@@ -57,7 +59,7 @@ namespace SynchronizerLib
         {
             InitOutlookService();
 
-            foreach (Microsoft.Office.Interop.Outlook.AppointmentItem item in outlookCalendarItems)
+            foreach (AppointmentItem item in outlookCalendarItems)
             {
                 if (item.Start > maxTime)
                     break;
@@ -84,25 +86,21 @@ namespace SynchronizerLib
             maxTime = finishTime;
             InitOutlookService();
 
-            foreach (Microsoft.Office.Interop.Outlook.AppointmentItem item in outlookCalendarItems)
+            foreach (AppointmentItem item in outlookCalendarItems)
             {
                 if (item.Start > finishTime)
                     break;
-                if (item.IsRecurring)
-                {
-                    resultList.Add(new Converter().ConvertOutlookToMyEvent(item));
-                }
-                else
-                    resultList.Add(new Converter().ConvertOutlookToMyEvent(item));
+                resultList.Add(_converter.ConvertToSynchronEvent(item));
             }
             return resultList;
 
         }
+
         public void UpdateEvents(List<SynchronEvent> needToUpdate)
         {
             InitOutlookService();
 
-            foreach (Microsoft.Office.Interop.Outlook.AppointmentItem item in outlookCalendarItems)
+            foreach (AppointmentItem item in outlookCalendarItems)
             {
                 if (item.Start > maxTime)
                     break;

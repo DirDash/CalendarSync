@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using Google.Apis.Calendar.v3.Data;
+﻿using Google.Apis.Calendar.v3.Data;
 using outlook2 = Microsoft.Office.Interop.Outlook;
-using System.Text;
 using System;
 using System.Collections.Generic;
 

@@ -5,11 +5,11 @@ namespace SynchronizerLib
 {
     public interface ICalendarService
     {
+        List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime);
+
         void PushEvents(List<SynchronEvent> events);
         
-        void DeleteEvents(List<SynchronEvent> events);
-
-        List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime);
+        void DeleteEvents(List<SynchronEvent> events);       
 
         void UpdateEvents(List<SynchronEvent> needToUpdate);
     }

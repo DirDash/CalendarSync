@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-
 namespace SynchronizerLib
 {
     public class GoogleService : ICalendarService
@@ -18,11 +17,11 @@ namespace SynchronizerLib
 
         private CalendarService _service;
         private UserCredential _credential;
+        private GoogleEventConverter _converter;
         
-        private void InitGoogleService()
+        private void InitGoogleService() // problem place
         {
-            using (var stream =
-                new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
             {
                 var credPath = System.Environment.GetFolderPath(
                     System.Environment.SpecialFolder.Personal);
@@ -36,14 +35,15 @@ namespace SynchronizerLib
                     new FileDataStore(credPath, true)).Result;
                 Console.WriteLine("Credential file saved to: " + credPath);
             }
-
             // Create Google Calendar API service.
             _service = new CalendarService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = _credential,
                 ApplicationName = _applicationName,
             });
+            _converter = new GoogleEventConverter();
         }
+
         public void PushEvents(List<SynchronEvent> events)
         {
             InitGoogleService();
@@ -53,20 +53,17 @@ namespace SynchronizerLib
             var inGoogleExist = request.Execute();
             foreach (var currentEvent in events)
             {
-                var needToPush = new Converter().ConvertMyEventToGoogle(currentEvent);
+                var needToPush = _converter.ConvertToGoogleEvent(currentEvent);
                 needToPush.ColorId = SynchronizationConfigManager.GoogleCategoryColorIDForImported;
                 _service.Events.Insert(needToPush, request.CalendarId).Execute();
-            }
-            
+            }            
         }
 
         public void DeleteEvents(List<SynchronEvent> events)
         {
             InitGoogleService();
-
             // Define parameters of request.
             var request = _service.Events.List("primary");
-
             request.TimeMin = DateTime.Now;
             request.ShowDeleted = false;
             request.SingleEvents = true;
@@ -76,16 +73,18 @@ namespace SynchronizerLib
             var inGoogleExist = request.Execute();
             foreach (var eventToCheck in inGoogleExist.Items)
             {
-                var flag = false;
+                var eventWasFound = false;
                 if (eventToCheck.ExtendedProperties == null)
                     continue;
                 foreach (var needToDelete in events)
                 {
-                    if (eventToCheck.ExtendedProperties.Shared.ContainsKey(needToDelete.GetSource()) &&
-                        eventToCheck.ExtendedProperties.Shared[needToDelete.GetSource()] == needToDelete.GetId())
-                        flag = true;
+                    if (eventToCheck.ExtendedProperties.Private__["id"] == needToDelete.GetId())
+                    {
+                        eventWasFound = true;
+                        break;
+                    }
                 }
-                if (flag)
+                if (eventWasFound)
                     _service.Events.Delete(request.CalendarId, eventToCheck.Id).Execute();
             }
         }
@@ -108,23 +107,21 @@ namespace SynchronizerLib
             var result = new List<SynchronEvent>();
 
             foreach (var curEvent in inGoogleExist.Items)
-                result.Add(new Converter().ConvertGoogleEventToSynchronEvent(curEvent));
+                result.Add(_converter.ConvertToSynchronEvent(curEvent));
             return result;
         }
 
         public void UpdateEvents(List<SynchronEvent> NeedToUpdate)
         {
             InitGoogleService();
-
             // Define parameters of request.
             var request = _service.Events.List("primary");
-
             request.TimeMin = DateTime.Now;
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.MaxResults = 1000;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
+            
             var inGoogleExist = request.Execute();
             foreach (var eventToCheck in inGoogleExist.Items)
             {
@@ -132,8 +129,7 @@ namespace SynchronizerLib
                     continue;
                 foreach (var needToUpdate in NeedToUpdate)
                 {
-                    if (eventToCheck.ExtendedProperties.Shared.ContainsKey(needToUpdate.GetSource()) &&
-                        eventToCheck.ExtendedProperties.Shared[needToUpdate.GetSource()] == needToUpdate.GetId())
+                    if (eventToCheck.ExtendedProperties.Private__["id"] == needToUpdate.GetId())
                     {
                         eventToCheck.Description = needToUpdate.GetDescription();
                         eventToCheck.Summary = needToUpdate.GetSubject();

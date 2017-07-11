@@ -62,14 +62,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalendarServiceEnum.cs" />
     <Compile Include="CalendarServiceLoggingDecorator.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="DifferenceFinder.cs" />
     <Compile Include="EventsSiever.cs" />
+    <Compile Include="GoogleEventConverter.cs" />
     <Compile Include="GoogleService.cs" />
     <Compile Include="ICalendarService.cs" />
     <Compile Include="ISynchronizer.cs" />
     <Compile Include="ISyncLogger.cs" />
+    <Compile Include="OutlookEventConverter.cs" />
     <Compile Include="OutlookService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchronEvent.cs" />

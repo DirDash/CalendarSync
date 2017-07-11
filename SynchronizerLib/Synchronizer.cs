@@ -34,13 +34,13 @@ namespace SynchronizerLib
 
         private void OneWaySync(ICalendarService targetCalendarService, List<SynchronEvent> sourceMeetings, List<SynchronEvent> targetMeetings)
         {
-            var nonExistInTarget = _differenceFinder.GetDifferenceToPush(sourceMeetings, targetMeetings);            
-            var needToUpdateInTarget = _differenceFinder.GetDifferenceToUpdate(targetMeetings, sourceMeetings);            
-            var needToDeleteInTarget = _differenceFinder.GetDifferenceToDelete(targetMeetings, sourceMeetings); 
-            
-            targetCalendarService.DeleteEvents(needToDeleteInTarget);
-            targetCalendarService.PushEvents(nonExistInTarget);
-            targetCalendarService.UpdateEvents(needToUpdateInTarget);
+            var nonExistInTarget = _differenceFinder.GetDifferenceToPush(sourceMeetings, targetMeetings);
+            var needToUpdateInTarget = _differenceFinder.GetDifferenceToUpdate(targetMeetings, sourceMeetings);
+            var needToDeleteInTarget = _differenceFinder.GetDifferenceToDelete(targetMeetings, sourceMeetings);
+
+            targetCalendarService.PushEvents(nonExistInTarget);            
+            targetCalendarService.UpdateEvents(needToUpdateInTarget);            
+            targetCalendarService.DeleteEvents(needToDeleteInTarget);           
         }
     }
 }

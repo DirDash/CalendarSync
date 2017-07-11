@@ -42,7 +42,7 @@ namespace SynchronizerLib
             var difference = new List<SynchronEvent>();
             foreach (var eventToCheck in sourceList)
             {
-                if(IfNonExist(eventToCheck, targetList) && eventToCheck.GetSource() == eventToCheck.GetPlacement())
+                if (eventToCheck.GetSource() == eventToCheck.GetPlacement() && IfNonExist(eventToCheck, targetList))
                     difference.Add(eventToCheck);
             }
             return difference;
