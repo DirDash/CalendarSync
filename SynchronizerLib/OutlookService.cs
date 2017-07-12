@@ -122,8 +122,8 @@ namespace SynchronizerLib
                         }
                         item.RequiredAttendees = buf;
                         item.Subject = eventToUpdate.GetSubject();
-                        item.Start = eventToUpdate.GetStartUTC();
-                        item.End = eventToUpdate.GetFinishUTC();
+                        item.StartUTC = eventToUpdate.GetStartUTC();
+                        item.EndUTC = eventToUpdate.GetFinishUTC();
                         item.Body = eventToUpdate.GetDescription();
                         item.Location = eventToUpdate.GetLocation();
                         item.Categories = SynchronizationConfigManager.OutlookCategoryForImported;

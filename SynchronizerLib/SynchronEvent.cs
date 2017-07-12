@@ -32,14 +32,14 @@ namespace SynchronizerLib
             companions = new List<string>();
         }
 
-        public SynchronEvent SetStartUTC(DateTime DateUTC)
+        public SynchronEvent SetStartUTC(DateTime dateTime)
         {
-            startTimeUTC = DateUTC;
+            startTimeUTC = dateTime.ToUniversalTime();
             return this;
         }
-        public SynchronEvent SetFinishUTC(DateTime DateUTC)
+        public SynchronEvent SetFinishUTC(DateTime dateTime)
         {
-            finishTimeUTC = DateUTC;
+            finishTimeUTC = dateTime.ToUniversalTime();
             return this;
         }
         public SynchronEvent SetPlacement(string placement)

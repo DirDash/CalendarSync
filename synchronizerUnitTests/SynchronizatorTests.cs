@@ -31,8 +31,8 @@ namespace SynchronizerLibUnitTests
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
             var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
-            DateTime startData = DateTime.Now;
-            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(DateTime.Now).SetFinishUTC(DateTime.Now.AddDays(1))
+            DateTime startData = DateTime.Now.ToUniversalTime();
+            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(startData).SetFinishUTC(startData.AddDays(1))
                 .SetPlacement("1").SetSource("1"));
             DateTime finishDate = startData.AddMonths(1);
             synchronizer.Synchronize(startData, finishDate);
@@ -47,8 +47,8 @@ namespace SynchronizerLibUnitTests
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
             var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
-            DateTime startData = DateTime.Now;
-            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(DateTime.Now).SetFinishUTC(DateTime.Now.AddDays(1))
+            DateTime startData = DateTime.Now.ToUniversalTime();
+            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(startData).SetFinishUTC(startData.AddDays(1))
                 .SetPlacement("1").SetSource("2"));
             DateTime finishDate = startData.AddMonths(1);
             synchronizer.Synchronize(startData, finishDate);
@@ -82,7 +82,7 @@ namespace SynchronizerLibUnitTests
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
             var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
-            DateTime startData = DateTime.Now;
+            DateTime startData = DateTime.Now.ToUniversalTime();
             DateTime finishDate = startData.AddMonths(1);
             var curEvent = new SynchronEvent().SetId("1234").SetStartUTC(startData.AddMinutes(15)).SetFinishUTC(finishDate)
                 .SetPlacement("1").SetSource("2");

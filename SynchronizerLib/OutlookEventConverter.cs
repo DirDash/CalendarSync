@@ -48,8 +48,8 @@ namespace SynchronizerLib
 
             var result = (AppointmentItem)outlookApp.CreateItem(OlItemType.olAppointmentItem);
 
-            result.Start = synchronEvent.GetStartUTC();
-            result.End = synchronEvent.GetFinishUTC();
+            result.StartUTC = synchronEvent.GetStartUTC();
+            result.EndUTC = synchronEvent.GetFinishUTC();
             result.Subject = synchronEvent.GetSubject();
             result.Location = synchronEvent.GetLocation();
             result.Body = synchronEvent.GetDescription();

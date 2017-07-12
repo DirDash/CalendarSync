@@ -18,6 +18,7 @@ namespace SynchronizerLib
         private CalendarService _service;
         private UserCredential _credential;
         private GoogleEventConverter _converter;
+        private string defaultTimeZone0UTC = "UTC";
         
         private void InitGoogleService()
         {
@@ -133,12 +134,14 @@ namespace SynchronizerLib
                     {
                         eventToCheck.Description = needToUpdate.GetDescription();
                         eventToCheck.Summary = needToUpdate.GetSubject();
-                        EventDateTime start = new EventDateTime();
+                        EventDateTime start = new EventDateTime();                        
                         start.DateTime = needToUpdate.GetStartUTC();
                         eventToCheck.Start = start;
+                        eventToCheck.Start.TimeZone = defaultTimeZone0UTC;
                         EventDateTime end = new EventDateTime();
                         end.DateTime = needToUpdate.GetFinishUTC();
                         eventToCheck.End = end;
+                        eventToCheck.End.TimeZone = defaultTimeZone0UTC;
                         eventToCheck.ColorId = SynchronizationConfigManager.GoogleCategoryColorIDForImported;
 
                         EventAttendee[] attendees = new EventAttendee[needToUpdate.GetParticipants().Count];

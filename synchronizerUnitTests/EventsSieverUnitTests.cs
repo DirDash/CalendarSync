@@ -28,9 +28,10 @@ namespace SynchronizerLibUnitTests
         public void EventWithStartOneHourLater_ExistInResultList()
         {
             var cur = new SynchronEvent();
-            cur.SetStartUTC(DateTime.Now.AddHours(1));
+            var date = DateTime.Now.ToUniversalTime();
+            cur.SetStartUTC(date.AddHours(1));
             var list = new List<SynchronEvent> { cur };
-            list = new EventsSiever().SieveEventsOnPeriodOfTime(DateTime.Now, DateTime.Now.AddHours(2), list);
+            list = new EventsSiever().SieveEventsOnPeriodOfTime(date, date.AddHours(2), list);
             Assert.Equal(1, list.Count);
         }
 
@@ -39,7 +40,7 @@ namespace SynchronizerLibUnitTests
         public void EventWithStartNow_ExistInResult()
         {
             var cur = new SynchronEvent();
-            var start = DateTime.Now;
+            var start = DateTime.Now.ToUniversalTime();
             cur.SetStartUTC(start);
             var list = new List<SynchronEvent> { cur };
             list = new EventsSiever().SieveEventsOnPeriodOfTime(start, start.AddMinutes(12), list);
@@ -50,14 +51,15 @@ namespace SynchronizerLibUnitTests
 
         public void OneGoogAndOneBadEvents_ResultContainsOnlyOne()
         {
+            var date = DateTime.Now.ToUniversalTime();
             var cur1 = new SynchronEvent();
-            cur1.SetStartUTC(DateTime.Now.AddHours(-1));
+            cur1.SetStartUTC(date.AddHours(-1));
 
             var cur2 = new SynchronEvent();
-            cur2.SetStartUTC(DateTime.Now.AddMinutes(5));
+            cur2.SetStartUTC(date.AddMinutes(5));
 
             var list = new List<SynchronEvent> { cur1, cur2 };
-            list = new EventsSiever().SieveEventsOnPeriodOfTime(DateTime.Now, DateTime.Now.AddHours(1), list);
+            list = new EventsSiever().SieveEventsOnPeriodOfTime(date, date.AddHours(1), list);
             Assert.Equal(1, list.Count);
         }
     }
