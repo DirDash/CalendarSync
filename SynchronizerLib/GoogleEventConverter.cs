@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Google.Apis.Calendar.v3.Data;
-using System.Linq;
 
 namespace SynchronizerLib
 {
@@ -24,13 +23,13 @@ namespace SynchronizerLib
                 var month = int.Parse(q[1]);
                 var day = int.Parse(q[2]);
                 DateTime buf = new DateTime(year, month, day);
-                result.SetStart(buf);
-                result.SetFinish(buf.AddDays(1));
+                result.SetStartUTC(buf);
+                result.SetFinishUTC(buf.AddDays(1));
             }
             else
             {
-                result.SetStart(googleEvent.Start.DateTime.Value)
-                .SetFinish(googleEvent.End.DateTime.Value);
+                result.SetStartUTC(googleEvent.Start.DateTime.Value)
+                .SetFinishUTC(googleEvent.End.DateTime.Value);
             }
             result
             .SetLocation(googleEvent.Location)
@@ -43,7 +42,6 @@ namespace SynchronizerLib
             if (googleEvent.ExtendedProperties != null && googleEvent.ExtendedProperties.Private__!= null
                 && googleEvent.ExtendedProperties.Private__["source"] != CalendarServiceEnum.Google.ToString())
             {
-                // problem place
                 result.SetSource(googleEvent.ExtendedProperties.Private__["source"]);
                 result.SetId(googleEvent.ExtendedProperties.Private__["id"]);
             }
@@ -57,15 +55,16 @@ namespace SynchronizerLib
         public Event ConvertToGoogleEvent(SynchronEvent synchronEvent)
         {
             // todo: timezones
+            // Google API: the default is the time zone of the calendar.
             var eventDateTime = new EventDateTime
             {
-                DateTime = synchronEvent.GetStart(),
-                TimeZone = "Europe/Moscow"
+                DateTime = synchronEvent.GetStartUTC(),
+                //TimeZone = "Europe/Moscow"
             };
             var eventDateTimeEnd = new EventDateTime
             {
-                DateTime = synchronEvent.GetFinish(),
-                TimeZone = "Europe/Moscow"
+                DateTime = synchronEvent.GetFinishUTC(),
+                //TimeZone = "Europe/Moscow"
             };
             var googleEvent = new Event
             {
@@ -80,10 +79,10 @@ namespace SynchronizerLib
             {
                 googleEvent.Start.DateTime = null;
                 googleEvent.Start.DateTimeRaw = null;
-                googleEvent.Start.Date = synchronEvent.GetStart().Year.ToString() + "-" + "0" + synchronEvent.GetStart().Month.ToString() + "-" + synchronEvent.GetStart().Day.ToString();
+                googleEvent.Start.Date = synchronEvent.GetStartUTC().Year.ToString() + "-" + "0" + synchronEvent.GetStartUTC().Month.ToString() + "-" + synchronEvent.GetStartUTC().Day.ToString();
                 googleEvent.End.DateTime = null;
                 googleEvent.End.DateTimeRaw = null;
-                googleEvent.End.Date = synchronEvent.GetStart().Year.ToString() + "-" + "0" + synchronEvent.GetStart().Month.ToString() + "-" + synchronEvent.GetStart().AddDays(1).Day.ToString();
+                googleEvent.End.Date = synchronEvent.GetStartUTC().Year.ToString() + "-" + "0" + synchronEvent.GetStartUTC().Month.ToString() + "-" + synchronEvent.GetStartUTC().AddDays(1).Day.ToString();
             }
             if (synchronEvent.GetSource() != CalendarServiceEnum.Google.ToString())
             {

@@ -50,11 +50,11 @@
             // 
             // from_dateTimePicker
             // 
-            this.from_dateTimePicker.Enabled = false;
             this.from_dateTimePicker.Location = new System.Drawing.Point(78, 35);
             this.from_dateTimePicker.Name = "from_dateTimePicker";
             this.from_dateTimePicker.Size = new System.Drawing.Size(138, 20);
             this.from_dateTimePicker.TabIndex = 0;
+            this.from_dateTimePicker.Value = new System.DateTime(2017, 7, 12, 10, 54, 3, 0);
             // 
             // sync_button
             // 

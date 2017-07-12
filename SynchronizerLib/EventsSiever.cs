@@ -20,7 +20,7 @@ namespace SynchronizerLib
                     currentStart = currentStart.AddSeconds(-currentStart.Second);
                     currentStart = currentStart.AddMilliseconds(-currentStart.Millisecond-1);
                 }
-                if(currentStart <= currentEvent.GetStart() && currentEvent.GetStart() <= finishDate)
+                if(currentStart <= currentEvent.GetStartUTC() && currentEvent.GetStartUTC() <= finishDate)
                     result.Add(currentEvent);
             }
             return result;

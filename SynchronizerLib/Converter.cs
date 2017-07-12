@@ -13,13 +13,13 @@ namespace SynchronizerLib
         public SynchronEvent ConvertOutlookToMyEvent(Microsoft.Office.Interop.Outlook.AppointmentItem outlookItem)
         {
             var result = new SynchronEvent()
-                .SetStart(outlookItem.Start)
+                .SetStartUTC(outlookItem.Start)
                 .SetDuration(outlookItem.Duration)
                 .SetLocation(outlookItem.Location)
                 .SetSubject(outlookItem.Subject)
                 .SetCompanions(outlookItem.RequiredAttendees)
                 .SetId(outlookItem.GlobalAppointmentID)
-                .SetFinish(outlookItem.End)
+                .SetFinishUTC(outlookItem.End)
                 .SetSource(_outlook)
                 .SetDescription(outlookItem.Body)
                 .SetPlacement(_outlook)
@@ -51,12 +51,12 @@ namespace SynchronizerLib
         {
             var eventDateTime = new EventDateTime
             {
-                DateTime = synchronEvent.GetStart(),
+                DateTime = synchronEvent.GetStartUTC(),
                 TimeZone = "Europe/Moscow"
             };
             var eventDateTimeEnd = new EventDateTime
             {
-                DateTime = synchronEvent.GetFinish(),
+                DateTime = synchronEvent.GetFinishUTC(),
                 TimeZone = "Europe/Moscow"
             };
             var googleEvent = new Event
@@ -72,10 +72,10 @@ namespace SynchronizerLib
             {
                 googleEvent.Start.DateTime = null;
                 googleEvent.Start.DateTimeRaw = null;
-                googleEvent.Start.Date = synchronEvent.GetStart().Year.ToString() + "-" +"0" + synchronEvent.GetStart().Month.ToString() + "-" + synchronEvent.GetStart().Day.ToString();
+                googleEvent.Start.Date = synchronEvent.GetStartUTC().Year.ToString() + "-" +"0" + synchronEvent.GetStartUTC().Month.ToString() + "-" + synchronEvent.GetStartUTC().Day.ToString();
                 googleEvent.End.DateTime = null;
                 googleEvent.End.DateTimeRaw = null;
-                googleEvent.End.Date = synchronEvent.GetStart().Year.ToString() + "-" + "0" + synchronEvent.GetStart().Month.ToString() + "-" + synchronEvent.GetStart().AddDays(1).Day.ToString();
+                googleEvent.End.Date = synchronEvent.GetStartUTC().Year.ToString() + "-" + "0" + synchronEvent.GetStartUTC().Month.ToString() + "-" + synchronEvent.GetStartUTC().AddDays(1).Day.ToString();
 
             }
             if (synchronEvent.GetSource() == _outlook)
@@ -119,13 +119,13 @@ namespace SynchronizerLib
                 var month = int.Parse(q[1]);
                 var day = int.Parse(q[2]);
                 System.DateTime buf = new System.DateTime(year, month, day);
-                result.SetStart(buf);
-                result.SetFinish(buf.AddDays(1));
+                result.SetStartUTC(buf);
+                result.SetFinishUTC(buf.AddDays(1));
             }
             else
             {
-                result.SetStart(googleEvent.Start.DateTime.Value)
-                .SetFinish(googleEvent.End.DateTime.Value);
+                result.SetStartUTC(googleEvent.Start.DateTime.Value)
+                .SetFinishUTC(googleEvent.End.DateTime.Value);
             }
                 result
                 .SetLocation(googleEvent.Location)
@@ -155,8 +155,8 @@ namespace SynchronizerLib
 
             var result =  (outlook2.AppointmentItem)outlookApp.CreateItem(outlook2.OlItemType.olAppointmentItem);
 
-            result.Start = synchronEvent.GetStart();
-            result.End = synchronEvent.GetFinish();
+            result.Start = synchronEvent.GetStartUTC();
+            result.End = synchronEvent.GetFinishUTC();
             result.Subject = synchronEvent.GetSubject();
             result.Location = synchronEvent.GetLocation();
             result.Body = synchronEvent.GetDescription();

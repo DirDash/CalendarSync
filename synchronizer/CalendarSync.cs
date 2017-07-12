@@ -16,8 +16,11 @@ namespace synchronizer
         public CalendarSyncForm()
         {
             InitializeComponent();
+            from_dateTimePicker.Value = DateTime.Today;
             to_dateTimePicker.Value = (from_dateTimePicker.Value).AddDays(SynchronizationConfigManager.SynchronizationIntervalInDays);        
             autosync_timer.Interval = (int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalMilliseconds;
+            //MessageBox.Show(DateTime.Now.ToString());
+            //MessageBox.Show(DateTime.Now.ToUniversalTime().ToString());
             LoadSettingsFromConfig();
         }
 

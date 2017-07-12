@@ -26,7 +26,7 @@ namespace SynchronizerLib
         private void InitOutlookService()
         {
             //if (!ifAlreadyInit)
-            //{
+            {
                 oApp = new Application();
                 mapiNamespace = oApp.GetNamespace("MAPI");
                 calendarFolder = mapiNamespace.GetDefaultFolder(OlDefaultFolders.olFolderCalendar);
@@ -41,7 +41,7 @@ namespace SynchronizerLib
                 outlookCalendarItems = outlookCalendarItems.Restrict(filterString);
                 _converter = new OutlookEventConverter();
                 ifAlreadyInit = true;
-            //}
+            }
         }
         
         public void PushEvents(List<SynchronEvent> events)
@@ -122,8 +122,8 @@ namespace SynchronizerLib
                         }
                         item.RequiredAttendees = buf;
                         item.Subject = eventToUpdate.GetSubject();
-                        item.Start = eventToUpdate.GetStart();
-                        item.End = eventToUpdate.GetFinish();
+                        item.Start = eventToUpdate.GetStartUTC();
+                        item.End = eventToUpdate.GetFinishUTC();
                         item.Body = eventToUpdate.GetDescription();
                         item.Location = eventToUpdate.GetLocation();
                         item.Categories = SynchronizationConfigManager.OutlookCategoryForImported;

@@ -6,8 +6,8 @@ namespace SynchronizerLib
     public class SynchronEvent
     {
         private string subject;
-        private DateTime startTime;
-        private DateTime finishTime;
+        private DateTime startTimeUTC;
+        private DateTime finishTimeUTC;
         private int duration;
         private string location;
         private List<string> companions;
@@ -19,7 +19,8 @@ namespace SynchronizerLib
 
         public SynchronEvent()
         {
-            startTime = new DateTime();
+            startTimeUTC = new DateTime();
+            finishTimeUTC = new DateTime();
             duration = 0;
             location = "";
             placement = "";
@@ -31,14 +32,14 @@ namespace SynchronizerLib
             companions = new List<string>();
         }
 
-        public SynchronEvent SetStart(DateTime Date)
+        public SynchronEvent SetStartUTC(DateTime DateUTC)
         {
-            startTime = Date;
+            startTimeUTC = DateUTC;
             return this;
         }
-        public SynchronEvent SetFinish(DateTime Date)
+        public SynchronEvent SetFinishUTC(DateTime DateUTC)
         {
-            finishTime = Date;
+            finishTimeUTC = DateUTC;
             return this;
         }
         public SynchronEvent SetPlacement(string placement)
@@ -122,18 +123,18 @@ namespace SynchronizerLib
             return this;
         }
         
-        public DateTime GetStart()
+        public DateTime GetStartUTC()
         {
-            return startTime;
+            return startTimeUTC;
         }
         public List<string> GetParticipants()
         {
             companions.Sort();
             return companions;
         }
-        public DateTime GetFinish()
+        public DateTime GetFinishUTC()
         {
-            return finishTime;
+            return finishTimeUTC;
         }
         public bool GetAllDay()
         {
@@ -167,7 +168,7 @@ namespace SynchronizerLib
         {
             bool result = true;
             result = this.GetId() == compareEvent.GetId() && this.GetLocation() == compareEvent.GetLocation() && this.GetSubject() == compareEvent.GetSubject() &&
-                this.GetStart() == compareEvent.GetStart() && this.GetFinish() == compareEvent.GetFinish() && this.GetDescription() == compareEvent.GetDescription();
+                this.GetStartUTC() == compareEvent.GetStartUTC() && this.GetFinishUTC() == compareEvent.GetFinishUTC() && this.GetDescription() == compareEvent.GetDescription();
             result &= this.GetParticipants().Count == compareEvent.GetParticipants().Count;
             for (int i = 0; i < companions.Count && result; ++i)
                 result &= companions[i] == compareEvent.companions[i];

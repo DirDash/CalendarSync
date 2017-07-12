@@ -19,12 +19,12 @@ namespace SynchronizerLib
         private UserCredential _credential;
         private GoogleEventConverter _converter;
         
-        private void InitGoogleService() // problem place
+        private void InitGoogleService()
         {
             using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
             {
-                var credPath = System.Environment.GetFolderPath(
-                    System.Environment.SpecialFolder.Personal);
+                var credPath = Environment.GetFolderPath(
+                    Environment.SpecialFolder.Personal);
                 credPath = Path.Combine(credPath, ".credentials/calendar-dotnet-quickstart.json");
 
                 _credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
@@ -35,7 +35,7 @@ namespace SynchronizerLib
                     new FileDataStore(credPath, true)).Result;
                 Console.WriteLine("Credential file saved to: " + credPath);
             }
-            // Create Google Calendar API service.
+            // Create Google Calendar API service
             _service = new CalendarService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = _credential,
@@ -134,10 +134,10 @@ namespace SynchronizerLib
                         eventToCheck.Description = needToUpdate.GetDescription();
                         eventToCheck.Summary = needToUpdate.GetSubject();
                         EventDateTime start = new EventDateTime();
-                        start.DateTime = needToUpdate.GetStart();
+                        start.DateTime = needToUpdate.GetStartUTC();
                         eventToCheck.Start = start;
                         EventDateTime end = new EventDateTime();
-                        end.DateTime = needToUpdate.GetFinish();
+                        end.DateTime = needToUpdate.GetFinishUTC();
                         eventToCheck.End = end;
                         eventToCheck.ColorId = SynchronizationConfigManager.GoogleCategoryColorIDForImported;
 

@@ -9,20 +9,19 @@ namespace SynchronizerLib
         public SynchronEvent ConvertToSynchronEvent(AppointmentItem outlookItem)
         {
             var result = new SynchronEvent()
-                .SetStart(outlookItem.Start)
+                .SetStartUTC(outlookItem.Start)
                 .SetDuration(outlookItem.Duration)
                 .SetLocation(outlookItem.Location)
                 .SetSubject(outlookItem.Subject)
                 .SetCompanions(outlookItem.RequiredAttendees)
-                .SetFinish(outlookItem.End)
+                .SetFinishUTC(outlookItem.End)
                 .SetSource(CalendarServiceEnum.Outlook.ToString())
                 .SetDescription(outlookItem.Body)
                 .SetPlacement(CalendarServiceEnum.Outlook.ToString())
-                .SetAllDay(outlookItem.AllDayEvent);
+                .SetAllDay(outlookItem.AllDayEvent);            
 
             if (!string.IsNullOrEmpty(outlookItem.Mileage))
             {
-                //problem place
                 result.SetId(outlookItem.Mileage);
                 if (outlookItem.Mileage.IndexOf(CalendarServiceEnum.Outlook.ToString()) > -1)
                     result.SetSource(CalendarServiceEnum.Outlook.ToString());
@@ -34,7 +33,6 @@ namespace SynchronizerLib
             }
             else
             {
-                // problem place
                 Guid id = Guid.NewGuid();
                 outlookItem.Mileage = CalendarServiceEnum.Outlook.ToString() + id.ToString();
                 outlookItem.Save();
@@ -50,8 +48,8 @@ namespace SynchronizerLib
 
             var result = (AppointmentItem)outlookApp.CreateItem(OlItemType.olAppointmentItem);
 
-            result.Start = synchronEvent.GetStart();
-            result.End = synchronEvent.GetFinish();
+            result.Start = synchronEvent.GetStartUTC();
+            result.End = synchronEvent.GetFinishUTC();
             result.Subject = synchronEvent.GetSubject();
             result.Location = synchronEvent.GetLocation();
             result.Body = synchronEvent.GetDescription();
@@ -71,6 +69,7 @@ namespace SynchronizerLib
             result.ResponseRequested = true;
             if (synchronEvent.GetSource() != CalendarServiceEnum.Outlook.ToString())
             {
+                // ???
                 result.Mileage = synchronEvent.GetId();
             }
             return result;

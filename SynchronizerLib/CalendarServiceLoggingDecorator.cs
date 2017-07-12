@@ -47,8 +47,8 @@ namespace SynchronizerLib
                 logMessage += ".";
             for (int i = 0; i < events.Count; i++)
             {
-                logMessage += String.Format("{0} {1} {2} {3} - {4}", events[i].GetSubject(), events[i].GetLocation(), events[i].GetStart().ToShortDateString(),
-                                                          events[i].GetStart().ToShortTimeString(), events[i].GetFinish().ToShortTimeString());
+                logMessage += String.Format("{0} {1} {2} {3} - {4} ({5} {6})", events[i].GetSubject(), events[i].GetLocation(), events[i].GetStartUTC().ToShortDateString(),
+                                                          events[i].GetStartUTC().ToShortTimeString(), events[i].GetFinishUTC().ToShortTimeString(), events[i].GetSource(), events[i].GetId());
                 if (i < events.Count - 1)
                     logMessage += Environment.NewLine;
                 else

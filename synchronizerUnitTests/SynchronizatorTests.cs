@@ -32,7 +32,7 @@ namespace SynchronizerLibUnitTests
             var calendarB = new CalendarServiceStub();
             var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
-            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStart(DateTime.Now).SetFinish(DateTime.Now.AddDays(1))
+            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(DateTime.Now).SetFinishUTC(DateTime.Now.AddDays(1))
                 .SetPlacement("1").SetSource("1"));
             DateTime finishDate = startData.AddMonths(1);
             synchronizer.Synchronize(startData, finishDate);
@@ -48,7 +48,7 @@ namespace SynchronizerLibUnitTests
             var calendarB = new CalendarServiceStub();
             var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
-            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStart(DateTime.Now).SetFinish(DateTime.Now.AddDays(1))
+            calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(DateTime.Now).SetFinishUTC(DateTime.Now.AddDays(1))
                 .SetPlacement("1").SetSource("2"));
             DateTime finishDate = startData.AddMonths(1);
             synchronizer.Synchronize(startData, finishDate);
@@ -65,7 +65,7 @@ namespace SynchronizerLibUnitTests
             var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
             DateTime finishDate = startData.AddMonths(1);
-            var curEvent = new SynchronEvent().SetId("1234").SetStart(startData.AddMinutes(15)).SetFinish(finishDate)
+            var curEvent = new SynchronEvent().SetId("1234").SetStartUTC(startData.AddMinutes(15)).SetFinishUTC(finishDate)
                 .SetPlacement("1").SetSource("2");
 
             calendarA.AddEvent(curEvent);
@@ -84,15 +84,15 @@ namespace SynchronizerLibUnitTests
             var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
             DateTime startData = DateTime.Now;
             DateTime finishDate = startData.AddMonths(1);
-            var curEvent = new SynchronEvent().SetId("1234").SetStart(startData.AddMinutes(15)).SetFinish(finishDate)
+            var curEvent = new SynchronEvent().SetId("1234").SetStartUTC(startData.AddMinutes(15)).SetFinishUTC(finishDate)
                 .SetPlacement("1").SetSource("2");
 
             calendarA.AddEvent(curEvent);
-            calendarB.AddEvent(curEvent.SetPlacement("2").SetStart(startData.AddMinutes(30)));
+            calendarB.AddEvent(curEvent.SetPlacement("2").SetStartUTC(startData.AddMinutes(30)));
 
             synchronizer.Synchronize(startData, finishDate);
 
-            Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetStart() == startData.AddMinutes(30));
+            Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetStartUTC() == startData.AddMinutes(30));
         }
     }
 
