@@ -43,7 +43,43 @@ namespace SynchronizerLib
                 ifAlreadyInit = true;
             }
         }
-        
+
+        public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
+        {
+            var resultList = new List<SynchronEvent>();
+            minTime = startTime.ToUniversalTime();
+
+            minTime = minTime.AddHours(-minTime.Hour);
+            minTime = minTime.AddMinutes(-minTime.Minute);
+            minTime = minTime.AddSeconds(-minTime.Second);
+            minTime = minTime.AddMilliseconds(-minTime.Millisecond - 1);
+
+            maxTime = finishTime.ToUniversalTime();
+            InitOutlookService();
+
+            foreach (AppointmentItem item in outlookCalendarItems)
+            {
+                if (item.Start > finishTime)
+                    break;
+                resultList.Add(_converter.ConvertToSynchronEvent(item));
+            }
+            return resultList;
+        }
+
+        public List<SieveRule> GetSieveRules()
+        {
+            var rules = new List<SieveRule>();
+            Func<SynchronEvent, bool> isNotInNonSynchronizeCategory = delegate (SynchronEvent synchronEvent)
+            {
+                if (SynchronizationConfigManager.OutlookNonSynchronizeCategories.Contains(synchronEvent.GetCategory()))
+                    return false;
+                else
+                    return true;
+            };
+            rules.Add(new SieveRule(isNotInNonSynchronizeCategory));
+            return rules;
+        }
+
         public void PushEvents(List<SynchronEvent> events)
         {
             InitOutlookService();
@@ -71,29 +107,6 @@ namespace SynchronizerLib
                         item.Delete();
                 }
             }
-        }
-
-        public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
-        {
-            var resultList = new List<SynchronEvent>();
-            minTime = startTime;
-
-            minTime = minTime.AddHours(-minTime.Hour);
-            minTime = minTime.AddMinutes(-minTime.Minute);
-            minTime = minTime.AddSeconds(-minTime.Second);
-            minTime = minTime.AddMilliseconds(-minTime.Millisecond - 1);
-
-            maxTime = finishTime;
-            InitOutlookService();
-
-            foreach (AppointmentItem item in outlookCalendarItems)
-            {
-                if (item.Start > finishTime)
-                    break;
-                resultList.Add(_converter.ConvertToSynchronEvent(item));
-            }
-            return resultList;
-
         }
 
         public void UpdateEvents(List<SynchronEvent> needToUpdate)

@@ -37,7 +37,8 @@ namespace SynchronizerLib
             .SetSubject(googleEvent.Summary)
             .SetSource(CalendarServiceEnum.Google.ToString())
             .SetId(googleEvent.Id)
-            .SetPlacement(CalendarServiceEnum.Google.ToString());
+            .SetPlacement(CalendarServiceEnum.Google.ToString())
+            .SetCategory(googleEvent.ColorId);
 
             if (googleEvent.ExtendedProperties != null && googleEvent.ExtendedProperties.Private__!= null
                 && googleEvent.ExtendedProperties.Private__["source"] != CalendarServiceEnum.Google.ToString())

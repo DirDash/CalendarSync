@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Configuration;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace SynchronizerLib
 {
@@ -8,8 +11,12 @@ namespace SynchronizerLib
         private static int _synchronizationIntervalInDays;
         private static bool _autosyncronizationMode;
         private static int _autosyncIntervalInSeconds;
+
         private static string _outlookCategoryForImported;
+        private static List<string> _outlookNonSynchronizeCategories;
+
         private static string _googleCategoryColorIDForImported;
+        private static List<string> _googleNonSynchronizeCategories;
 
         public static int SynchronizationIntervalInDays
         {
@@ -61,6 +68,52 @@ namespace SynchronizerLib
             }
         }
 
+        public static List<string> GoogleNonSynchronizeCategories
+        {
+            get { return _googleNonSynchronizeCategories; }
+            set
+            {
+                if (value != null)
+                {
+                    _googleNonSynchronizeCategories = value;
+                    string toConfig = String.Empty;
+                    if (value.Count != 0)
+                    {
+                        int i = 0;
+                        for (; i < value.Count - 1; i++)
+                            toConfig += value[i] + ",";
+                        toConfig += value[i];
+                    }
+                    ChangeConfigValue("googleNonSynchronizeCategories", toConfig);
+                }
+                else
+                    throw new ArgumentNullException();
+            }
+        }
+
+        public static List<string> OutlookNonSynchronizeCategories
+        {
+            get { return _outlookNonSynchronizeCategories; }
+            set
+            {
+                if (value != null)
+                {
+                    _outlookNonSynchronizeCategories = value;
+                    string toConfig = String.Empty;
+                    if (value.Count != 0)
+                    {
+                        int i = 0;
+                        for (; i < value.Count - 1; i++)
+                            toConfig += value[i] + ",";
+                        toConfig += value[i];
+                    }
+                    ChangeConfigValue("outlookNonSynchronizeCategories", toConfig);
+                }
+                else
+                    throw new ArgumentNullException();
+            }
+        }
+
         static SynchronizationConfigManager()
         {
             LoadConfigKeys();
@@ -81,6 +134,8 @@ namespace SynchronizerLib
             AutosyncIntervalInSeconds = int.Parse(ConfigurationManager.AppSettings["autosyncIntervalSec"]);
             OutlookCategoryForImported = ConfigurationManager.AppSettings["outlookCategoryForImported"];
             GoogleCategoryColorIDForImported = ConfigurationManager.AppSettings["googleColorIDForImported"];
+            GoogleNonSynchronizeCategories = ConfigurationManager.AppSettings["googleNonSynchronizeCategories"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            OutlookNonSynchronizeCategories = ConfigurationManager.AppSettings["outlookNonSynchronizeCategories"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
 
         private static void ChangeConfigValue(string configKey, string newConfigValue)

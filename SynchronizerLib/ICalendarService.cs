@@ -7,6 +7,8 @@ namespace SynchronizerLib
     {
         List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime);
 
+        List<SieveRule> GetSieveRules();
+
         void PushEvents(List<SynchronEvent> events);
         
         void DeleteEvents(List<SynchronEvent> events);       

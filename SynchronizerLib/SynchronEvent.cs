@@ -16,6 +16,7 @@ namespace SynchronizerLib
         private string placement;
         private string id;
         private bool allDayEvent;
+        private string category;
 
         public SynchronEvent()
         {
@@ -37,11 +38,13 @@ namespace SynchronizerLib
             startTimeUTC = dateTime.ToUniversalTime();
             return this;
         }
+
         public SynchronEvent SetFinishUTC(DateTime dateTime)
         {
             finishTimeUTC = dateTime.ToUniversalTime();
             return this;
         }
+
         public SynchronEvent SetPlacement(string placement)
         {
             this.placement = placement;
@@ -53,6 +56,7 @@ namespace SynchronizerLib
             allDayEvent = isAllDay;
             return this;
         }
+
         public SynchronEvent SetId(string id)
         {
             this.id = id;
@@ -64,6 +68,7 @@ namespace SynchronizerLib
             description = Description;
             return this;
         }
+
         public SynchronEvent SetDuration(int Duration)
         {
             duration = Duration;
@@ -88,14 +93,22 @@ namespace SynchronizerLib
             return this;
         }
 
+        public SynchronEvent SetCategory(string category)
+        {
+            this.category = category;
+            return this;
+        }
+
         public string GetSource()
         {
             return source;
         }
+
         private bool IsNotEmail(string s)
         {
             return s.IndexOf("@") < 0;
         }
+
         private List<string> ParseParticipantsString(string stringOfParticipants)
         {
             if (stringOfParticipants == null)
@@ -112,11 +125,13 @@ namespace SynchronizerLib
             }
             return result;
         }
+
         public SynchronEvent AddCompanions(string participant)
         {
             companions.Add(participant);
             return this;
         }
+
         public SynchronEvent SetCompanions(string allParticipants)
         {
             companions = ParseParticipantsString(allParticipants);
@@ -127,23 +142,28 @@ namespace SynchronizerLib
         {
             return startTimeUTC;
         }
+
         public List<string> GetParticipants()
         {
             companions.Sort();
             return companions;
         }
+
         public DateTime GetFinishUTC()
         {
             return finishTimeUTC;
         }
+
         public bool GetAllDay()
         {
             return allDayEvent;
         }
+
         public string GetPlacement()
         {
             return placement;
         }
+
         public string GetSubject()
         {
             return subject;
@@ -164,6 +184,11 @@ namespace SynchronizerLib
             return id;
         }
         
+        public string GetCategory()
+        {
+            return category;
+        }
+
         public bool CompareOnEqual(SynchronEvent compareEvent)
         {
             bool result = true;

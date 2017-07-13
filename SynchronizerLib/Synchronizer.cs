@@ -17,11 +17,17 @@ namespace SynchronizerLib
         public void Synchronize(DateTime startDate, DateTime finishDate)
         {
             List<List<SynchronEvent>> MeetingsInTheCalendars = new List<List<SynchronEvent>>();
-            
+
             foreach (var currentCalendar in _calendars)
-                MeetingsInTheCalendars.Add(new EventsSiever().SieveEventsOnPeriodOfTime(startDate, finishDate, currentCalendar.GetAllItems(startDate, finishDate)));
+            {
+                var events = currentCalendar.GetAllItems(startDate, finishDate);
+                var rules = currentCalendar.GetSieveRules();
+                // выполнить преобразования
+                MeetingsInTheCalendars.Add(new EventsSiever().Sieve(events, rules));
+                //MeetingsInTheCalendars.Add(new EventsSiever().SieveEventsOnPeriodOfTime(startDate, finishDate, currentCalendar.GetAllItems(startDate, finishDate)));
+            }
                         
-            for (int i = 0; i < _calendars.Count;++i)
+            for (int i = 0; i < _calendars.Count; ++i)
             {
                 for (int j = 0; j < _calendars.Count; ++j)
                 {

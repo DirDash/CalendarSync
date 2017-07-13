@@ -64,12 +64,12 @@
   <ItemGroup>
     <Compile Include="CalendarServiceEnum.cs" />
     <Compile Include="CalendarServiceLoggingDecorator.cs" />
-    <Compile Include="Converter.cs" />
     <Compile Include="DifferenceFinder.cs" />
     <Compile Include="EventsSiever.cs" />
     <Compile Include="GoogleEventConverter.cs" />
     <Compile Include="GoogleService.cs" />
     <Compile Include="ICalendarService.cs" />
+    <Compile Include="SieveRule.cs" />
     <Compile Include="ISynchronizer.cs" />
     <Compile Include="ISyncLogger.cs" />
     <Compile Include="OutlookEventConverter.cs" />
@@ -84,6 +84,7 @@
     <None Include="client_secret.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="GoogleCalendar.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,11 @@ namespace SynchronizerLib
             return _calendarService.GetAllItems(startTime, finishTime);
         }
 
+        public List<SieveRule> GetSieveRules()
+        {
+            return _calendarService.GetSieveRules();
+        }
+
         public void PushEvents(List<SynchronEvent> events)
         {
             _calendarService.PushEvents(events);
@@ -47,8 +52,8 @@ namespace SynchronizerLib
                 logMessage += ".";
             for (int i = 0; i < events.Count; i++)
             {
-                logMessage += String.Format("{0} {1} {2} {3} - {4} ({5} {6})", events[i].GetSubject(), events[i].GetLocation(), events[i].GetStartUTC().ToShortDateString(),
-                                                          events[i].GetStartUTC().ToShortTimeString(), events[i].GetFinishUTC().ToShortTimeString(), events[i].GetSource(), events[i].GetId());
+                logMessage += String.Format("{0} {1} {2} {3} - {4} ({5} {6})", events[i].GetSubject(), events[i].GetLocation(), events[i].GetStartUTC().ToLocalTime().ToShortDateString(),
+                                                          events[i].GetStartUTC().ToLocalTime().ToShortTimeString(), events[i].GetFinishUTC().ToLocalTime().ToShortTimeString(), events[i].GetSource(), events[i].GetId());
                 if (i < events.Count - 1)
                     logMessage += Environment.NewLine;
                 else

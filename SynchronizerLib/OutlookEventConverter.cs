@@ -18,7 +18,8 @@ namespace SynchronizerLib
                 .SetSource(CalendarServiceEnum.Outlook.ToString())
                 .SetDescription(outlookItem.Body)
                 .SetPlacement(CalendarServiceEnum.Outlook.ToString())
-                .SetAllDay(outlookItem.AllDayEvent);            
+                .SetAllDay(outlookItem.AllDayEvent)
+                .SetCategory(outlookItem.Categories);
 
             if (!string.IsNullOrEmpty(outlookItem.Mileage))
             {

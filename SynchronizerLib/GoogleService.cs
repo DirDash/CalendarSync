@@ -45,6 +45,42 @@ namespace SynchronizerLib
             _converter = new GoogleEventConverter();
         }
 
+        public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
+        {
+            InitGoogleService();
+
+            // Define parameters of request.
+            var request = _service.Events.List("primary");
+
+            request.TimeMin = startTime.ToUniversalTime();
+            request.TimeMax = finishTime.ToUniversalTime();
+            request.ShowDeleted = false;
+            request.SingleEvents = true;
+            request.MaxResults = 1000;
+            request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+
+            var inGoogleExist = request.Execute();
+            var result = new List<SynchronEvent>();
+
+            foreach (var curEvent in inGoogleExist.Items)
+                result.Add(_converter.ConvertToSynchronEvent(curEvent));
+            return result;
+        }
+
+        public List<SieveRule> GetSieveRules()
+        {
+            var rules = new List<SieveRule>();
+            Func<SynchronEvent, bool> isNotInNonSynchronizeCategory = delegate (SynchronEvent synchronEvent)
+            {
+                if (SynchronizationConfigManager.GoogleNonSynchronizeCategories.Contains(synchronEvent.GetCategory()))
+                    return false;
+                else
+                    return true;
+            };
+            rules.Add(new SieveRule(isNotInNonSynchronizeCategory));
+            return rules;
+        }
+
         public void PushEvents(List<SynchronEvent> events)
         {
             InitGoogleService();
@@ -88,29 +124,7 @@ namespace SynchronizerLib
                 if (eventWasFound)
                     _service.Events.Delete(request.CalendarId, eventToCheck.Id).Execute();
             }
-        }
-
-        public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
-        {
-            InitGoogleService();
-
-            // Define parameters of request.
-            var request = _service.Events.List("primary");
-
-            request.TimeMin = startTime;
-            request.TimeMax = finishTime;
-            request.ShowDeleted = false;
-            request.SingleEvents = true;
-            request.MaxResults = 1000;
-            request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
-            var inGoogleExist = request.Execute();
-            var result = new List<SynchronEvent>();
-
-            foreach (var curEvent in inGoogleExist.Items)
-                result.Add(_converter.ConvertToSynchronEvent(curEvent));
-            return result;
-        }
+        }        
 
         public void UpdateEvents(List<SynchronEvent> NeedToUpdate)
         {
