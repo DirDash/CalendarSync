@@ -10,7 +10,7 @@ namespace synchronizer
     {
         private ICalendarService outlookCalendar = new CalendarServiceLoggingDecorator(new OutlookService(), new NLogLogger());
         private ICalendarService googleCalendar = new CalendarServiceLoggingDecorator(new GoogleService(), new NLogLogger());
-        private List<ICalendarService> calendars = new List<ICalendarService>();
+        private CalendarStore calendarStore = new CalendarStore();
         private ISynchronizer synchronizer = new SynchronizerLoggingDecorator(new Synchronizer(), new NLogLogger());
 
         public CalendarSyncForm()
@@ -19,8 +19,8 @@ namespace synchronizer
             from_dateTimePicker.Value = DateTime.Today;
             to_dateTimePicker.Value = (from_dateTimePicker.Value).AddDays(SynchronizationConfigManager.SynchronizationIntervalInDays);        
             autosync_timer.Interval = (int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalMilliseconds;
-            calendars.Add(outlookCalendar);
-            calendars.Add(googleCalendar);
+            calendarStore.AddCalendar(outlookCalendar);
+            calendarStore.AddCalendar(googleCalendar);
             LoadSettingsFromConfig();
         }
 
@@ -44,7 +44,7 @@ namespace synchronizer
             bool synchronizationSucceeded = true;
             try
             {
-                synchronizer.SynchronizeAll(calendars, startDate, finishDate);
+                synchronizer.SynchronizeAll(calendarStore, startDate, finishDate);
             }
             catch
             {

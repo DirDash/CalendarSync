@@ -15,12 +15,12 @@ namespace SynchronizerLib
             _logger.SetSource("Synchronizer");
         }
 
-        public void SynchronizeAll(IEnumerable<ICalendarService> calendars, DateTime startDate, DateTime finishDate)
+        public void SynchronizeAll(CalendarStore calendarStore, DateTime startDate, DateTime finishDate)
         {
             _logger.Info("Synchronization started.");
             try
             {
-                _synchronizer.SynchronizeAll(calendars, startDate, finishDate);
+                _synchronizer.SynchronizeAll(calendarStore, startDate, finishDate);
             }
             catch (Exception exception)
             {

@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="CalendarServiceEnum.cs" />
     <Compile Include="CalendarServiceLoggingDecorator.cs" />
+    <Compile Include="CalendarStore.cs" />
     <Compile Include="DifferenceFinder.cs" />
     <Compile Include="EventsSiever.cs" />
     <Compile Include="GoogleEventConverter.cs" />

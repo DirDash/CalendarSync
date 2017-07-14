@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SynchronizerLib
 {
@@ -13,9 +12,9 @@ namespace SynchronizerLib
             _differenceFinder = new DifferenceFinder();
         }
 
-        public void SynchronizeAll(IEnumerable<ICalendarService> calendars, DateTime startDate, DateTime finishDate)
+        public void SynchronizeAll(CalendarStore calendarStore, DateTime startDate, DateTime finishDate)
         {
-            var calendarList = calendars.ToList();
+            var calendarList = calendarStore.GetCalendars();
             List<List<SynchronEvent>> MeetingsInTheCalendars = new List<List<SynchronEvent>>();
 
             foreach (var currentCalendar in calendarList)
@@ -30,9 +29,8 @@ namespace SynchronizerLib
             {
                 for (int j = 0; j < calendarList.Count; ++j)
                 {
-                    if (i == j)
-                        continue;
-                    OneWaySync(calendarList[i], MeetingsInTheCalendars[j], MeetingsInTheCalendars[i]);
+                    if (calendarStore.SyncIsAllowed(calendarList[i], calendarList[j]))
+                        OneWaySync(calendarList[j], MeetingsInTheCalendars[i], MeetingsInTheCalendars[j]);
                 }
             }
         }

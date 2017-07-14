@@ -5,6 +5,6 @@ namespace SynchronizerLib
 {
     public interface ISynchronizer
     {
-        void SynchronizeAll(IEnumerable<ICalendarService> calendars, DateTime startDate, DateTime finishDate);
+        void SynchronizeAll(CalendarStore calendarStore, DateTime startDate, DateTime finishDate);
     }
 }

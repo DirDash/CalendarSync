@@ -6,7 +6,7 @@ using SynchronizerLib;
 
 namespace SynchronizerLibUnitTests
 {
-    public class SyncronizationConfigManagerTests
+    public class SynchronizationConfigManagerTests
     {
         [Fact]
         public void SetIsCorrect_ValueChanged()
