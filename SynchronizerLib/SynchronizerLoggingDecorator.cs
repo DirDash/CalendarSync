@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SynchronizerLib
 {
@@ -14,12 +15,12 @@ namespace SynchronizerLib
             _logger.SetSource("Synchronizer");
         }
 
-        public void Synchronize(DateTime startDate, DateTime finishDate)
+        public void SynchronizeAll(IEnumerable<ICalendarService> calendars, DateTime startDate, DateTime finishDate)
         {
             _logger.Info("Synchronization started.");
             try
             {
-                _synchronizer.Synchronize(startDate, finishDate);
+                _synchronizer.SynchronizeAll(calendars, startDate, finishDate);
             }
             catch (Exception exception)
             {

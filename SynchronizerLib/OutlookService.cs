@@ -66,18 +66,11 @@ namespace SynchronizerLib
             return resultList;
         }
 
-        public List<SieveRule> GetSieveRules()
+        public List<string> GetFilters()
         {
-            var rules = new List<SieveRule>();
-            Func<SynchronEvent, bool> isNotInNonSynchronizeCategory = delegate (SynchronEvent synchronEvent)
-            {
-                if (SynchronizationConfigManager.OutlookNonSynchronizeCategories.Contains(synchronEvent.GetCategory()))
-                    return false;
-                else
-                    return true;
-            };
-            rules.Add(new SieveRule(isNotInNonSynchronizeCategory));
-            return rules;
+            var filters = new List<string>();
+            filters.Add(SynchronizationConfigManager.OutlookFilter);
+            return filters;
         }
 
         public void PushEvents(List<SynchronEvent> events)

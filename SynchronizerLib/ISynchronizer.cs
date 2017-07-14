@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SynchronizerLib
 {
     public interface ISynchronizer
     {
-        void Synchronize(DateTime startDate, DateTime finishDate);
+        void SynchronizeAll(IEnumerable<ICalendarService> calendars, DateTime startDate, DateTime finishDate);
     }
 }

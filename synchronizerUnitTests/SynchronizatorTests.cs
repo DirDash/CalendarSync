@@ -13,13 +13,14 @@ namespace SynchronizerLibUnitTests
     {
         [Fact]
         public void CheckOnNonModyfing_NonOfThen()
-        {            
+        {           
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
-            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
-            DateTime startData = DateTime.Now;
+            var calendars = new List<ICalendarService>() { calendarA, calendarB };
+            var synchronizer = new Synchronizer();
+            DateTime startData = DateTime.Now.ToUniversalTime();
             DateTime finishDate = startData.AddMonths(1);
-            synchronizer.Synchronize(startData, finishDate);
+            synchronizer.SynchronizeAll(calendars, startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate).Count == calendarB.GetAllItems(startData, finishDate).Count
                 && calendarB.GetAllItems(startData, finishDate).Count == 0);
@@ -30,12 +31,13 @@ namespace SynchronizerLibUnitTests
         {            
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
-            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
+            var calendars = new List<ICalendarService> { calendarA, calendarB };
+            var synchronizer = new Synchronizer();
             DateTime startData = DateTime.Now.ToUniversalTime();
             calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(startData).SetFinishUTC(startData.AddDays(1))
                 .SetPlacement("1").SetSource("1"));
             DateTime finishDate = startData.AddMonths(1);
-            synchronizer.Synchronize(startData, finishDate);
+            synchronizer.SynchronizeAll(calendars, startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate).Count == calendarB.GetAllItems(startData, finishDate).Count
                 && calendarB.GetAllItems(startData, finishDate).Count == 1);
@@ -46,12 +48,13 @@ namespace SynchronizerLibUnitTests
         {            
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
-            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
+            var calendars = new List<ICalendarService> { calendarA, calendarB };
+            var synchronizer = new Synchronizer();
             DateTime startData = DateTime.Now.ToUniversalTime();
             calendarA.AddEvent(new SynchronEvent().SetId("1234").SetStartUTC(startData).SetFinishUTC(startData.AddDays(1))
                 .SetPlacement("1").SetSource("2"));
             DateTime finishDate = startData.AddMonths(1);
-            synchronizer.Synchronize(startData, finishDate);
+            synchronizer.SynchronizeAll(calendars, startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate).Count == calendarB.GetAllItems(startData, finishDate).Count
                 && calendarB.GetAllItems(startData, finishDate).Count == 0);
@@ -62,7 +65,8 @@ namespace SynchronizerLibUnitTests
         {           
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
-            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
+            var calendars = new List<ICalendarService> { calendarA, calendarB };
+            var synchronizer = new Synchronizer();
             DateTime startData = DateTime.Now;
             DateTime finishDate = startData.AddMonths(1);
             var curEvent = new SynchronEvent().SetId("1234").SetStartUTC(startData.AddMinutes(15)).SetFinishUTC(finishDate)
@@ -71,7 +75,7 @@ namespace SynchronizerLibUnitTests
             calendarA.AddEvent(curEvent);
             calendarB.AddEvent(curEvent.SetPlacement("2").SetSubject("check"));
             
-            synchronizer.Synchronize(startData, finishDate);
+            synchronizer.SynchronizeAll(calendars, startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetSubject() == "check");
         }
@@ -81,7 +85,8 @@ namespace SynchronizerLibUnitTests
         {            
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
-            var synchronizer = new Synchronizer(new List<ICalendarService> { calendarA, calendarB });
+            var calendars = new List<ICalendarService> { calendarA, calendarB };
+            var synchronizer = new Synchronizer();
             DateTime startData = DateTime.Now.ToUniversalTime();
             DateTime finishDate = startData.AddMonths(1);
             var curEvent = new SynchronEvent().SetId("1234").SetStartUTC(startData.AddMinutes(15)).SetFinishUTC(finishDate)
@@ -90,7 +95,7 @@ namespace SynchronizerLibUnitTests
             calendarA.AddEvent(curEvent);
             calendarB.AddEvent(curEvent.SetPlacement("2").SetStartUTC(startData.AddMinutes(30)));
 
-            synchronizer.Synchronize(startData, finishDate);
+            synchronizer.SynchronizeAll(calendars, startData, finishDate);
 
             Assert.True(calendarA.GetAllItems(startData, finishDate)[0].GetStartUTC() == startData.AddMinutes(30));
         }
@@ -124,6 +129,10 @@ namespace SynchronizerLibUnitTests
         public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
         {
             return Events;
+        }
+        public List<string> GetFilters()
+        {
+            return new List<string>();
         }
 
         public void PushEvents(List<SynchronEvent> events)

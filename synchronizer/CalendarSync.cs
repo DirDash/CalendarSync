@@ -8,10 +8,10 @@ namespace synchronizer
 {
     public partial class CalendarSyncForm : Form
     {
-        private ISynchronizer synchronizer = new SynchronizerLoggingDecorator(new Synchronizer(new List<ICalendarService>
-                                                                                { new CalendarServiceLoggingDecorator(new OutlookService(), new NLogLogger()),
-                                                                                  new CalendarServiceLoggingDecorator(new GoogleService(), new NLogLogger()) }),
-                                                                              new NLogLogger());
+        private ICalendarService outlookCalendar = new CalendarServiceLoggingDecorator(new OutlookService(), new NLogLogger());
+        private ICalendarService googleCalendar = new CalendarServiceLoggingDecorator(new GoogleService(), new NLogLogger());
+        private List<ICalendarService> calendars = new List<ICalendarService>();
+        private ISynchronizer synchronizer = new SynchronizerLoggingDecorator(new Synchronizer(), new NLogLogger());
 
         public CalendarSyncForm()
         {
@@ -19,6 +19,8 @@ namespace synchronizer
             from_dateTimePicker.Value = DateTime.Today;
             to_dateTimePicker.Value = (from_dateTimePicker.Value).AddDays(SynchronizationConfigManager.SynchronizationIntervalInDays);        
             autosync_timer.Interval = (int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalMilliseconds;
+            calendars.Add(outlookCalendar);
+            calendars.Add(googleCalendar);
             LoadSettingsFromConfig();
         }
 
@@ -42,7 +44,7 @@ namespace synchronizer
             bool synchronizationSucceeded = true;
             try
             {
-                synchronizer.Synchronize(startDate, finishDate);
+                synchronizer.SynchronizeAll(calendars, startDate, finishDate);
             }
             catch
             {

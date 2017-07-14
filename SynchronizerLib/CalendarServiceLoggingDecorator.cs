@@ -20,9 +20,9 @@ namespace SynchronizerLib
             return _calendarService.GetAllItems(startTime, finishTime);
         }
 
-        public List<SieveRule> GetSieveRules()
+        public List<string> GetFilters()
         {
-            return _calendarService.GetSieveRules();
+            return _calendarService.GetFilters();
         }
 
         public void PushEvents(List<SynchronEvent> events)

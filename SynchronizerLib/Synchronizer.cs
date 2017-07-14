@@ -1,39 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SynchronizerLib
 {
     public class Synchronizer : ISynchronizer
     {
         private DifferenceFinder _differenceFinder;
-        private List<ICalendarService> _calendars;
 
-        public Synchronizer(List<ICalendarService> calendars)
+        public Synchronizer()
         {
-            _calendars = calendars;
             _differenceFinder = new DifferenceFinder();
         }
 
-        public void Synchronize(DateTime startDate, DateTime finishDate)
+        public void SynchronizeAll(IEnumerable<ICalendarService> calendars, DateTime startDate, DateTime finishDate)
         {
+            var calendarList = calendars.ToList();
             List<List<SynchronEvent>> MeetingsInTheCalendars = new List<List<SynchronEvent>>();
 
-            foreach (var currentCalendar in _calendars)
+            foreach (var currentCalendar in calendarList)
             {
                 var events = currentCalendar.GetAllItems(startDate, finishDate);
-                var rules = currentCalendar.GetSieveRules();
+                var filters = currentCalendar.GetFilters();
                 // выполнить преобразования
-                MeetingsInTheCalendars.Add(new EventsSiever().Sieve(events, rules));
-                //MeetingsInTheCalendars.Add(new EventsSiever().SieveEventsOnPeriodOfTime(startDate, finishDate, currentCalendar.GetAllItems(startDate, finishDate)));
+                MeetingsInTheCalendars.Add(new EventsSiever().Sieve(events, filters));
             }
                         
-            for (int i = 0; i < _calendars.Count; ++i)
+            for (int i = 0; i < calendarList.Count; ++i)
             {
-                for (int j = 0; j < _calendars.Count; ++j)
+                for (int j = 0; j < calendarList.Count; ++j)
                 {
                     if (i == j)
                         continue;
-                    OneWaySync(_calendars[i], MeetingsInTheCalendars[j], MeetingsInTheCalendars[i]);
+                    OneWaySync(calendarList[i], MeetingsInTheCalendars[j], MeetingsInTheCalendars[i]);
                 }
             }
         }

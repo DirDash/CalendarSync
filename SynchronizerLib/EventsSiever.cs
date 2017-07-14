@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic;
 
 namespace SynchronizerLib
 {
@@ -26,25 +28,11 @@ namespace SynchronizerLib
             return result;
         }
 
-        public List<SynchronEvent> Sieve(List<SynchronEvent> events, List<SieveRule> rules)
-        {
-            var result = new List<SynchronEvent>();
-            foreach (var eventToCheck in events)
-            {
-                bool eventIsSuit = true;
-                if (rules != null && eventToCheck.GetPlacement() == eventToCheck.GetSource())
-                    foreach (var rule in rules)
-                    {
-                        if (!rule.Check(eventToCheck))
-                        {
-                            eventIsSuit = false;
-                            break;
-                        }
-                    }
-                if (eventIsSuit)
-                    result.Add(eventToCheck);
-            }
-            return result;
+        public List<SynchronEvent> Sieve(List<SynchronEvent> events, List<string> filtres)
+        {                      
+            foreach (var filter in filtres)
+                events = events.AsQueryable().Where("GetPlacement() != GetSource() || " + filter).ToList();
+            return events;
         }
     }
 }
