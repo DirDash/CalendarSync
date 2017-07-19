@@ -32,16 +32,16 @@ namespace SynchronizerLibUnitTests
 
         public void SameListCompanionsButAddedInTheDifferentWay_returnSame()
         {
-            var current1 = new SynchronEvent().AddCompanions("1@ya.ru").AddCompanions("2@ya.ru");
-            var current2 = new SynchronEvent().AddCompanions("2@ya.ru").AddCompanions("1@ya.ru");
+            var current1 = new SynchronEvent().AddCompanion("1@ya.ru").AddCompanion("2@ya.ru");
+            var current2 = new SynchronEvent().AddCompanion("2@ya.ru").AddCompanion("1@ya.ru");
             Assert.True(current1.CompareOnEqual(current2));
         }
         [Fact]
 
         public void DifferentListCompanions_returnDifferent()
         {
-            var current1 = new SynchronEvent().AddCompanions("1@ya.ru").AddCompanions("2@ya.ru");
-            var current2 = new SynchronEvent().AddCompanions("2@ya.ru").AddCompanions("0@ya.ru");
+            var current1 = new SynchronEvent().AddCompanion("1@ya.ru").AddCompanion("2@ya.ru");
+            var current2 = new SynchronEvent().AddCompanion("2@ya.ru").AddCompanion("0@ya.ru");
             Assert.False(current1.CompareOnEqual(current2));
         }
         [Fact]

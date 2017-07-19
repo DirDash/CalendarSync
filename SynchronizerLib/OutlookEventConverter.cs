@@ -18,7 +18,7 @@ namespace SynchronizerLib
                 .SetSource(CalendarServiceEnum.Outlook.ToString())
                 .SetDescription(outlookItem.Body)
                 .SetPlacement(CalendarServiceEnum.Outlook.ToString())
-                .SetAllDay(outlookItem.AllDayEvent)
+                .SetIsAllDay(outlookItem.AllDayEvent)
                 .SetCategory(outlookItem.Categories);
 
             if (!string.IsNullOrEmpty(outlookItem.Mileage))
@@ -54,7 +54,7 @@ namespace SynchronizerLib
             result.Subject = synchronEvent.GetSubject();
             result.Location = synchronEvent.GetLocation();
             result.Body = synchronEvent.GetDescription();
-            result.AllDayEvent = synchronEvent.GetAllDay();
+            result.AllDayEvent = synchronEvent.GetIsAllDay();
             result.Categories = synchronEvent.GetCategory();
 
             string buf = String.Empty;

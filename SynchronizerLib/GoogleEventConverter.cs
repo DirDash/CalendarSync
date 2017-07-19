@@ -12,11 +12,11 @@ namespace SynchronizerLib
             if (googleEvent.Attendees != null)
             {
                 foreach (var email in googleEvent.Attendees)
-                    result.AddCompanions(email.Email);
+                    result.AddCompanion(email.Email);
             }
             if (googleEvent.Start.Date != null)
             {
-                result.SetAllDay(true);
+                result.SetIsAllDay(true);
                 string date = googleEvent.Start.Date;
                 string[] q = date.Split('-');
                 var year = int.Parse(q[0]);
@@ -77,7 +77,7 @@ namespace SynchronizerLib
                 ColorId = synchronEvent.GetCategory(),
             };
 
-            if (synchronEvent.GetAllDay())
+            if (synchronEvent.GetIsAllDay())
             {
                 googleEvent.Start.DateTime = null;
                 googleEvent.Start.DateTimeRaw = null;

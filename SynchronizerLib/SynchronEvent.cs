@@ -5,109 +5,154 @@ namespace SynchronizerLib
 {
     public class SynchronEvent
     {
-        private string id;
-        private string subject;
-        private string source; //original calendar
-        private string placement; //current calendar
-        private DateTime startTimeUTC;
-        private DateTime finishTimeUTC;
-        private int duration;
-        private string location;
-        private List<string> companions;
-        private string description;       
-        private bool allDayEvent;
-        private string category;
+        private string _id;
+        private string _subject;
+        private string _source; //original calendar
+        private string _placement; //current calendar
+        private DateTime _startTimeUTC;
+        private DateTime _finishTimeUTC;
+        private int _duration;
+        private string _location;
+        private List<string> _companions;
+        private string _description;       
+        private bool _isAllDayEvent;
+        private string _category;
 
         public SynchronEvent()
         {
-            id = String.Empty;
-            subject = String.Empty;
-            source = "unknown";
-            placement = "unknown";
-            startTimeUTC = new DateTime();
-            finishTimeUTC = new DateTime();
-            duration = 0;
-            location = String.Empty;
-            companions = new List<string>();
-            description = String.Empty;
-            allDayEvent = false;
-            category = String.Empty;
+            _id = String.Empty;
+            _subject = String.Empty;
+            _source = "unknown";
+            _placement = "unknown";
+            _startTimeUTC = new DateTime();
+            _finishTimeUTC = new DateTime();
+            _duration = 0;
+            _location = String.Empty;
+            _companions = new List<string>();
+            _description = String.Empty;
+            _isAllDayEvent = false;
+            _category = String.Empty;
+        }
+
+        public string GetId()
+        {
+            return _id;
+        }
+
+        public string GetSubject()
+        {
+            return _subject;
+        }
+
+        public string GetSource()
+        {
+            return _source;
+        }
+
+        public string GetPlacement()
+        {
+            return _placement;
+        }
+
+        public DateTime GetStartUTC()
+        {
+            return _startTimeUTC;
+        }
+
+        public DateTime GetFinishUTC()
+        {
+            return _finishTimeUTC;
+        }
+
+        public int GetDuration()
+        {
+            return _duration;
+        }
+
+        public string GetLocation()
+        {
+            return _location;
+        }
+
+        public List<string> GetParticipants()
+        {
+            _companions.Sort();
+            return _companions;
+        }
+
+        public string GetDescription()
+        {
+            return _description;
+        }
+
+        public bool GetIsAllDay()
+        {
+            return _isAllDayEvent;
+        }
+
+        public string GetCategory()
+        {
+            return _category;
         }
 
         public SynchronEvent SetId(string id)
         {
-            this.id = id;
+            _id = id;
             return this;
         }
 
-        public SynchronEvent SetSubject(string Subject)
+        public SynchronEvent SetSubject(string subject)
         {
-            subject = Subject;
+            _subject = subject;
             return this;
         }
 
         public SynchronEvent SetSource(string source)
         {
-            this.source = source;
+            _source = source;
             return this;
         }
 
         public SynchronEvent SetPlacement(string placement)
         {
-            this.placement = placement;
+            _placement = placement;
             return this;
         }
 
-        public SynchronEvent SetStartUTC(DateTime dateTime)
+        public SynchronEvent SetStartUTC(DateTime startDateTime)
         {
-            startTimeUTC = dateTime.ToUniversalTime();
+            _startTimeUTC = startDateTime.ToUniversalTime();
             return this;
         }
 
-        public SynchronEvent SetFinishUTC(DateTime dateTime)
+        public SynchronEvent SetFinishUTC(DateTime finishDateTime)
         {
-            finishTimeUTC = dateTime.ToUniversalTime();
+            _finishTimeUTC = finishDateTime.ToUniversalTime();
             return this;
         }
 
-        public SynchronEvent SetDuration(int Duration)
+        public SynchronEvent SetDuration(int duration)
         {
-            duration = Duration;
+            _duration = duration;
             return this;
         }
 
-        public SynchronEvent SetLocation(string place)
+        public SynchronEvent SetLocation(string location)
         {
-            location = place;
+            _location = location;
             return this;
         }
 
-        public SynchronEvent SetDescription(string description)
+        public SynchronEvent AddCompanion(string participant)
         {
-            this.description = description;
+            _companions.Add(participant);
             return this;
         }
 
-        public SynchronEvent SetAllDay(bool isAllDay)
+        public SynchronEvent SetCompanions(string allParticipants)
         {
-            allDayEvent = isAllDay;
+            _companions = ParseParticipantsString(allParticipants);
             return this;
-        }        
-
-        public SynchronEvent SetCategory(string category)
-        {
-            this.category = category;
-            return this;
-        }
-
-        public string GetSource()
-        {
-            return source;
-        }
-
-        private bool IsNotEmail(string s)
-        {
-            return s.IndexOf("@") < 0;
         }
 
         private List<string> ParseParticipantsString(string stringOfParticipants)
@@ -116,79 +161,32 @@ namespace SynchronizerLib
                 return new List<string>();
 
             var result = new List<string>(stringOfParticipants.Split(';'));
-
-            result.RemoveAll(IsNotEmail);
-
-            for(int i = 0; i < result.Count;++i)
+            result.RemoveAll(s => s.IndexOf("@") < 0);
+            for (int i = 0; i < result.Count; ++i)
             {
-               result[i] = result[i].TrimStart(new char[1] { ' ' });
-               result[i] = result[i].TrimEnd(new char[1] { ' ' });
+                result[i] = result[i].TrimStart(new char[1] { ' ' });
+                result[i] = result[i].TrimEnd(new char[1] { ' ' });
             }
             return result;
         }
 
-        public SynchronEvent AddCompanions(string participant)
+        public SynchronEvent SetDescription(string description)
         {
-            companions.Add(participant);
+            _description = description;
             return this;
         }
 
-        public SynchronEvent SetCompanions(string allParticipants)
+        public SynchronEvent SetIsAllDay(bool isAllDay)
         {
-            companions = ParseParticipantsString(allParticipants);
+            _isAllDayEvent = isAllDay;
             return this;
-        }
-        
-        public DateTime GetStartUTC()
-        {
-            return startTimeUTC;
-        }
+        }        
 
-        public List<string> GetParticipants()
+        public SynchronEvent SetCategory(string category)
         {
-            companions.Sort();
-            return companions;
-        }
-
-        public DateTime GetFinishUTC()
-        {
-            return finishTimeUTC;
-        }
-
-        public bool GetAllDay()
-        {
-            return allDayEvent;
-        }
-
-        public string GetPlacement()
-        {
-            return placement;
-        }
-
-        public string GetSubject()
-        {
-            return subject;
-        }
-
-        public string GetLocation()
-        {
-            return location;
-        }
-
-        public string GetDescription()
-        {
-            return description;
-        }
-
-        public string GetId()
-        {
-            return id;
-        }
-        
-        public string GetCategory()
-        {
-            return category;
-        }
+            _category = category;
+            return this;
+        }        
 
         public bool CompareOnEqual(SynchronEvent compareEvent)
         {
@@ -196,8 +194,8 @@ namespace SynchronizerLib
             result = this.GetId() == compareEvent.GetId() && this.GetLocation() == compareEvent.GetLocation() && this.GetSubject() == compareEvent.GetSubject() &&
                 this.GetStartUTC() == compareEvent.GetStartUTC() && this.GetFinishUTC() == compareEvent.GetFinishUTC() && this.GetDescription() == compareEvent.GetDescription();
             result &= this.GetParticipants().Count == compareEvent.GetParticipants().Count;
-            for (int i = 0; i < companions.Count && result; ++i)
-                result &= companions[i] == compareEvent.companions[i];
+            for (int i = 0; i < _companions.Count && result; ++i)
+                result &= _companions[i] == compareEvent._companions[i];
             return result;
         }
     }

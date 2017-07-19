@@ -4,12 +4,12 @@ namespace SynchronizerLib
 {
     public class DifferenceFinder
     {
-        private bool IfNonExist(SynchronEvent needToCheck, List<SynchronEvent> events)
+        private bool IsExistIn(SynchronEvent needToCheck, List<SynchronEvent> events)
         {
             foreach (var curevent in events)
                 if (curevent.GetId() == needToCheck.GetId())
-                    return false;
-            return true;
+                    return true;
+            return false;
         }
 
         public virtual List<SynchronEvent> GetDifferenceToPush(List<SynchronEvent> standartList, List<SynchronEvent> targetList)
@@ -17,7 +17,7 @@ namespace SynchronizerLib
             var difference = new List<SynchronEvent>();
             foreach (var eventToCheck in standartList)
             {
-                if (eventToCheck.GetSource() == eventToCheck.GetPlacement() && IfNonExist(eventToCheck, targetList))
+                if (eventToCheck.GetSource() == eventToCheck.GetPlacement() && !IsExistIn(eventToCheck, targetList))
                     difference.Add(eventToCheck);
             }
             return difference;
@@ -28,7 +28,7 @@ namespace SynchronizerLib
             var difference = new List<SynchronEvent>();
             foreach (var eventToCheck in targetList)
             {
-                if (eventToCheck.GetSource() != eventToCheck.GetPlacement() && IfNonExist(eventToCheck, standardList))
+                if (eventToCheck.GetSource() != eventToCheck.GetPlacement() && !IsExistIn(eventToCheck, standardList))
                     difference.Add(eventToCheck);
             }
             return difference;
