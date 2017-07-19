@@ -5,32 +5,57 @@ namespace SynchronizerLib
 {
     public class SynchronEvent
     {
+        private string id;
         private string subject;
+        private string source; //original calendar
+        private string placement; //current calendar
         private DateTime startTimeUTC;
         private DateTime finishTimeUTC;
         private int duration;
         private string location;
         private List<string> companions;
-        private string description;
-        private string source;
-        private string placement;
-        private string id;
+        private string description;       
         private bool allDayEvent;
         private string category;
 
         public SynchronEvent()
         {
+            id = String.Empty;
+            subject = String.Empty;
+            source = "unknown";
+            placement = "unknown";
             startTimeUTC = new DateTime();
             finishTimeUTC = new DateTime();
             duration = 0;
-            location = "";
-            placement = "";
-            id = "";
-            allDayEvent = false;
-            source = "";
-            description = " ";
-            subject = "";
+            location = String.Empty;
             companions = new List<string>();
+            description = String.Empty;
+            allDayEvent = false;
+            category = String.Empty;
+        }
+
+        public SynchronEvent SetId(string id)
+        {
+            this.id = id;
+            return this;
+        }
+
+        public SynchronEvent SetSubject(string Subject)
+        {
+            subject = Subject;
+            return this;
+        }
+
+        public SynchronEvent SetSource(string source)
+        {
+            this.source = source;
+            return this;
+        }
+
+        public SynchronEvent SetPlacement(string placement)
+        {
+            this.placement = placement;
+            return this;
         }
 
         public SynchronEvent SetStartUTC(DateTime dateTime)
@@ -42,30 +67,6 @@ namespace SynchronizerLib
         public SynchronEvent SetFinishUTC(DateTime dateTime)
         {
             finishTimeUTC = dateTime.ToUniversalTime();
-            return this;
-        }
-
-        public SynchronEvent SetPlacement(string placement)
-        {
-            this.placement = placement;
-            return this;
-        }
-
-        public SynchronEvent SetAllDay(bool isAllDay)
-        {
-            allDayEvent = isAllDay;
-            return this;
-        }
-
-        public SynchronEvent SetId(string id)
-        {
-            this.id = id;
-            return this;
-        }
-
-        public SynchronEvent SetDescription(string Description)
-        {
-            description = Description;
             return this;
         }
 
@@ -81,17 +82,17 @@ namespace SynchronizerLib
             return this;
         }
 
-        public SynchronEvent SetSubject(string Subject)
+        public SynchronEvent SetDescription(string description)
         {
-            subject = Subject;
+            this.description = description;
             return this;
         }
 
-        public SynchronEvent SetSource(string source)
+        public SynchronEvent SetAllDay(bool isAllDay)
         {
-            this.source = source;
+            allDayEvent = isAllDay;
             return this;
-        }
+        }        
 
         public SynchronEvent SetCategory(string category)
         {

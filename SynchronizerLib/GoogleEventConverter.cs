@@ -74,6 +74,7 @@ namespace SynchronizerLib
                 Start = eventDateTime,
                 End = eventDateTimeEnd,
                 Description = synchronEvent.GetDescription(),
+                ColorId = synchronEvent.GetCategory(),
             };
 
             if (synchronEvent.GetAllDay())

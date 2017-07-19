@@ -66,11 +66,25 @@ namespace SynchronizerLib
             return resultList;
         }
 
-        public List<string> GetFilters()
+        public IEnumerable<string> GetFilters()
         {
             var filters = new List<string>();
             filters.Add(SynchronizationConfigManager.OutlookFilter);
             return filters;
+        }
+
+        public IEnumerable<EventTransformation> GetOutTransformations()
+        {
+            var outTransformations = new List<EventTransformation>();
+            outTransformations.Add(SynchronizationConfigManager.OutlookOutTransformation);
+            return outTransformations;
+        }
+
+        public IEnumerable<EventTransformation> GetInTransformations()
+        {
+            var inTransformations = new List<EventTransformation>();
+            inTransformations.Add(SynchronizationConfigManager.OutlookInTransformation);
+            return inTransformations;
         }
 
         public void PushEvents(List<SynchronEvent> events)
@@ -79,7 +93,6 @@ namespace SynchronizerLib
             foreach (var eventToPush in events)
             {
                 var current = _converter.ConvertToOutlookEvent(eventToPush);
-                current.Categories = SynchronizationConfigManager.OutlookCategoryForImported;
                 current.Save();   
             }            
         }
@@ -132,7 +145,6 @@ namespace SynchronizerLib
                         item.EndUTC = eventToUpdate.GetFinishUTC();
                         item.Body = eventToUpdate.GetDescription();
                         item.Location = eventToUpdate.GetLocation();
-                        item.Categories = SynchronizationConfigManager.OutlookCategoryForImported;
                         item.Save();
                     }
                 }

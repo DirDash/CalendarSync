@@ -20,9 +20,19 @@ namespace SynchronizerLib
             return _calendarService.GetAllItems(startTime, finishTime);
         }
 
-        public List<string> GetFilters()
+        public IEnumerable<string> GetFilters()
         {
             return _calendarService.GetFilters();
+        }
+
+        public IEnumerable<EventTransformation> GetOutTransformations()
+        {
+            return _calendarService.GetOutTransformations();
+        }
+
+        public IEnumerable<EventTransformation> GetInTransformations()
+        {
+            return _calendarService.GetInTransformations();
         }
 
         public void PushEvents(List<SynchronEvent> events)

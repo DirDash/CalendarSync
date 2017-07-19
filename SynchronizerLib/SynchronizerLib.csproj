@@ -70,6 +70,8 @@
     <Compile Include="CalendarStore.cs" />
     <Compile Include="DifferenceFinder.cs" />
     <Compile Include="EventsSiever.cs" />
+    <Compile Include="EventTransformation.cs" />
+    <Compile Include="EventTransformer.cs" />
     <Compile Include="GoogleEventConverter.cs" />
     <Compile Include="GoogleService.cs" />
     <Compile Include="ICalendarService.cs" />

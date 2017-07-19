@@ -6,41 +6,16 @@ namespace SynchronizerLib
     {
         private bool IfNonExist(SynchronEvent needToCheck, List<SynchronEvent> events)
         {
-            var notExist = true;
             foreach (var curevent in events)
-            {
                 if (curevent.GetId() == needToCheck.GetId())
-                {
-                    notExist = false;
-                    break;
-                }
-            }
-            return notExist;
+                    return false;
+            return true;
         }
 
-        private bool IfExist(SynchronEvent needToCheck, List<SynchronEvent> events)
-        {
-            var exist = false;
-            foreach (var curevent in events)
-            {
-                if (curevent.GetId() == needToCheck.GetId())
-                {
-                    exist = true;
-                    break;
-                }
-            }
-            return exist;
-        }
-
-        private bool NeedToUpdate(SynchronEvent standartEvent, SynchronEvent compareEvent)
-        {
-            return !standartEvent.CompareOnEqual(compareEvent);
-        }
-
-        public virtual List<SynchronEvent> GetDifferenceToPush(List<SynchronEvent> sourceList, List<SynchronEvent> targetList)
+        public virtual List<SynchronEvent> GetDifferenceToPush(List<SynchronEvent> standartList, List<SynchronEvent> targetList)
         {
             var difference = new List<SynchronEvent>();
-            foreach (var eventToCheck in sourceList)
+            foreach (var eventToCheck in standartList)
             {
                 if (eventToCheck.GetSource() == eventToCheck.GetPlacement() && IfNonExist(eventToCheck, targetList))
                     difference.Add(eventToCheck);
@@ -48,30 +23,29 @@ namespace SynchronizerLib
             return difference;
         }
 
-        public virtual List<SynchronEvent> GetDifferenceToDelete(List<SynchronEvent> needToCheck, List<SynchronEvent> standard)
+        public virtual List<SynchronEvent> GetDifferenceToDelete(List<SynchronEvent> standardList, List<SynchronEvent> targetList)
         {
             var difference = new List<SynchronEvent>();
-            foreach (var eventToCheck in needToCheck)
+            foreach (var eventToCheck in targetList)
             {
-                if (eventToCheck.GetSource() == eventToCheck.GetPlacement()) continue;
-                if(IfNonExist(eventToCheck, standard))
+                if (eventToCheck.GetSource() != eventToCheck.GetPlacement() && IfNonExist(eventToCheck, standardList))
                     difference.Add(eventToCheck);
             }
             return difference;
         }
 
-        public virtual List<SynchronEvent> GetDifferenceToUpdate(List<SynchronEvent> needToCheck, List<SynchronEvent> standard)
+        public virtual List<SynchronEvent> GetDifferenceToUpdate(List<SynchronEvent> standardList, List<SynchronEvent> targetList)
         {
             var difference = new List<SynchronEvent>();
-            foreach(var eventToCheckInList1 in needToCheck)
+            foreach (var eventInStandart in standardList)
             {
-                foreach(var eventToCheckInList2 in standard)
-                {
-                    if (eventToCheckInList2.GetSource() != eventToCheckInList2.GetPlacement())
-                        continue;
-                    if (eventToCheckInList2.GetId() == eventToCheckInList1.GetId() && NeedToUpdate(eventToCheckInList2, eventToCheckInList1))
+                if (eventInStandart.GetSource() != eventInStandart.GetPlacement())
+                    continue;
+                foreach (var eventInTarget in targetList)
+                {                    
+                    if (eventInStandart.GetId() == eventInTarget.GetId() && !eventInStandart.CompareOnEqual(eventInTarget))
                     {
-                        difference.Add(eventToCheckInList2);
+                        difference.Add(eventInStandart);
                         break;
                     }
                 }

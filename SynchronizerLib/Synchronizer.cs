@@ -6,23 +6,27 @@ namespace SynchronizerLib
     public class Synchronizer : ISynchronizer
     {
         private DifferenceFinder _differenceFinder;
+        private EventsSiever _eventSiever;
+        private EventTransformer _eventTransformer;
 
         public Synchronizer()
         {
             _differenceFinder = new DifferenceFinder();
+            _eventSiever = new EventsSiever();
+            _eventTransformer = new EventTransformer();
         }
 
         public void SynchronizeAll(CalendarStore calendarStore, DateTime startDate, DateTime finishDate)
         {
             var calendarList = calendarStore.GetCalendars();
-            List<List<SynchronEvent>> MeetingsInTheCalendars = new List<List<SynchronEvent>>();
+            List<List<SynchronEvent>> eventsInTheCalendars = new List<List<SynchronEvent>>();
 
             foreach (var currentCalendar in calendarList)
             {
                 var events = currentCalendar.GetAllItems(startDate, finishDate);
-                var filters = currentCalendar.GetFilters();
-                // выполнить преобразования
-                MeetingsInTheCalendars.Add(new EventsSiever().Sieve(events, filters));
+                events = _eventSiever.Sieve(events, currentCalendar.GetFilters());
+                events = _eventTransformer.Transform(events, currentCalendar.GetOutTransformations());
+                eventsInTheCalendars.Add(events);
             }
                         
             for (int i = 0; i < calendarList.Count; ++i)
@@ -30,19 +34,23 @@ namespace SynchronizerLib
                 for (int j = 0; j < calendarList.Count; ++j)
                 {
                     if (calendarStore.SyncIsAllowed(calendarList[i], calendarList[j]))
-                        OneWaySync(calendarList[j], MeetingsInTheCalendars[i], MeetingsInTheCalendars[j]);
+                        OneWaySync(calendarList[j], eventsInTheCalendars[i], eventsInTheCalendars[j]);
                 }
             }
         }
 
-        private void OneWaySync(ICalendarService targetCalendarService, List<SynchronEvent> sourceMeetings, List<SynchronEvent> targetMeetings)
+        private void OneWaySync(ICalendarService targetCalendarService, List<SynchronEvent> sourceEvents, List<SynchronEvent> targetEvents)
         {
-            var nonExistInTarget = _differenceFinder.GetDifferenceToPush(sourceMeetings, targetMeetings);
-            var needToUpdateInTarget = _differenceFinder.GetDifferenceToUpdate(targetMeetings, sourceMeetings);
-            var needToDeleteInTarget = _differenceFinder.GetDifferenceToDelete(targetMeetings, sourceMeetings);
+            var nonExistInTarget = _differenceFinder.GetDifferenceToPush(sourceEvents, targetEvents);
+            var needToUpdateInTarget = _differenceFinder.GetDifferenceToUpdate(sourceEvents, targetEvents);
+            var needToDeleteInTarget = _differenceFinder.GetDifferenceToDelete(sourceEvents, targetEvents);
 
-            targetCalendarService.PushEvents(nonExistInTarget);            
-            targetCalendarService.UpdateEvents(needToUpdateInTarget);            
+            nonExistInTarget = _eventTransformer.Transform(nonExistInTarget, targetCalendarService.GetInTransformations());
+            targetCalendarService.PushEvents(nonExistInTarget);
+
+            needToUpdateInTarget = _eventTransformer.Transform(needToUpdateInTarget, targetCalendarService.GetInTransformations());
+            targetCalendarService.UpdateEvents(needToUpdateInTarget);
+            
             targetCalendarService.DeleteEvents(needToDeleteInTarget);           
         }
     }

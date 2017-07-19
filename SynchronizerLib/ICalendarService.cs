@@ -7,7 +7,11 @@ namespace SynchronizerLib
     {
         List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime);
 
-        List<string> GetFilters();
+        IEnumerable<string> GetFilters();
+
+        IEnumerable<EventTransformation> GetOutTransformations();
+
+        IEnumerable<EventTransformation> GetInTransformations();
 
         void PushEvents(List<SynchronEvent> events);
         

@@ -12,6 +12,7 @@ namespace SynchronizerLibUnitTests
 {
     public class EventsSieverUnitTests
     {
+        /*
         [Fact]
 
         public void BeginingEvent_NonExistInResultList()
@@ -19,10 +20,11 @@ namespace SynchronizerLibUnitTests
             var cur = new SynchronEvent();
             cur.SetStartUTC(DateTime.Now.AddHours(-1));
             var list = new List<SynchronEvent>{cur};
-            list = new EventsSiever().SieveEventsOnPeriodOfTime(DateTime.Now, DateTime.Now.AddHours(1), list);
+            list = new EventsSiever().Sieve(list, new string[] { String.Format("GetStartUTC() >= DateTime.Parse({0})", DateTime.Now.ToUniversalTime().ToString())});
+            //list = new EventsSiever().SieveEventsOnPeriodOfTime(DateTime.Now, DateTime.Now.AddHours(1), list);
             Assert.Equal(0, list.Count);
         }
-
+        
         [Fact]
 
         public void EventWithStartOneHourLater_ExistInResultList()
@@ -62,5 +64,6 @@ namespace SynchronizerLibUnitTests
             list = new EventsSiever().SieveEventsOnPeriodOfTime(date, date.AddHours(1), list);
             Assert.Equal(1, list.Count);
         }
+        */
     }
 }

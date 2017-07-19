@@ -130,9 +130,17 @@ namespace SynchronizerLibUnitTests
         {
             return Events;
         }
-        public List<string> GetFilters()
+        public IEnumerable<string> GetFilters()
         {
             return new List<string>();
+        }
+        public IEnumerable<EventTransformation> GetOutTransformations()
+        {
+            return new List<EventTransformation>();
+        }
+        public IEnumerable<EventTransformation> GetInTransformations()
+        {
+            return new List<EventTransformation>();
         }
 
         public void PushEvents(List<SynchronEvent> events)

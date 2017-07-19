@@ -7,13 +7,13 @@ using SynchronizerLib;
 namespace SynchronizerLibUnitTests
 {
     public class SynchronizationConfigManagerTests
-    {
+    {        
         [Fact]
         public void SetIsCorrect_ValueChanged()
         {
-            string newGoogleColorID = SynchronizationConfigManager.GoogleCategoryColorIDForImported + "0";
-            SynchronizationConfigManager.GoogleCategoryColorIDForImported = newGoogleColorID;
-            Assert.Equal(ConfigurationManager.AppSettings["googleColorIDForImported"], SynchronizationConfigManager.GoogleCategoryColorIDForImported);
+            int autosyncIntervalSec = SynchronizationConfigManager.AutosyncIntervalInSeconds * 10;
+            SynchronizationConfigManager.AutosyncIntervalInSeconds = autosyncIntervalSec;
+            Assert.Equal(ConfigurationManager.AppSettings["autosyncIntervalSec"], SynchronizationConfigManager.AutosyncIntervalInSeconds.ToString());
         }
     }
 }

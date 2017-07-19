@@ -55,6 +55,7 @@ namespace SynchronizerLib
             result.Location = synchronEvent.GetLocation();
             result.Body = synchronEvent.GetDescription();
             result.AllDayEvent = synchronEvent.GetAllDay();
+            result.Categories = synchronEvent.GetCategory();
 
             string buf = String.Empty;
             List<string> AllParticipants = synchronEvent.GetParticipants();

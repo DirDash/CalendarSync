@@ -17,7 +17,7 @@ namespace SynchronizerLibUnitTests
         {
             var currentEvent = new SynchronEvent().SetId("123").SetSource("1");
             var needToCheck = new List<SynchronEvent> { currentEvent };
-            var result = new DifferenceFinder().GetDifferenceToDelete(needToCheck, new List<SynchronEvent>());
+            var result = new DifferenceFinder().GetDifferenceToDelete(new List<SynchronEvent>(), needToCheck);
             Assert.Equal(1, result.Count);
         }
 

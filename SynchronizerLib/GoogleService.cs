@@ -69,11 +69,25 @@ namespace SynchronizerLib
             return result;
         }
 
-        public List<string> GetFilters()
+        public IEnumerable<string> GetFilters()
         {
             var filters = new List<string>();
             filters.Add(SynchronizationConfigManager.GoogleFilter);
             return filters;
+        }
+
+        public IEnumerable<EventTransformation> GetOutTransformations()
+        {
+            var outTransformations = new List<EventTransformation>();
+            outTransformations.Add(SynchronizationConfigManager.GoogleOutTransformation);
+            return outTransformations;
+        }
+
+        public IEnumerable<EventTransformation> GetInTransformations()
+        {
+            var inTransformations = new List<EventTransformation>();
+            inTransformations.Add(SynchronizationConfigManager.GoogleInTransformation);
+            return inTransformations;
         }
 
         public void PushEvents(List<SynchronEvent> events)
@@ -86,7 +100,6 @@ namespace SynchronizerLib
             foreach (var currentEvent in events)
             {
                 var needToPush = _converter.ConvertToGoogleEvent(currentEvent);
-                needToPush.ColorId = SynchronizationConfigManager.GoogleCategoryColorIDForImported;
                 _service.Events.Insert(needToPush, request.CalendarId).Execute();
             }            
         }
@@ -151,7 +164,6 @@ namespace SynchronizerLib
                         end.DateTime = needToUpdate.GetFinishUTC();
                         eventToCheck.End = end;
                         eventToCheck.End.TimeZone = defaultTimeZone0UTC;
-                        eventToCheck.ColorId = SynchronizationConfigManager.GoogleCategoryColorIDForImported;
 
                         EventAttendee[] attendees = new EventAttendee[needToUpdate.GetParticipants().Count];
                         List<string> AllParticipants = needToUpdate.GetParticipants();

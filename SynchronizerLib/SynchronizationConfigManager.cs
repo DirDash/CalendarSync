@@ -11,12 +11,14 @@ namespace SynchronizerLib
         private static int _synchronizationIntervalInDays;
         private static bool _autosyncronizationMode;
         private static int _autosyncIntervalInSeconds;
-
-        private static string _outlookCategoryForImported;
+        
         private static string _outlookFilter;
-
-        private static string _googleCategoryColorIDForImported;
+        private static EventTransformation _outlookOutTransformation;
+        private static EventTransformation _outlookInTransformation;
+        
         private static string _googleFilter;
+        private static EventTransformation _googleOutTransformation;
+        private static EventTransformation _googleInTransformation;
 
         public static int SynchronizationIntervalInDays
         {
@@ -48,34 +50,34 @@ namespace SynchronizerLib
             }
         }
 
-        public static string OutlookCategoryForImported
-        {
-            get { return _outlookCategoryForImported; }
-            set
-            {
-                _outlookCategoryForImported = value;
-                ChangeConfigValue("outlookCategoryForImported", value);
-            }
-        }
-
         public static string OutlookFilter
         {
             get { return _outlookFilter; }
         }
 
-        public static string GoogleCategoryColorIDForImported
+        public static EventTransformation OutlookOutTransformation
         {
-            get { return _googleCategoryColorIDForImported; }
-            set
-            {
-                _googleCategoryColorIDForImported = value;
-                ChangeConfigValue("googleColorIDForImported", value);
-            }
+            get { return _outlookOutTransformation; }
+        }
+
+        public static EventTransformation OutlookInTransformation
+        {
+            get { return _outlookInTransformation; }
         }
 
         public static string GoogleFilter
         {
             get { return _googleFilter; }
+        }
+
+        public static EventTransformation GoogleOutTransformation
+        {
+            get { return _googleOutTransformation; }
+        }
+
+        public static EventTransformation GoogleInTransformation
+        {
+            get { return _googleInTransformation; }
         }
 
         static SynchronizationConfigManager()
@@ -96,10 +98,16 @@ namespace SynchronizerLib
                     break;
             }
             AutosyncIntervalInSeconds = int.Parse(ConfigurationManager.AppSettings["autosyncIntervalSec"]);
-            OutlookCategoryForImported = ConfigurationManager.AppSettings["outlookCategoryForImported"];
-            GoogleCategoryColorIDForImported = ConfigurationManager.AppSettings["googleColorIDForImported"];
-            _googleFilter = ConfigurationManager.AppSettings["googleFilter"];
             _outlookFilter = ConfigurationManager.AppSettings["outlookFilter"];
+            _outlookOutTransformation = new EventTransformation(ConfigurationManager.AppSettings["outlookOutTransformationCondition"],
+                                                                ConfigurationManager.AppSettings["outlookOutTransformation"]);
+            _outlookInTransformation = new EventTransformation(ConfigurationManager.AppSettings["outlookInTransformationCondition"],
+                                                                ConfigurationManager.AppSettings["outlookInTransformation"]);
+            _googleFilter = ConfigurationManager.AppSettings["googleFilter"];
+            _googleOutTransformation = new EventTransformation(ConfigurationManager.AppSettings["googleOutTransformationCondition"],
+                                                                ConfigurationManager.AppSettings["googleOutTransformation"]);
+            _googleInTransformation =  new EventTransformation(ConfigurationManager.AppSettings["googleInTransformationCondition"],
+                                                                ConfigurationManager.AppSettings["googleInTransformation"]);
         }
 
         private static void ChangeConfigValue(string configKey, string newConfigValue)
