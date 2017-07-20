@@ -66,7 +66,7 @@ namespace SynchronizerLib
                 RefreshSyncRulesFor(calendar);
         }
         
-        void RefreshSyncRulesFor(ICalendarService serviceToRefresh)
+        private void RefreshSyncRulesFor(ICalendarService serviceToRefresh)
         {
             int indexToRefresh = _calendars.IndexOf(serviceToRefresh);
             if (indexToRefresh < 0)

@@ -6,14 +6,14 @@ namespace SynchronizerLib
 {
     public class OutlookService : ICalendarService
     {
-        private string _serviceName = CalendarServiceEnum.Outlook.ToString();
-        private Application oApp = null;
-        private NameSpace mapiNamespace = null;
-        private MAPIFolder calendarFolder = null;
-        private Items outlookCalendarItems = null;
-        private DateTime minTime;
-        private DateTime maxTime;
-        //private bool ifAlreadyInit = false;
+        private string _serviceName = "outlook";
+        private Application _oApp = null;
+        private NameSpace _mapiNamespace = null;
+        private MAPIFolder _calendarFolder = null;
+        private Items _outlookCalendarItems = null;
+        private DateTime _minTime;
+        private DateTime _maxTime;
+        //private bool _alreadyInit = false;
         private OutlookEventConverter _converter = new OutlookEventConverter();
         private CalendarServiceConfigManager _configManager = new CalendarServiceConfigManager("outlookServiceSettings");
 
@@ -27,39 +27,39 @@ namespace SynchronizerLib
 
         private void InitOutlookService()
         {
-            //if (!ifAlreadyInit)
+            //if (!_alreadyInit)
             {
-                oApp = new Application();
-                mapiNamespace = oApp.GetNamespace("MAPI");
-                calendarFolder = mapiNamespace.GetDefaultFolder(OlDefaultFolders.olFolderCalendar);
-                outlookCalendarItems = calendarFolder.Items;
+                _oApp = new Application();
+                _mapiNamespace = _oApp.GetNamespace("MAPI");
+                _calendarFolder = _mapiNamespace.GetDefaultFolder(OlDefaultFolders.olFolderCalendar);
+                _outlookCalendarItems = _calendarFolder.Items;
 
-                outlookCalendarItems.Sort("[Start]");
-                outlookCalendarItems.IncludeRecurrences = true;
+                _outlookCalendarItems.Sort("[Start]");
+                _outlookCalendarItems.IncludeRecurrences = true;
 
-                string s1 = GetDateInString(minTime);
-                string s2 = GetDateInString(maxTime);
+                string s1 = GetDateInString(_minTime);
+                string s2 = GetDateInString(_maxTime);
                 var filterString = "[Start] >= '" + s1 + "' AND [End] < '" + s2 + "'";
-                outlookCalendarItems = outlookCalendarItems.Restrict(filterString);
+                _outlookCalendarItems = _outlookCalendarItems.Restrict(filterString);
                 _converter = new OutlookEventConverter();
-                //ifAlreadyInit = true;
+                //_alreadyInit = true;
             }
         }
 
         public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
         {
             var resultList = new List<SynchronEvent>();
-            minTime = startTime.ToUniversalTime();
+            _minTime = startTime.ToUniversalTime();
 
-            minTime = minTime.AddHours(-minTime.Hour);
-            minTime = minTime.AddMinutes(-minTime.Minute);
-            minTime = minTime.AddSeconds(-minTime.Second);
-            minTime = minTime.AddMilliseconds(-minTime.Millisecond - 1);
+            _minTime = _minTime.AddHours(-_minTime.Hour);
+            _minTime = _minTime.AddMinutes(-_minTime.Minute);
+            _minTime = _minTime.AddSeconds(-_minTime.Second);
+            _minTime = _minTime.AddMilliseconds(-_minTime.Millisecond - 1);
 
-            maxTime = finishTime.ToUniversalTime();
+            _maxTime = finishTime.ToUniversalTime();
             InitOutlookService();
 
-            foreach (AppointmentItem item in outlookCalendarItems)
+            foreach (AppointmentItem item in _outlookCalendarItems)
             {
                 if (item.Start > finishTime)
                     break;
@@ -112,9 +112,9 @@ namespace SynchronizerLib
         {
             InitOutlookService();
 
-            foreach (AppointmentItem item in outlookCalendarItems)
+            foreach (AppointmentItem item in _outlookCalendarItems)
             {
-                if (item.Start > maxTime)
+                if (item.Start > _maxTime)
                     break;
                 if (string.IsNullOrEmpty(item.Mileage))
                     continue;
@@ -130,9 +130,9 @@ namespace SynchronizerLib
         {
             InitOutlookService();
 
-            foreach (AppointmentItem item in outlookCalendarItems)
+            foreach (AppointmentItem item in _outlookCalendarItems)
             {
-                if (item.Start > maxTime)
+                if (item.Start > _maxTime)
                     break;
                 if (string.IsNullOrEmpty(item.Mileage))
                     continue;
@@ -160,11 +160,6 @@ namespace SynchronizerLib
                     }
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return "Outlook Calendar Service";
         }
     }
 }

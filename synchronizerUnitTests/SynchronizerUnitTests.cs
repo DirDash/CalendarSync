@@ -104,11 +104,11 @@ namespace SynchronizerLibUnitTests
     public class CalendarServiceStub : ICalendarService
     {
         public List<SynchronEvent> Events { get; private set; }
-        private string id;
+        private string _id;
 
         private bool SameId(SynchronEvent cur)
         {
-            return cur.GetId() == id;
+            return cur.GetId() == _id;
         }
 
         public void AddEvent(SynchronEvent toAdd)
@@ -125,7 +125,7 @@ namespace SynchronizerLibUnitTests
         {
             foreach(var curEvent in events)
             {
-                id = curEvent.GetId();
+                _id = curEvent.GetId();
                 Events.RemoveAll(SameId);
             }  
         }
@@ -175,7 +175,7 @@ namespace SynchronizerLibUnitTests
         {
             foreach (var curEvent in needToUpdate)
             {
-                id = curEvent.GetId();
+                _id = curEvent.GetId();
                 for (int i = 0; i < Events.Count; ++i)
                     if (SameId(Events[i]))
                         Events[i] = curEvent;

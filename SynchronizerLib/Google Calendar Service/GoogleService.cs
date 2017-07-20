@@ -15,10 +15,10 @@ namespace SynchronizerLib
         static readonly string[] _scopes = {"https://www.googleapis.com/auth/calendar" };
         static readonly string _applicationName = "Google Calendar API .NET Quickstart";
 
-        private string _serviceName = CalendarServiceEnum.Google.ToString();
+        private string _serviceName = "google";
         private CalendarService _service;
         private UserCredential _credential;        
-        private string defaultTimeZone0UTC = "UTC";
+        private string _defaultTimeZone0UTC = "UTC";
         private GoogleEventConverter _converter = new GoogleEventConverter();
         private CalendarServiceConfigManager _configManager = new CalendarServiceConfigManager("googleServiceSettings");
         
@@ -167,11 +167,11 @@ namespace SynchronizerLib
                         EventDateTime start = new EventDateTime();                        
                         start.DateTime = needToUpdate.GetStartUTC();
                         eventToCheck.Start = start;
-                        eventToCheck.Start.TimeZone = defaultTimeZone0UTC;
+                        eventToCheck.Start.TimeZone = _defaultTimeZone0UTC;
                         EventDateTime end = new EventDateTime();
                         end.DateTime = needToUpdate.GetFinishUTC();
                         eventToCheck.End = end;
-                        eventToCheck.End.TimeZone = defaultTimeZone0UTC;
+                        eventToCheck.End.TimeZone = _defaultTimeZone0UTC;
 
                         EventAttendee[] attendees = new EventAttendee[needToUpdate.GetParticipants().Count];
                         List<string> AllParticipants = needToUpdate.GetParticipants();

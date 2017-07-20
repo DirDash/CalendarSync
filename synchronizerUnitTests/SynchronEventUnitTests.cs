@@ -21,7 +21,6 @@ namespace SynchronizerLibUnitTests
         }
 
         [Fact]
-
         public void NoSetId_ReturnEmptyString()
         {
             var currentEvent = new SynchronEvent();
@@ -29,27 +28,28 @@ namespace SynchronizerLibUnitTests
         }
 
         [Fact]
-
         public void SameListCompanionsButAddedInTheDifferentWay_returnSame()
         {
             var current1 = new SynchronEvent().AddCompanion("1@ya.ru").AddCompanion("2@ya.ru");
             var current2 = new SynchronEvent().AddCompanion("2@ya.ru").AddCompanion("1@ya.ru");
             Assert.True(current1.CompareOnEqual(current2));
         }
-        [Fact]
 
+        [Fact]
         public void DifferentListCompanions_returnDifferent()
         {
             var current1 = new SynchronEvent().AddCompanion("1@ya.ru").AddCompanion("2@ya.ru");
             var current2 = new SynchronEvent().AddCompanion("2@ya.ru").AddCompanion("0@ya.ru");
             Assert.False(current1.CompareOnEqual(current2));
         }
+
         [Fact]
         public void BadString_ParseGood()
         {
             var current = new SynchronEvent().SetCompanions("asd asd asd ;    1@ya.ru    ");
             Assert.Equal(1, current.GetParticipants().Count);
         }
+
         [Fact]
         public void CombinedString_ParseGood()
         {

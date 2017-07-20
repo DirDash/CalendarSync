@@ -14,7 +14,6 @@ namespace SynchronizerLibUnitTests
     {
         /*
         [Fact]
-
         public void BeginingEvent_NonExistInResultList()
         {
             var cur = new SynchronEvent();
@@ -26,7 +25,6 @@ namespace SynchronizerLibUnitTests
         }
         
         [Fact]
-
         public void EventWithStartOneHourLater_ExistInResultList()
         {
             var cur = new SynchronEvent();
@@ -38,7 +36,6 @@ namespace SynchronizerLibUnitTests
         }
 
         [Fact]
-
         public void EventWithStartNow_ExistInResult()
         {
             var cur = new SynchronEvent();
@@ -50,7 +47,6 @@ namespace SynchronizerLibUnitTests
         }
 
         [Fact]
-
         public void OneGoogAndOneBadEvents_ResultContainsOnlyOne()
         {
             var date = DateTime.Now.ToUniversalTime();

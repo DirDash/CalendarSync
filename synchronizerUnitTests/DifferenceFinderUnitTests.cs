@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Assert = Xunit.Assert;
 using SynchronizerLib;
@@ -12,7 +10,6 @@ namespace SynchronizerLibUnitTests
     public class DifferenceFinderUnitTests
     {
         [Fact]
-
         public void EventWhichNeedToRemove_ResultListContainsThisEvent()
         {
             var currentEvent = new SynchronEvent().SetId("123").SetSource("1");
@@ -22,7 +19,6 @@ namespace SynchronizerLibUnitTests
         }
 
         [Fact]
-
         public void EventWhichNeedToAdd_ResultListContainsThisEvent()
         {
             var currentEvent = new SynchronEvent().SetId("123").SetSource("1").SetPlacement("1");
@@ -32,7 +28,6 @@ namespace SynchronizerLibUnitTests
         }
 
         [Fact]
-
         public void EventAlreadyExist_ResultListIsEmpty()
         {
             var curretEvent = new SynchronEvent().SetId("123").SetSource("1").SetPlacement("!");
@@ -43,7 +38,6 @@ namespace SynchronizerLibUnitTests
         }
 
         [Fact]
-
         public void EventsIsAlreadySync_ResultListIsEmpty()
         {
             var currentEvent = new SynchronEvent().SetId("123").SetSource("1");
