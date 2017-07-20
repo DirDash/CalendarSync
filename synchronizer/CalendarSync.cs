@@ -37,7 +37,8 @@ namespace synchronizer
         }
 
         private void Sync()
-        {            
+        {
+            //outlookCalendar.GetConfigManager().OutFilter = "new outlook filter"; //for demonstration
             syncStatus_label.Text = "Синхронизация...";
             var startDate = from_dateTimePicker.Value;
             var finishDate = to_dateTimePicker.Value;

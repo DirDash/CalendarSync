@@ -6,14 +6,16 @@ namespace SynchronizerLib
 {
     public class OutlookService : ICalendarService
     {
+        private string _serviceName = CalendarServiceEnum.Outlook.ToString();
         private Application oApp = null;
         private NameSpace mapiNamespace = null;
         private MAPIFolder calendarFolder = null;
         private Items outlookCalendarItems = null;
         private DateTime minTime;
         private DateTime maxTime;
-        private bool ifAlreadyInit = false;
-        private OutlookEventConverter _converter;
+        //private bool ifAlreadyInit = false;
+        private OutlookEventConverter _converter = new OutlookEventConverter();
+        private CalendarServiceConfigManager _configManager = new CalendarServiceConfigManager("outlookServiceSettings");
 
         private string GetDateInString(DateTime curDate)
         {
@@ -40,7 +42,7 @@ namespace SynchronizerLib
                 var filterString = "[Start] >= '" + s1 + "' AND [End] < '" + s2 + "'";
                 outlookCalendarItems = outlookCalendarItems.Restrict(filterString);
                 _converter = new OutlookEventConverter();
-                ifAlreadyInit = true;
+                //ifAlreadyInit = true;
             }
         }
 
@@ -67,24 +69,33 @@ namespace SynchronizerLib
         }
 
         public IEnumerable<string> GetFilters()
-        {
-            var filters = new List<string>();
-            filters.Add(SynchronizationConfigManager.OutlookFilter);
-            return filters;
+        {            
+            return new List<string> { _configManager.OutFilter };
         }
 
         public IEnumerable<EventTransformation> GetOutTransformations()
         {
-            var outTransformations = new List<EventTransformation>();
-            outTransformations.Add(SynchronizationConfigManager.OutlookOutTransformation);
-            return outTransformations;
+            return new List<EventTransformation> { _configManager.OutTransformation };
         }
 
         public IEnumerable<EventTransformation> GetInTransformations()
         {
-            var inTransformations = new List<EventTransformation>();
-            inTransformations.Add(SynchronizationConfigManager.OutlookInTransformation);
-            return inTransformations;
+            return new List<EventTransformation> { _configManager.InTransformation };
+        }
+
+        public IEnumerable<string> GetBannedToSyncToServices()
+        {
+            return _configManager.BannedToSyncToServices;
+        }
+
+        public CalendarServiceConfigManager GetConfigManager()
+        {
+            return _configManager;
+        }
+
+        public string GetName()
+        {
+            return _serviceName;
         }
 
         public void PushEvents(List<SynchronEvent> events)

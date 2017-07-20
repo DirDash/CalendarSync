@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Linq;
-using System.Linq.Dynamic;
 
 namespace SynchronizerLib
 {
@@ -17,10 +15,12 @@ namespace SynchronizerLib
         static readonly string[] _scopes = {"https://www.googleapis.com/auth/calendar" };
         static readonly string _applicationName = "Google Calendar API .NET Quickstart";
 
+        private string _serviceName = CalendarServiceEnum.Google.ToString();
         private CalendarService _service;
-        private UserCredential _credential;
-        private GoogleEventConverter _converter;
+        private UserCredential _credential;        
         private string defaultTimeZone0UTC = "UTC";
+        private GoogleEventConverter _converter = new GoogleEventConverter();
+        private CalendarServiceConfigManager _configManager = new CalendarServiceConfigManager("googleServiceSettings");
         
         private void InitGoogleService()
         {
@@ -44,7 +44,6 @@ namespace SynchronizerLib
                 HttpClientInitializer = _credential,
                 ApplicationName = _applicationName,
             });
-            _converter = new GoogleEventConverter();
         }
 
         public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
@@ -71,23 +70,32 @@ namespace SynchronizerLib
 
         public IEnumerable<string> GetFilters()
         {
-            var filters = new List<string>();
-            filters.Add(SynchronizationConfigManager.GoogleFilter);
-            return filters;
+            return new List<string> { _configManager.OutFilter };
         }
 
         public IEnumerable<EventTransformation> GetOutTransformations()
         {
-            var outTransformations = new List<EventTransformation>();
-            outTransformations.Add(SynchronizationConfigManager.GoogleOutTransformation);
-            return outTransformations;
+            return new List<EventTransformation> { _configManager.OutTransformation };
         }
 
         public IEnumerable<EventTransformation> GetInTransformations()
         {
-            var inTransformations = new List<EventTransformation>();
-            inTransformations.Add(SynchronizationConfigManager.GoogleInTransformation);
-            return inTransformations;
+            return new List<EventTransformation> { _configManager.InTransformation };
+        }
+
+        public IEnumerable<string> GetBannedToSyncToServices()
+        {
+            return _configManager.BannedToSyncToServices;
+        }
+
+        public CalendarServiceConfigManager GetConfigManager()
+        {
+            return _configManager;
+        }
+
+        public string GetName()
+        {
+            return _serviceName;
         }
 
         public void PushEvents(List<SynchronEvent> events)
@@ -183,11 +191,6 @@ namespace SynchronizerLib
                     }
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return "Google Calendar Service";
         }
     }
 }

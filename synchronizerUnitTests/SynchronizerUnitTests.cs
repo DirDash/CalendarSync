@@ -105,18 +105,22 @@ namespace SynchronizerLibUnitTests
     {
         public List<SynchronEvent> Events { get; private set; }
         private string id;
+
         private bool SameId(SynchronEvent cur)
         {
             return cur.GetId() == id;
         }
+
         public void AddEvent(SynchronEvent toAdd)
         {
             Events.Add(toAdd);
         }
+
         public CalendarServiceStub()
         {
             Events = new List<SynchronEvent>();
         }
+
         public void DeleteEvents(List<SynchronEvent> events)
         {
             foreach(var curEvent in events)
@@ -130,17 +134,35 @@ namespace SynchronizerLibUnitTests
         {
             return Events;
         }
+
         public IEnumerable<string> GetFilters()
         {
             return new List<string>();
         }
+
         public IEnumerable<EventTransformation> GetOutTransformations()
         {
             return new List<EventTransformation>();
         }
+
         public IEnumerable<EventTransformation> GetInTransformations()
         {
             return new List<EventTransformation>();
+        }
+
+        public IEnumerable<string> GetBannedToSyncToServices()
+        {
+            return new List<string>();
+        }
+
+        public CalendarServiceConfigManager GetConfigManager()
+        {
+            return null;
+        }
+
+        public string GetName()
+        {
+            return "Calendar Service Stub";
         }
 
         public void PushEvents(List<SynchronEvent> events)

@@ -12,7 +12,7 @@ namespace SynchronizerLib
         {
             _calendarService = calendarService;
             _logger = logger;
-            _logger.SetSource(_calendarService.ToString());
+            _logger.SetSource(_calendarService.GetName());
         }
 
         public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
@@ -33,6 +33,21 @@ namespace SynchronizerLib
         public IEnumerable<EventTransformation> GetInTransformations()
         {
             return _calendarService.GetInTransformations();
+        }
+
+        public IEnumerable<string> GetBannedToSyncToServices()
+        {
+            return _calendarService.GetBannedToSyncToServices();
+        }
+
+        public CalendarServiceConfigManager GetConfigManager()
+        {
+            return _calendarService.GetConfigManager();
+        }
+
+        public string GetName()
+        {
+            return _calendarService.GetName();
         }
 
         public void PushEvents(List<SynchronEvent> events)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SynchronizerLib
 {
@@ -34,6 +35,7 @@ namespace SynchronizerLib
             _syncMatrix.Add(newCalendarSyncRow);
             for (int i = 0; i < _syncMatrix.Count - 1; i++)
                 _syncMatrix[i].Add(true);
+            RefreshSyncRuleForAllCalendars();
         }
 
         public void RemoveCalendar(ICalendarService calendar)
@@ -56,6 +58,23 @@ namespace SynchronizerLib
             int targetIndex = _calendars.IndexOf(targetCalendar);
             if (sourceIndex != targetIndex)
                 _syncMatrix[sourceIndex][targetIndex] = syncIsAllowed;
-        }        
+        }
+
+        public void RefreshSyncRuleForAllCalendars()
+        {
+            foreach (var calendar in _calendars)
+                RefreshSyncRulesFor(calendar);
+        }
+        
+        void RefreshSyncRulesFor(ICalendarService serviceToRefresh)
+        {
+            int indexToRefresh = _calendars.IndexOf(serviceToRefresh);
+            if (indexToRefresh < 0)
+                return;
+            var bannedServices = serviceToRefresh.GetBannedToSyncToServices().ToList();
+            for (int i = 0; i < _calendars.Count; i++)
+                if (bannedServices.Contains(_calendars[i].GetName()))
+                    _syncMatrix[indexToRefresh][i] = false;
+        }
     }
 }

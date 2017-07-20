@@ -13,6 +13,12 @@ namespace SynchronizerLib
 
         IEnumerable<EventTransformation> GetInTransformations();
 
+        IEnumerable<string> GetBannedToSyncToServices();
+
+        CalendarServiceConfigManager GetConfigManager();         
+
+        string GetName();
+
         void PushEvents(List<SynchronEvent> events);
         
         void DeleteEvents(List<SynchronEvent> events);       

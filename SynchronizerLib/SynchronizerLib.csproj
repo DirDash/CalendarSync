@@ -65,22 +65,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalendarServiceEnum.cs" />
-    <Compile Include="CalendarServiceLoggingDecorator.cs" />
-    <Compile Include="CalendarStore.cs" />
-    <Compile Include="DifferenceFinder.cs" />
-    <Compile Include="EventsSiever.cs" />
-    <Compile Include="EventTransformation.cs" />
-    <Compile Include="EventTransformer.cs" />
-    <Compile Include="GoogleEventConverter.cs" />
-    <Compile Include="GoogleService.cs" />
-    <Compile Include="ICalendarService.cs" />
+    <Compile Include="Calendar Service Classes\CalendarServiceEnum.cs" />
+    <Compile Include="Calendar Service Classes\CalendarServiceLoggingDecorator.cs" />
+    <Compile Include="Calendar Service Classes\CalendarStore.cs" />
+    <Compile Include="Calendar Service Classes\CalendarServiceConfigManager.cs" />
+    <Compile Include="Event Classes and Proccesors\DifferenceFinder.cs" />
+    <Compile Include="Event Classes and Proccesors\EventsSiever.cs" />
+    <Compile Include="Event Classes and Proccesors\EventTransformation.cs" />
+    <Compile Include="Event Classes and Proccesors\EventTransformer.cs" />
+    <Compile Include="Google Calendar Service\GoogleEventConverter.cs" />
+    <Compile Include="Google Calendar Service\GoogleService.cs" />
+    <Compile Include="Calendar Service Classes\ICalendarService.cs" />
     <Compile Include="ISynchronizer.cs" />
-    <Compile Include="ISyncLogger.cs" />
-    <Compile Include="OutlookEventConverter.cs" />
-    <Compile Include="OutlookService.cs" />
+    <Compile Include="Interfaces for external using\ISyncLogger.cs" />
+    <Compile Include="Outlook Calendar Service\OutlookEventConverter.cs" />
+    <Compile Include="Outlook Calendar Service\OutlookService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SynchronEvent.cs" />
+    <Compile Include="Event Classes and Proccesors\SynchronEvent.cs" />
     <Compile Include="SynchronizerLoggingDecorator.cs" />
     <Compile Include="SynchronizationConfigManager.cs" />
     <Compile Include="Synchronizer.cs" />
@@ -89,7 +90,6 @@
     <None Include="client_secret.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="GoogleCalendar.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -148,5 +148,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
