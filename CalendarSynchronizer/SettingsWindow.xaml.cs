@@ -33,7 +33,8 @@ namespace CalendarSynchronizer
             SetUpAutoSyncCheckBox();
             SetUpAutoSyncIntervalControls();
             SetUpCalendarServicesComboBox();
-            ChangesAccepted_Label.Content = String.Empty;
+            ApplyGeneral_Button.IsEnabled = false;
+            SaveGeneral_Button.IsEnabled = false;
         }
 
         private void SetUpSyncIntervalControls()
@@ -76,16 +77,16 @@ namespace CalendarSynchronizer
 
         private void AutoSync_CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            SynchronizationConfigManager.AutosyncronizationMode = true;
-            ChangesAccepted_Label.Content = "Changes accepted";
             AutoSyncInterval_ComboBox.IsEnabled = true;
+            ApplyGeneral_Button.IsEnabled = true;
+            SaveGeneral_Button.IsEnabled = true;
         }
 
         private void AutoSync_CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            SynchronizationConfigManager.AutosyncronizationMode = false;
-            ChangesAccepted_Label.Content = "Changes accepted";
             AutoSyncInterval_ComboBox.IsEnabled = false;
+            ApplyGeneral_Button.IsEnabled = true;
+            SaveGeneral_Button.IsEnabled = true;
         }
 
         private void CalendarService_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -109,59 +110,96 @@ namespace CalendarSynchronizer
             for (int i = 1; i < bannedServices.Count; i++)
                 services += ", " + bannedServices[i];
             Banned_TextBox.Text = services;
-            AcceptCalendarChanges_Button.IsEnabled = false;
+            ApplyCalendar_Button.IsEnabled = false;
+            SaveCalendar_Button.IsEnabled = false;
         }
 
         private void SyncInterval_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SynchronizationConfigManager.SynchronizationIntervalInDays = (int)SyncInterval_ComboBox.SelectedItem;
-            ChangesAccepted_Label.Content = "Changes accepted";
+            ApplyGeneral_Button.IsEnabled = true;
+            SaveGeneral_Button.IsEnabled = true;
         }
 
         private void AutoSyncInterval_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SynchronizationConfigManager.AutosyncIntervalInMinutes = (int)AutoSyncInterval_ComboBox.SelectedItem;
-            ChangesAccepted_Label.Content = "Changes accepted";
+            ApplyGeneral_Button.IsEnabled = true;
+            SaveGeneral_Button.IsEnabled = true;
         }
 
-        private void AcceptCalendarChanges_Button_Click(object sender, RoutedEventArgs e)
+        private void OutFilter_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyCalendar_Button.IsEnabled = true;
+            SaveCalendar_Button.IsEnabled = true;
+        }
+
+        private void OutCondition_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyCalendar_Button.IsEnabled = true;
+            SaveCalendar_Button.IsEnabled = true;
+        }
+
+        private void OutTransformation_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyCalendar_Button.IsEnabled = true;
+            SaveCalendar_Button.IsEnabled = true;
+        }
+
+        private void InCondition_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyCalendar_Button.IsEnabled = true;
+            SaveCalendar_Button.IsEnabled = true;
+        }
+
+        private void InTransformation_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyCalendar_Button.IsEnabled = true;
+            SaveCalendar_Button.IsEnabled = true;
+        }
+
+        private void Banned_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyCalendar_Button.IsEnabled = true;
+            SaveCalendar_Button.IsEnabled = true;
+        }
+
+        private void SaveCalendarChanges_Button_Click(object sender, RoutedEventArgs e)
+        {
+            SaveCalendarSetting();
+        }
+
+        private void SaveCalendarSetting()
         {
             var config = _currentCalendar.GetConfigManager();
             config.OutFilter = OutFilter_TextBox.Text;
             config.OutTransformation = new EventTransformation(OutCondition_TextBox.Text, OutTransformation_TextBox.Text);
             config.InTransformation = new EventTransformation(InCondition_TextBox.Text, InTransformation_TextBox.Text);
             config.BannedToSyncToServices = Banned_TextBox.Text.Replace(" ", "").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            AcceptCalendarChanges_Button.IsEnabled = false;
+            SaveCalendar_Button.IsEnabled = false;
         }
 
-        private void OutFilter_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void SaveGeneral_Button_Click(object sender, RoutedEventArgs e)
         {
-            AcceptCalendarChanges_Button.IsEnabled = true;
+            SaveGeneralSettings();
         }
 
-        private void OutCondition_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void SaveGeneralSettings()
         {
-            AcceptCalendarChanges_Button.IsEnabled = true;
+            SynchronizationConfigManager.SynchronizationIntervalInDays = (int)SyncInterval_ComboBox.SelectedItem;
+            SynchronizationConfigManager.AutosyncronizationMode = (bool)AutoSync_CheckBox.IsChecked;
+            SynchronizationConfigManager.AutosyncIntervalInMinutes = (int)AutoSyncInterval_ComboBox.SelectedItem;
+            SaveGeneral_Button.IsEnabled = false;
         }
 
-        private void OutTransformation_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ApplyCalendar_Button_Click(object sender, RoutedEventArgs e)
         {
-            AcceptCalendarChanges_Button.IsEnabled = true;
+            SaveCalendarSetting();
+            Close();
         }
 
-        private void InCondition_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ApplyGeneral_Button_Click(object sender, RoutedEventArgs e)
         {
-            AcceptCalendarChanges_Button.IsEnabled = true;
-        }
-
-        private void InTransformation_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            AcceptCalendarChanges_Button.IsEnabled = true;
-        }
-
-        private void Banned_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            AcceptCalendarChanges_Button.IsEnabled = true;
+            SaveGeneralSettings();
+            Close();
         }
     }
 }

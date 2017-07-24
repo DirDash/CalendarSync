@@ -24,7 +24,8 @@
                     <Label Content="Auto synchronization interval:" Margin="10,73,145,229"/>
                     <ComboBox x:Name="AutoSyncInterval_ComboBox" IsEnabled="False" Margin="180,73,84,229" SelectionChanged="AutoSyncInterval_ComboBox_SelectionChanged"/>
                     <Label Content="mins" Margin="241,73,48,229"/>
-                    <Label x:Name="ChangesAccepted_Label" Content="" Margin="0,301,0,0"/>
+                    <Button x:Name="ApplyGeneral_Button" Content="Apply" IsEnabled="False" Style="{StaticResource BlueButtonStyle}"  Height="26" Margin="10,293,176,10" Click="ApplyGeneral_Button_Click"/>
+                    <Button x:Name="SaveGeneral_Button" Content="Save" IsEnabled="False" Style="{StaticResource BlueButtonStyle}" Height="26" Margin="180,293,10,10" Click="SaveGeneral_Button_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Calendar Services Settings">
@@ -47,10 +48,11 @@
                     <TextBox x:Name="InTransformation_TextBox" HorizontalAlignment="Left" Height="23" Margin="108,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="207" TextChanged="InTransformation_TextBox_TextChanged"/>
                     <Label Content="Banned to synchronize:" HorizontalAlignment="Left" Margin="0,255,0,0" VerticalAlignment="Top" Width="132"/>
                     <TextBox x:Name="Banned_TextBox" HorizontalAlignment="Left" Height="23" Margin="132,258,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="183" RenderTransformOrigin="-0.058,-0.652" TextChanged="Banned_TextBox_TextChanged"/>
-                    <Button x:Name="AcceptCalendarChanges_Button" Style="{StaticResource BlueButtonStyle}" IsEnabled="False" Content="Accept" Margin="92,0,96,10" Height="26" VerticalAlignment="Bottom" Click="AcceptCalendarChanges_Button_Click"/>
+                    <Button x:Name="ApplyCalendar_Button" Style="{StaticResource BlueButtonStyle}" IsEnabled="False" Content="Apply" Margin="10,0,176,10" Height="26" VerticalAlignment="Bottom" Click="ApplyCalendar_Button_Click"/>
+                    <Button x:Name="SaveCalendar_Button" Style="{StaticResource BlueButtonStyle}" IsEnabled="False" Content="Save" Margin="180,0,10,10" Height="26" VerticalAlignment="Bottom" Click="SaveCalendarChanges_Button_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="Cancel_Button" Content="Close" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Left" Margin="178,372,0,0" VerticalAlignment="Top" Width="143" Height="26" Click="Cancel_Button_Click"/>
+        <Button x:Name="Cancel_Button" Content="Close" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Left" Margin="193,372,0,0" VerticalAlignment="Top" Width="135" Height="26" Click="Cancel_Button_Click"/>
     </Grid>
 </Window>
