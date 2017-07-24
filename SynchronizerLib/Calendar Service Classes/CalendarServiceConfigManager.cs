@@ -102,10 +102,10 @@ namespace SynchronizerLib
         private void ChangeConfigValue(string configKey, string newConfigValue)
         {
             Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            currentConfig.AppSettings.Settings[configKey].Value = newConfigValue;
             (currentConfig.GetSection(SettingSectionName) as AppSettingsSection).Settings[configKey].Value = newConfigValue;
             currentConfig.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection(SettingSectionName);
+            LoadConfigKeys();
         }
     }
 }

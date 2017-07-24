@@ -192,5 +192,10 @@ namespace SynchronizerLib
                 }
             }
         }
+
+        public override string ToString()
+        {
+            return "Google Calendar Service";
+        }
     }
 }

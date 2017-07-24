@@ -27,7 +27,7 @@ namespace synchronizer
         private void LoadSettingsFromConfig()
         {
             autosync_checkBox.Checked = SynchronizationConfigManager.AutosyncronizationMode;
-            autosync_trackBar.Value = (int)TimeSpan.FromSeconds(SynchronizationConfigManager.AutosyncIntervalInSeconds).TotalMinutes;
+            autosync_trackBar.Value = (int)TimeSpan.FromSeconds(SynchronizationConfigManager.AutosyncIntervalInMinutes).TotalMinutes;
             autosync_trackBar_Scroll(this, new EventArgs());
         }
 
@@ -91,7 +91,7 @@ namespace synchronizer
 
         private void autosync_trackBar_Scroll(object sender, EventArgs e)
         {
-            SynchronizationConfigManager.AutosyncIntervalInSeconds = ((int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalSeconds);
+            SynchronizationConfigManager.AutosyncIntervalInMinutes = ((int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalSeconds);
             autosyncInterval_label.Text = autosync_trackBar.Value.ToString();
             autosync_timer.Interval = (int)TimeSpan.FromMinutes(autosync_trackBar.Value).TotalMilliseconds;
         }

@@ -12,7 +12,7 @@ namespace SynchronizerLib
         {
             _calendarService = calendarService;
             _logger = logger;
-            _logger.SetSource(_calendarService.GetName());
+            _logger.SetSource(_calendarService.ToString());
         }
 
         public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
@@ -85,6 +85,11 @@ namespace SynchronizerLib
                     logMessage += ";";
             }
             return logMessage;
+        }
+
+        public override string ToString()
+        {
+            return _calendarService.ToString();
         }
     }
 }

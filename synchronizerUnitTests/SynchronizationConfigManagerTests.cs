@@ -11,9 +11,9 @@ namespace SynchronizerLibUnitTests
         [Fact]
         public void SetIsCorrect_ValueChanged()
         {
-            int autosyncIntervalSec = SynchronizationConfigManager.AutosyncIntervalInSeconds * 10;
-            SynchronizationConfigManager.AutosyncIntervalInSeconds = autosyncIntervalSec;
-            Assert.Equal(ConfigurationManager.AppSettings["autosyncIntervalSec"], SynchronizationConfigManager.AutosyncIntervalInSeconds.ToString());
+            int autosyncIntervalSec = SynchronizationConfigManager.AutosyncIntervalInMinutes * 10;
+            SynchronizationConfigManager.AutosyncIntervalInMinutes = autosyncIntervalSec;
+            Assert.Equal(ConfigurationManager.AppSettings["autosyncIntervalSec"], SynchronizationConfigManager.AutosyncIntervalInMinutes.ToString());
         }
     }
 }

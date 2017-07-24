@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynchronizerLib", "Synchron
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{82D03054-CD13-486B-9690-DBB44F113F40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarSynchronizer", "CalendarSynchronizer\CalendarSynchronizer.csproj", "{A97AFCDF-81BC-49BD-B64C-DB9DC050D502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{82D03054-CD13-486B-9690-DBB44F113F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82D03054-CD13-486B-9690-DBB44F113F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82D03054-CD13-486B-9690-DBB44F113F40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A97AFCDF-81BC-49BD-B64C-DB9DC050D502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A97AFCDF-81BC-49BD-B64C-DB9DC050D502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A97AFCDF-81BC-49BD-B64C-DB9DC050D502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A97AFCDF-81BC-49BD-B64C-DB9DC050D502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

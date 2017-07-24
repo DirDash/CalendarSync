@@ -161,5 +161,10 @@ namespace SynchronizerLib
                 }
             }
         }
+
+        public override string ToString()
+        {
+            return "Outlook Calendar Service";
+        }
     }
 }

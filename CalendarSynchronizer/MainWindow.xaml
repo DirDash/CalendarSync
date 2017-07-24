@@ -1,0 +1,31 @@
+﻿<Window x:Class="CalendarSynchronizer.SynchronizerMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarSynchronizer"
+        mc:Ignorable="d"
+        Title="Calendar Synchronizer" Height="283" Width="338">
+    <Window.Resources>
+        <Style x:Key="BlueButtonStyle">
+            <Setter Property="Control.Background" Value="#546EFF"></Setter>
+            <Setter Property="Control.Foreground" Value="White"></Setter>
+            <Setter Property="Control.BorderBrush" Value="White"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,0,2,2" HorizontalAlignment="Right" Width="318">
+        <Menu x:Name="MainMenu" Background="#D9DFFF" Height="30" VerticalAlignment="Top">
+            <MenuItem Header="Settings" Height="30" Width="58" Click="SettingsMenuItem_Click"/>
+            <MenuItem Header="Exit" Height="30" Width="34" Click="ExitMenuItem_Click"/>
+        </Menu>
+        <Label Content="Synchronized Calendars:" Margin="6,29,117,0" VerticalAlignment="Top" Height="28"/>
+        <ListBox x:Name="CalendarServices_ListBox" HorizontalAlignment="Right" Height="158" Margin="0,57,117,0" VerticalAlignment="Top" Width="191" SelectionChanged="CalendarServices_ListBox_SelectionChanged">
+        </ListBox>
+        <Button x:Name="Synchronize_Button" Content="Synchronize" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Left" Margin="206,189,0,0" VerticalAlignment="Top" Width="104" Height="26" Click="Synchronize_Button_Click"/>
+        <Button x:Name="AddCalendar_Button" Content="Add" Style="{StaticResource BlueButtonStyle}" IsEnabled="False" HorizontalAlignment="Left" Margin="206,57,0,0" VerticalAlignment="Top" Width="104" Height="26"/>
+        <Button x:Name="RemoveCalendar_Button" Content="Remove" Style="{StaticResource BlueButtonStyle}" IsEnabled="False" HorizontalAlignment="Left" Margin="206,88,0,0" VerticalAlignment="Top" Width="104" Height="26" Click="RemoveCalendar_Button_Click"/>
+        <Label x:Name="SyncStatus_Label" Content="Calendars are not synchronized" Margin="6,214,10,0" Height="26" VerticalAlignment="Top" />
+        <DatePicker x:Name="From_DatePicker" HorizontalAlignment="Left" Margin="206,131,0,0" VerticalAlignment="Top" Width="104" SelectedDateChanged="From_DatePicker_SelectedDateChanged"/>
+        <DatePicker x:Name="To_DatePicker" HorizontalAlignment="Left" Margin="206,160,0,0" VerticalAlignment="Top" Width="104" SelectedDateChanged="To_DatePicker_SelectedDateChanged"/>
+    </Grid>
+</Window>

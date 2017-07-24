@@ -18,6 +18,7 @@ namespace SynchronizerLib
 
         public void SynchronizeAll(CalendarStore calendarStore, DateTime startDate, DateTime finishDate)
         {
+            calendarStore.RefreshSyncRuleForAllCalendars();
             var calendarList = calendarStore.GetCalendars();
             List<List<SynchronEvent>> eventsInTheCalendars = new List<List<SynchronEvent>>();
 

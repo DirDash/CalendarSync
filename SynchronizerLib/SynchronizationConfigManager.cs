@@ -7,12 +7,12 @@ namespace SynchronizerLib
     {
         private static readonly string _settingSection = "appSettings";
         private static readonly string _syncIntervalInDaysKey = "syncIntervalInDays";
-        private static readonly string _autosyncModeKey = "autosyncs";
-        private static readonly string _autosyncIntervalInSecKey = "autosyncIntervalSec";        
+        private static readonly string _autosyncModeKey = "autosync";
+        private static readonly string _autosyncIntervalInMinKey = "autosyncIntervalMin";        
 
         private static int _synchronizationIntervalInDays;
         private static bool _autosyncronizationMode;
-        private static int _autosyncIntervalInSeconds;
+        private static int _autosyncIntervalInMinutes;
 
         static SynchronizationConfigManager()
         {
@@ -39,29 +39,29 @@ namespace SynchronizerLib
             }
         }
 
-        public static int AutosyncIntervalInSeconds
+        public static int AutosyncIntervalInMinutes
         {
-            get { return _autosyncIntervalInSeconds; }
+            get { return _autosyncIntervalInMinutes; }
             set
             {
-                _autosyncIntervalInSeconds = value;
-                ChangeConfigValue(_autosyncIntervalInSecKey, value.ToString());
+                _autosyncIntervalInMinutes = value;
+                ChangeConfigValue(_autosyncIntervalInMinKey, value.ToString());
             }
         }
 
         private static void LoadConfigKeys()
         {
             _synchronizationIntervalInDays = int.Parse(ConfigurationManager.AppSettings[_syncIntervalInDaysKey]);
-            switch (ConfigurationManager.AppSettings[_autosyncModeKey])
+            switch (ConfigurationManager.AppSettings[_autosyncModeKey].ToLower())
             {
-                case "False":
+                case "false":
                     _autosyncronizationMode = false;
                     break;
-                case "True":
+                case "true":
                     _autosyncronizationMode = true;
                     break;
             }
-            _autosyncIntervalInSeconds = int.Parse(ConfigurationManager.AppSettings[_autosyncIntervalInSecKey]);
+            _autosyncIntervalInMinutes = int.Parse(ConfigurationManager.AppSettings[_autosyncIntervalInMinKey]);
         }
 
         private static void ChangeConfigValue(string configKey, string newConfigValue)
@@ -70,6 +70,7 @@ namespace SynchronizerLib
             currentConfig.AppSettings.Settings[configKey].Value = newConfigValue;
             currentConfig.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection(_settingSection);
+            LoadConfigKeys();
         }
     }
 }

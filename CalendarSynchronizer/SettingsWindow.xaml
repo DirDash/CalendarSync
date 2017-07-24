@@ -1,0 +1,56 @@
+﻿<Window x:Class="CalendarSynchronizer.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarSynchronizer"
+        mc:Ignorable="d"
+        Title="Settings" Height="445" Width="349">
+    <Window.Resources>
+        <Style x:Key="BlueButtonStyle">
+            <Setter Property="Control.Background" Value="#546EFF"></Setter>
+            <Setter Property="Control.Foreground" Value="White"></Setter>
+            <Setter Property="Control.BorderBrush" Value="White"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <TabControl x:Name="SettingsTabControl" HorizontalAlignment="Right" Width="331" Height="357" VerticalAlignment="Top" Margin="0,10,0,0">
+            <TabItem Header="General Settings">
+                <Grid>
+                    <Label Content="Synchronization interval:" Margin="10,10,176,293"/>
+                    <ComboBox x:Name="SyncInterval_ComboBox" Margin="149,10,118,293" SelectionChanged="SyncInterval_ComboBox_SelectionChanged"/>
+                    <Label Content="days" Margin="207,10,82,293"/>
+                    <CheckBox x:Name="AutoSync_CheckBox" VerticalContentAlignment="Center" Content="Auto synchronization" Margin="15,41,89,261" Checked="AutoSync_CheckBox_Checked" Unchecked="AutoSync_CheckBox_Unchecked"/>
+                    <Label Content="Auto synchronization interval:" Margin="10,73,145,229"/>
+                    <ComboBox x:Name="AutoSyncInterval_ComboBox" IsEnabled="False" Margin="180,73,84,229" SelectionChanged="AutoSyncInterval_ComboBox_SelectionChanged"/>
+                    <Label Content="mins" Margin="241,73,48,229"/>
+                    <Label x:Name="ChangesAccepted_Label" Content="" Margin="0,301,0,0"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Calendar Services Settings">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="CalendarService_ComboBox" Margin="0,0,10,295" Height="29" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="305" SelectionChanged="CalendarService_ComboBox_SelectionChanged"/>
+                    <Label Content="Filter for outgoing events:" Margin="0,34,20,265"/>
+                    <TextBox x:Name="OutFilter_TextBox" Height="23" TextWrapping="Wrap" Text="" Margin="10,59,10,247" TextChanged="OutFilter_TextBox_TextChanged"/>
+                    <Label Content="Transformation for outgoing events:" HorizontalAlignment="Left" Margin="0,87,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Condition:" HorizontalAlignment="Left" Margin="16,110,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Transformation:" HorizontalAlignment="Left" Margin="16,136,0,0" VerticalAlignment="Top" Height="23"/>
+                    <TextBox x:Name="OutCondition_TextBox" HorizontalAlignment="Left" Height="23" Margin="108,113,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="207" TextChanged="OutCondition_TextBox_TextChanged"/>
+                    <TextBox x:Name="OutTransformation_TextBox" HorizontalAlignment="Left" Height="23" Margin="108,141,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="207" TextChanged="OutTransformation_TextBox_TextChanged"/>
+                    <Label Content="Transformation for inсoming events:" HorizontalAlignment="Left" Margin="0,164,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Condition:" HorizontalAlignment="Left" Margin="16,190,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Transformation:" HorizontalAlignment="Left" Margin="16,216,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="InCondition_TextBox" HorizontalAlignment="Left" Height="23" Margin="108,190,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="207" TextChanged="InCondition_TextBox_TextChanged"/>
+                    <TextBox x:Name="InTransformation_TextBox" HorizontalAlignment="Left" Height="23" Margin="108,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="207" TextChanged="InTransformation_TextBox_TextChanged"/>
+                    <Label Content="Banned to synchronize:" HorizontalAlignment="Left" Margin="0,255,0,0" VerticalAlignment="Top" Width="132"/>
+                    <TextBox x:Name="Banned_TextBox" HorizontalAlignment="Left" Height="23" Margin="132,258,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="183" RenderTransformOrigin="-0.058,-0.652" TextChanged="Banned_TextBox_TextChanged"/>
+                    <Button x:Name="AcceptCalendarChanges_Button" Style="{StaticResource BlueButtonStyle}" IsEnabled="False" Content="Accept" Margin="92,0,96,10" Height="26" VerticalAlignment="Bottom" Click="AcceptCalendarChanges_Button_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="Cancel_Button" Content="Close" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Left" Margin="178,372,0,0" VerticalAlignment="Top" Width="143" Height="26" Click="Cancel_Button_Click"/>
+    </Grid>
+</Window>
