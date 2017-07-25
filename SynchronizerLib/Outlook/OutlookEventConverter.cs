@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Office.Interop.Outlook;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLib.Outlook
@@ -73,7 +73,6 @@ namespace SynchronizerLib.Outlook
             result.ResponseRequested = true;
             if (synchronEvent.GetSource() != CalendarServiceEnum.Outlook.ToString())
             {
-                // ???
                 result.Mileage = synchronEvent.GetId();
             }
             return result;

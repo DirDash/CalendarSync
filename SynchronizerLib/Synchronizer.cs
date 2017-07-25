@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLib
@@ -27,8 +27,8 @@ namespace SynchronizerLib
             foreach (var currentCalendar in calendarList)
             {
                 var events = currentCalendar.GetAllItems(startDate, finishDate);
-                events = _eventSiever.Sieve(events, currentCalendar.GetFilters());
-                events = _eventTransformer.Transform(events, currentCalendar.GetOutTransformations());
+                events = _eventSiever.Sieve(events, currentCalendar.ConfigManager.OutFilter);
+                events = _eventTransformer.Transform(events, currentCalendar.ConfigManager.OutTransformation);
                 eventsInTheCalendars.Add(events);
             }
                         
@@ -48,10 +48,10 @@ namespace SynchronizerLib
             var needToUpdateInTarget = _differenceFinder.GetDifferenceToUpdate(sourceEvents, targetEvents);
             var needToDeleteInTarget = _differenceFinder.GetDifferenceToDelete(sourceEvents, targetEvents);
 
-            nonExistInTarget = _eventTransformer.Transform(nonExistInTarget, targetCalendarService.GetInTransformations());
+            nonExistInTarget = _eventTransformer.Transform(nonExistInTarget, targetCalendarService.ConfigManager.InTransformation);
             targetCalendarService.PushEvents(nonExistInTarget);
 
-            needToUpdateInTarget = _eventTransformer.Transform(needToUpdateInTarget, targetCalendarService.GetInTransformations());
+            needToUpdateInTarget = _eventTransformer.Transform(needToUpdateInTarget, targetCalendarService.ConfigManager.InTransformation);
             targetCalendarService.UpdateEvents(needToUpdateInTarget);
             
             targetCalendarService.DeleteEvents(needToDeleteInTarget);           

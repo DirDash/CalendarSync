@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 
 namespace SynchronizerLib.CalendarServices
 {
@@ -16,39 +16,19 @@ namespace SynchronizerLib.CalendarServices
             _logger.SetSource(_calendarService.ToString());
         }
 
+        public string ServiceName
+        {
+            get { return _calendarService.ServiceName; }
+        }
+
+        public CalendarServiceConfigManager ConfigManager
+        {
+            get { return _calendarService.ConfigManager; }
+        }
+
         public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
         {
             return _calendarService.GetAllItems(startTime, finishTime);
-        }
-
-        public IEnumerable<string> GetFilters()
-        {
-            return _calendarService.GetFilters();
-        }
-
-        public IEnumerable<EventTransformation> GetOutTransformations()
-        {
-            return _calendarService.GetOutTransformations();
-        }
-
-        public IEnumerable<EventTransformation> GetInTransformations()
-        {
-            return _calendarService.GetInTransformations();
-        }
-
-        public IEnumerable<string> GetBannedToSyncToServices()
-        {
-            return _calendarService.GetBannedToSyncToServices();
-        }
-
-        public CalendarServiceConfigManager GetConfigManager()
-        {
-            return _calendarService.GetConfigManager();
-        }
-
-        public string GetName()
-        {
-            return _calendarService.GetName();
         }
 
         public void PushEvents(List<SynchronEvent> events)

@@ -1,34 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 
 namespace SynchronizerLib.CalendarServices
 {
     public interface ICalendarService
     {
-       
+        string ServiceName { get; }
 
-        IEnumerable<string> GetFilters();
+        CalendarServiceConfigManager ConfigManager { get; }
 
-        IEnumerable<EventTransformation> GetOutTransformations();
-
-        IEnumerable<EventTransformation> GetInTransformations();
-
-        IEnumerable<string> GetBannedToSyncToServices();
-
-
-        string GetName();
-
-        CalendarServiceConfigManager GetConfigManager();
-
-
-
-        List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime);
+        List<SynchronEvent> GetAllItems(DateTime startDate, DateTime finishDate);
 
         void PushEvents(List<SynchronEvent> events);
         
         void DeleteEvents(List<SynchronEvent> events);       
 
-        void UpdateEvents(List<SynchronEvent> needToUpdate);
+        void UpdateEvents(List<SynchronEvent> events);
     }
 }

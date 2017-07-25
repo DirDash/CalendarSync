@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SynchronizerLib;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 using SynchronizerLib.CalendarServices;
 
 namespace CalendarSynchronizer
@@ -99,7 +99,7 @@ namespace CalendarSynchronizer
 
         private void RefreshCalendarControls()
         {
-            var config = _currentCalendar.GetConfigManager();
+            var config = _currentCalendar.ConfigManager;
             OutFilter_TextBox.Text = config.OutFilter;
             OutCondition_TextBox.Text = config.OutTransformation.Condition;
             OutTransformation_TextBox.Text = config.OutTransformation.Transformation;
@@ -171,7 +171,7 @@ namespace CalendarSynchronizer
 
         private void SaveCalendarSetting()
         {
-            var config = _currentCalendar.GetConfigManager();
+            var config = _currentCalendar.ConfigManager;
             config.OutFilter = OutFilter_TextBox.Text;
             config.OutTransformation = new EventTransformation(OutCondition_TextBox.Text, OutTransformation_TextBox.Text);
             config.InTransformation = new EventTransformation(InCondition_TextBox.Text, InTransformation_TextBox.Text);

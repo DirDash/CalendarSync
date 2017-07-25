@@ -63,7 +63,9 @@ namespace SynchronizerLib.CalendarServices
         public void RefreshSyncRuleForAllCalendars()
         {
             foreach (var calendar in _calendars)
+            {
                 RefreshSyncRulesFor(calendar);
+            }
         }
         
         private void RefreshSyncRulesFor(ICalendarService serviceToRefresh)
@@ -71,9 +73,9 @@ namespace SynchronizerLib.CalendarServices
             int indexToRefresh = _calendars.IndexOf(serviceToRefresh);
             if (indexToRefresh < 0)
                 return;
-            var bannedServices = serviceToRefresh.GetBannedToSyncToServices().ToList();
+            var bannedServices = serviceToRefresh.ConfigManager.BannedToSyncToServices.ToList();
             for (int i = 0; i < _calendars.Count; i++)
-                if (bannedServices.Contains(_calendars[i].GetName()))
+                if (bannedServices.Contains(_calendars[i].ServiceName.ToLower()))
                     _syncMatrix[indexToRefresh][i] = false;
         }
     }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using SynchronizerLib;
 using Xunit;
 using Assert = Xunit.Assert;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLibUnitTests
@@ -18,8 +17,7 @@ namespace SynchronizerLibUnitTests
         {
             var newEvent = (new SynchronEvent()).SetLocation("Place");
             string transformation = @"SetLocation(""New Place"")";
-            var result = (new EventTransformer()).Transform(new SynchronEvent[] { newEvent },
-                                               new EventTransformation[] { new EventTransformation("", transformation) });
+            var result = (new EventTransformer()).Transform(new SynchronEvent[] { newEvent }, new EventTransformation("", transformation));
             Assert.Equal(result[0].GetLocation(), "New Place");
         }
 
@@ -30,8 +28,7 @@ namespace SynchronizerLibUnitTests
                                                       (new SynchronEvent()).SetCategory("Not To Transform").SetLocation("Place")};
             string condition = @"GetCategory() == ""To Transform""";
             string transformation = @"SetLocation(""New Place"")";
-            var result = (new EventTransformer()).Transform(eventList,
-                                               new EventTransformation[] { new EventTransformation(condition, transformation) });
+            var result = (new EventTransformer()).Transform(eventList, new EventTransformation(condition, transformation));
             int eventChangedNumber = 0;
             foreach (var e in result)
                 if (e.GetLocation() == "New Place")

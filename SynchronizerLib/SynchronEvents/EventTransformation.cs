@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SynchronizerLib.Events
+namespace SynchronizerLib.SynchronEvents
 {
     public class EventTransformation
     {

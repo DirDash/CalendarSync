@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Assert = Xunit.Assert;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLibUnitTests
@@ -14,7 +13,7 @@ namespace SynchronizerLibUnitTests
     public class SynchronizerUnitTests
     {
         [Fact]
-        public void CheckOnNonModyfing_NonOfThen()
+        public void CheckOnNonModyfing_NonOfThem()
         {           
             var calendarA = new CalendarServiceStub();
             var calendarB = new CalendarServiceStub();
@@ -123,6 +122,16 @@ namespace SynchronizerLibUnitTests
             Events = new List<SynchronEvent>();
         }
 
+        public string ServiceName
+        {
+            get { return "Stub"; }
+        }
+
+        public CalendarServiceConfigManager ConfigManager
+        {
+            get { return new CalendarServiceConfigManager("testSection"); }
+        }
+
         public void DeleteEvents(List<SynchronEvent> events)
         {
             foreach(var curEvent in events)
@@ -135,36 +144,6 @@ namespace SynchronizerLibUnitTests
         public List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime)
         {
             return Events;
-        }
-
-        public IEnumerable<string> GetFilters()
-        {
-            return new List<string>();
-        }
-
-        public IEnumerable<EventTransformation> GetOutTransformations()
-        {
-            return new List<EventTransformation>();
-        }
-
-        public IEnumerable<EventTransformation> GetInTransformations()
-        {
-            return new List<EventTransformation>();
-        }
-
-        public IEnumerable<string> GetBannedToSyncToServices()
-        {
-            return new List<string>();
-        }
-
-        public CalendarServiceConfigManager GetConfigManager()
-        {
-            return null;
-        }
-
-        public string GetName()
-        {
-            return "Calendar Service Stub";
         }
 
         public void PushEvents(List<SynchronEvent> events)
@@ -183,5 +162,5 @@ namespace SynchronizerLibUnitTests
                         Events[i] = curEvent;
             }
         }
-    }
+    }    
 }

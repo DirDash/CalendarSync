@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SynchronizerLib.Events
+namespace SynchronizerLib.SynchronEvents
 {
     public class SynchronEvent
     {

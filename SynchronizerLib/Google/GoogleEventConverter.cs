@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Google.Apis.Calendar.v3.Data;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLib.Google
@@ -57,17 +57,14 @@ namespace SynchronizerLib.Google
 
         public Event ConvertToGoogleEvent(SynchronEvent synchronEvent)
         {
-            // todo: timezones
             // Google API: the default is the time zone of the calendar.
             var eventDateTime = new EventDateTime
             {
-                DateTime = synchronEvent.GetStartUTC(),
-                //TimeZone = "Europe/Moscow"
+                DateTime = synchronEvent.GetStartUTC()
             };
             var eventDateTimeEnd = new EventDateTime
             {
-                DateTime = synchronEvent.GetFinishUTC(),
-                //TimeZone = "Europe/Moscow"
+                DateTime = synchronEvent.GetFinishUTC()
             };
             var googleEvent = new Event
             {

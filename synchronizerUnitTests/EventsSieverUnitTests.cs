@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SynchronizerLib;
 using Xunit;
 using Assert = Xunit.Assert;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 
 namespace SynchronizerLibUnitTests
 {
@@ -20,7 +17,7 @@ namespace SynchronizerLibUnitTests
                                                       (new SynchronEvent()).SetLocation("Second"),
                                                       (new SynchronEvent()).SetLocation("First") };
             string sieveRule = @"GetLocation() == ""Second""";
-            var newEventList = (new EventsSiever()).Sieve(eventList, new string[] { sieveRule });
+            var newEventList = (new EventsSiever()).Sieve(eventList, sieveRule);
             Assert.Equal(1, newEventList.Count);
         }
     }

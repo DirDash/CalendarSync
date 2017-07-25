@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using SynchronizerLib.Events;
+using SynchronizerLib.SynchronEvents;
 
 namespace SynchronizerLib.CalendarServices
 {
@@ -92,12 +92,19 @@ namespace SynchronizerLib.CalendarServices
         private void LoadConfigKeys()
         {
             _outFilter = (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outFilterKey];
-            _outTransformation = new EventTransformation((ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outTransformationConditionKey],
+            string condition = (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outTransformationConditionKey];
+            if (condition != String.Empty)
+                condition += " && GetSource() == GetPlacement()";
+            else
+                condition = "GetSource() == GetPlacement()";
+            _outTransformation = new EventTransformation(condition,
                                                          (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outTransformationKey]);
             _inTransformation = new EventTransformation((ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_inTransformationConditionKey],
                                                          (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_inTransformationKey]);
             _bannedToSyncToServices = (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_bannedToSyncToServicesKey].Replace(" ", "")
                                                                                     .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            for (int i = 0; i < _bannedToSyncToServices.Count; i++)
+                _bannedToSyncToServices[i] = _bannedToSyncToServices[i].ToLower();
         }
 
         private void ChangeConfigValue(string configKey, string newConfigValue)
