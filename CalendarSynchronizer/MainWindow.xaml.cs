@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using SynchronizerLib;
+using SynchronizerLib.CalendarServices;
+using SynchronizerLib.Google;
+using SynchronizerLib.Outlook;
 using LoggerNamespace;
 
 namespace CalendarSynchronizer

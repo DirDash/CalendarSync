@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Google.Apis.Calendar.v3.Data;
+using SynchronizerLib.Events;
+using SynchronizerLib.CalendarServices;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.Google
 {
     public class GoogleEventConverter
     {

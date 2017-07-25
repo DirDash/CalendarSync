@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using SynchronizerLib.Events;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.CalendarServices
 {
     public interface ICalendarService
     {
-        List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime);
+       
 
         IEnumerable<string> GetFilters();
 
@@ -15,9 +16,14 @@ namespace SynchronizerLib
 
         IEnumerable<string> GetBannedToSyncToServices();
 
-        CalendarServiceConfigManager GetConfigManager();         
 
         string GetName();
+
+        CalendarServiceConfigManager GetConfigManager();
+
+
+
+        List<SynchronEvent> GetAllItems(DateTime startTime, DateTime finishTime);
 
         void PushEvents(List<SynchronEvent> events);
         

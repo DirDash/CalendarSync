@@ -2,6 +2,7 @@
 using Xunit;
 using Assert = Xunit.Assert;
 using SynchronizerLib;
+using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLibUnitTests
 {

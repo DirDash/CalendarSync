@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using SynchronizerLib.Events;
+using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLib
 {

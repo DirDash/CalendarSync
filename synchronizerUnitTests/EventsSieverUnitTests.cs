@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SynchronizerLib;
 using Xunit;
 using Assert = Xunit.Assert;
+using SynchronizerLib.Events;
 
 namespace SynchronizerLibUnitTests
 {

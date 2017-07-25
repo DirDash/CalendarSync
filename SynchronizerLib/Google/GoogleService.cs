@@ -7,8 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using SynchronizerLib.Events;
+using SynchronizerLib.CalendarServices;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.Google
 {
     public class GoogleService : ICalendarService
     {

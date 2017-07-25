@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Assert = Xunit.Assert;
-using SynchronizerLib;
+using SynchronizerLib.Events;
 
 namespace SynchronizerLibUnitTests
 {

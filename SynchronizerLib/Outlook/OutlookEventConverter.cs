@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Office.Interop.Outlook;
+using SynchronizerLib.Events;
+using SynchronizerLib.CalendarServices;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.Outlook
 {
     public class OutlookEventConverter
     {

@@ -3,8 +3,9 @@ using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using SynchronizerLib.Events;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.CalendarServices
 {
     public class CalendarServiceConfigManager
     {

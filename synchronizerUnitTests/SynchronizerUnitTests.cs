@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Assert = Xunit.Assert;
+using SynchronizerLib.Events;
+using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLibUnitTests
 {

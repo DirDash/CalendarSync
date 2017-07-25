@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using SynchronizerLib.Events;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.CalendarServices
 {
     public class CalendarServiceLoggingDecorator : ICalendarService
     {

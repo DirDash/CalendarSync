@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.CalendarServices
 {
     public class CalendarStore
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 
-namespace SynchronizerLib
+namespace SynchronizerLib.Events
 {
     public class EventTransformer
     {
