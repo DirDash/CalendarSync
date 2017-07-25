@@ -21,7 +21,7 @@ namespace SynchronizerLib
         public void SynchronizeAll(CalendarStore calendarStore, DateTime startDate, DateTime finishDate)
         {
             calendarStore.RefreshSyncRuleForAllCalendars();
-            var calendarList = calendarStore.GetCalendars();
+            var calendarList = calendarStore.Calendars;
             List<List<SynchronEvent>> eventsInTheCalendars = new List<List<SynchronEvent>>();
 
             foreach (var currentCalendar in calendarList)

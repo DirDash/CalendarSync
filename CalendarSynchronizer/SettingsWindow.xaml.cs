@@ -66,7 +66,7 @@ namespace CalendarSynchronizer
 
         private void SetUpCalendarServicesComboBox()
         {
-            foreach (var calendarService in _workingCalendarStore.GetCalendars())
+            foreach (var calendarService in _workingCalendarStore.Calendars)
                 CalendarService_ComboBox.Items.Add(calendarService);
             if (CalendarService_ComboBox.Items.Count > 0)
                 CalendarService_ComboBox.SelectedIndex = 0;

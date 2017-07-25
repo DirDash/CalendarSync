@@ -55,16 +55,14 @@ namespace CalendarSynchronizer
         {
             ICalendarService outlookCalendar = new CalendarServiceLoggingDecorator(new OutlookService(), new NLogLogger());
             ICalendarService googleCalendar = new CalendarServiceLoggingDecorator(new GoogleService(), new NLogLogger());
-            _calendarStore = new CalendarStore();
-            _calendarStore.AddCalendar(outlookCalendar);
-            _calendarStore.AddCalendar(googleCalendar);
+            _calendarStore = new CalendarStore(new List<ICalendarService> { outlookCalendar, googleCalendar });
             _synchronizer = new SynchronizerLoggingDecorator(new Synchronizer(), new NLogLogger());
         }
 
         private void RefreshCalendarServicesListBox()
         {
             CalendarServices_ListBox.Items.Clear();
-            foreach (var calendarService in _calendarStore.GetCalendars())
+            foreach (var calendarService in _calendarStore.Calendars)
                 CalendarServices_ListBox.Items.Add(calendarService);
         }
 
@@ -82,21 +80,7 @@ namespace CalendarSynchronizer
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void CalendarServices_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CalendarServices_ListBox.SelectedIndex >= 0)
-                RemoveCalendar_Button.IsEnabled = true;
-            else
-                RemoveCalendar_Button.IsEnabled = false;
-        }
-
-        private void RemoveCalendar_Button_Click(object sender, RoutedEventArgs e)
-        {
-            _calendarStore.RemoveCalendar(CalendarServices_ListBox.SelectedItem as ICalendarService);
-            RefreshCalendarServicesListBox();
-        }
+        }    
 
         private void Synchronize_Button_Click(object sender, RoutedEventArgs e)
         {
