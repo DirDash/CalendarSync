@@ -75,7 +75,12 @@ namespace SynchronizerLib
 
         public IEnumerable<EventTransformation> GetOutTransformations()
         {
-            return new List<EventTransformation> { _configManager.OutTransformation };
+            var transformation = _configManager.OutTransformation;
+            if (transformation.Condition != String.Empty)
+                transformation.Condition += " && GetSource() == GetPlacement()";
+            else
+                transformation.Condition = "GetSource() == GetPlacement()";
+            return new List<EventTransformation> { transformation };
         }
 
         public IEnumerable<EventTransformation> GetInTransformations()

@@ -1,1 +1,1 @@
-"# CalendarRepo" 
+"# Calendar Synchronizer. Developing in progress" 

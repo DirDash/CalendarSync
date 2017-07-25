@@ -18,7 +18,7 @@
             <MenuItem Header="Settings" Height="30" Width="58" Click="SettingsMenuItem_Click"/>
             <MenuItem Header="Exit" Height="30" Width="34" Click="ExitMenuItem_Click"/>
         </Menu>
-        <Label Content="Synchronized Calendars:" Margin="6,29,117,0" VerticalAlignment="Top" Height="28"/>
+        <Label Content="Synchronizing Calendars:" Margin="6,29,117,0" VerticalAlignment="Top" Height="28"/>
         <ListBox x:Name="CalendarServices_ListBox" HorizontalAlignment="Right" Height="158" Margin="0,57,117,0" VerticalAlignment="Top" Width="191" SelectionChanged="CalendarServices_ListBox_SelectionChanged">
         </ListBox>
         <Button x:Name="Synchronize_Button" Content="Synchronize" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Left" Margin="206,189,0,0" VerticalAlignment="Top" Width="104" Height="26" Click="Synchronize_Button_Click"/>

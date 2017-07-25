@@ -12,54 +12,15 @@ namespace SynchronizerLibUnitTests
 {
     public class EventsSieverUnitTests
     {
-        /*
         [Fact]
-        public void BeginingEvent_NonExistInResultList()
+        public void SieveByStringField_OneFromThreeRemains()
         {
-            var cur = new SynchronEvent();
-            cur.SetStartUTC(DateTime.Now.AddHours(-1));
-            var list = new List<SynchronEvent>{cur};
-            list = new EventsSiever().Sieve(list, new string[] { String.Format("GetStartUTC() >= DateTime.Parse({0})", DateTime.Now.ToUniversalTime().ToString())});
-            //list = new EventsSiever().SieveEventsOnPeriodOfTime(DateTime.Now, DateTime.Now.AddHours(1), list);
-            Assert.Equal(0, list.Count);
+            var eventList = new List<SynchronEvent> { (new SynchronEvent()).SetLocation("First"),
+                                                      (new SynchronEvent()).SetLocation("Second"),
+                                                      (new SynchronEvent()).SetLocation("First") };
+            string sieveRule = @"GetLocation() == ""Second""";
+            var newEventList = (new EventsSiever()).Sieve(eventList, new string[] { sieveRule });
+            Assert.Equal(1, newEventList.Count);
         }
-        
-        [Fact]
-        public void EventWithStartOneHourLater_ExistInResultList()
-        {
-            var cur = new SynchronEvent();
-            var date = DateTime.Now.ToUniversalTime();
-            cur.SetStartUTC(date.AddHours(1));
-            var list = new List<SynchronEvent> { cur };
-            list = new EventsSiever().SieveEventsOnPeriodOfTime(date, date.AddHours(2), list);
-            Assert.Equal(1, list.Count);
-        }
-
-        [Fact]
-        public void EventWithStartNow_ExistInResult()
-        {
-            var cur = new SynchronEvent();
-            var start = DateTime.Now.ToUniversalTime();
-            cur.SetStartUTC(start);
-            var list = new List<SynchronEvent> { cur };
-            list = new EventsSiever().SieveEventsOnPeriodOfTime(start, start.AddMinutes(12), list);
-            Assert.Equal(1, list.Count);
-        }
-
-        [Fact]
-        public void OneGoogAndOneBadEvents_ResultContainsOnlyOne()
-        {
-            var date = DateTime.Now.ToUniversalTime();
-            var cur1 = new SynchronEvent();
-            cur1.SetStartUTC(date.AddHours(-1));
-
-            var cur2 = new SynchronEvent();
-            cur2.SetStartUTC(date.AddMinutes(5));
-
-            var list = new List<SynchronEvent> { cur1, cur2 };
-            list = new EventsSiever().SieveEventsOnPeriodOfTime(date, date.AddHours(1), list);
-            Assert.Equal(1, list.Count);
-        }
-        */
     }
 }

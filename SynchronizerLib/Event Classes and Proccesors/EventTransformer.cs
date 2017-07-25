@@ -14,15 +14,17 @@ namespace SynchronizerLib
             {
                 if (!String.IsNullOrEmpty(transformation.Transformation))
                 {
-                    string condition = "GetSource() == GetPlacement()";
-                    if (!String.IsNullOrEmpty(transformation.Condition))
-                        condition += " || " + transformation.Condition;
-                    result = (result.AsQueryable().Where(condition).Select(transformation.Transformation) as IQueryable<SynchronEvent>).ToList();
+                    if (transformation.Condition != String.Empty)
+                    {
+                        var notToTransformEvents = result.AsQueryable().Where("!(" + transformation.Condition + ")").ToList();                        
+                        result = (result.AsQueryable().Where(transformation.Condition).Select(transformation.Transformation) as IQueryable<SynchronEvent>).ToList();
+                        foreach (var ev in notToTransformEvents)
+                            result.Add(ev);
+                    }
+                    else
+                        result = (result.AsQueryable().Select(transformation.Transformation) as IQueryable<SynchronEvent>).ToList();
                 }
             }
-            foreach (var e in events)
-                if (e.GetSource() != e.GetPlacement())
-                    result.Add(e);
             return result;
         }
     }
