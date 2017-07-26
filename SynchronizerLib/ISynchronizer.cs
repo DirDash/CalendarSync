@@ -6,6 +6,6 @@ namespace SynchronizerLib
 {
     public interface ISynchronizer
     {
-        void SynchronizeAll(CalendarStore calendarStore, DateTime startDate, DateTime finishDate);
+        void Synchronize(CalendarStore calendarStore, DateTime startDate, DateTime finishDate);
     }
 }

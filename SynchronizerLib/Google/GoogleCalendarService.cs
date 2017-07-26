@@ -6,7 +6,7 @@ using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLib.Google
 {
-    public class GoogleService : ICalendarService
+    public class GoogleCalendarService : ICalendarService
     {
         private string _serviceName = "google";
         private GoogleAPIGateway _APIGateway = new GoogleAPIGateway();

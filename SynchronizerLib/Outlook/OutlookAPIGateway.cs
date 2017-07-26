@@ -32,8 +32,8 @@ namespace SynchronizerLib.Outlook
         public List<AppointmentItem> GetAllItems(DateTime startDate, DateTime finishDate)
         {
             var resultList = new List<AppointmentItem>();
-            _minTime = startDate.ToUniversalTime().Date;
-            _maxTime = finishDate.ToUniversalTime();
+            _minTime = startDate;
+            _maxTime = finishDate;
 
             UpdateCalendarInfo();
 

@@ -76,12 +76,12 @@
     <Compile Include="SynchronEvents\EventTransformer.cs" />
     <Compile Include="Google\GoogleAPIGateway.cs" />
     <Compile Include="Google\GoogleEventConverter.cs" />
-    <Compile Include="Google\GoogleService.cs" />
+    <Compile Include="Google\GoogleCalendarService.cs" />
     <Compile Include="CalendarServices\ICalendarService.cs" />
     <Compile Include="ISynchronizer.cs" />
     <Compile Include="ISyncLogger.cs" />
     <Compile Include="Outlook\OutlookEventConverter.cs" />
-    <Compile Include="Outlook\OutlookService.cs" />
+    <Compile Include="Outlook\OutlookCalendarService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchronEvents\SynchronEvent.cs" />
     <Compile Include="SynchronizerLoggingDecorator.cs" />

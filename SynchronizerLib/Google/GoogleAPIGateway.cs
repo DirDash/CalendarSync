@@ -49,8 +49,8 @@ namespace SynchronizerLib.Google
             UpdateCalendarInfo();
 
             var request = _service.Events.List("primary");
-            request.TimeMin = startDate.ToUniversalTime();
-            request.TimeMax = finishDate.ToUniversalTime();
+            request.TimeMin = startDate;
+            request.TimeMax = finishDate;
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.MaxResults = 1000;

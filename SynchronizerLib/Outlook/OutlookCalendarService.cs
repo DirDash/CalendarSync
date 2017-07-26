@@ -6,7 +6,7 @@ using SynchronizerLib.CalendarServices;
 
 namespace SynchronizerLib.Outlook
 {
-    public class OutlookService : ICalendarService
+    public class OutlookCalendarService : ICalendarService
     {
         private string _serviceName = "outlook";
         private OutlookAPIGateway _APIGateway = new OutlookAPIGateway();

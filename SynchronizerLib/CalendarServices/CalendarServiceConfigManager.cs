@@ -92,12 +92,13 @@ namespace SynchronizerLib.CalendarServices
         private void LoadConfigKeys()
         {
             _outFilter = (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outFilterKey];
-            string condition = (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outTransformationConditionKey];
-            if (condition != String.Empty)
-                condition += " && GetSource() == GetPlacement()";
+            string outCondition = (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outTransformationConditionKey];
+            string obligatoryCondition = "GetSource() == GetPlacement()";
+            if (outCondition != String.Empty && outCondition != obligatoryCondition)
+                outCondition += " && " + obligatoryCondition;
             else
-                condition = "GetSource() == GetPlacement()";
-            _outTransformation = new EventTransformation(condition,
+                outCondition = obligatoryCondition;
+            _outTransformation = new EventTransformation(outCondition,
                                                          (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_outTransformationKey]);
             _inTransformation = new EventTransformation((ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_inTransformationConditionKey],
                                                          (ConfigurationManager.GetSection(SettingSectionName) as NameValueCollection)[_inTransformationKey]);

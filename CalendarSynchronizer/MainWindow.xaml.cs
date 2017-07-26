@@ -43,6 +43,7 @@ namespace CalendarSynchronizer
         {
             RefreshDateTimePickers();            
             SetUpTimer();
+            _calendarStore.RefreshSyncRuleForAllCalendars(); ;
         }
 
         private void RefreshDateTimePickers()
@@ -53,8 +54,8 @@ namespace CalendarSynchronizer
 
         private void LoadCalendarServices()
         {
-            ICalendarService outlookCalendar = new CalendarServiceLoggingDecorator(new OutlookService(), new NLogLogger());
-            ICalendarService googleCalendar = new CalendarServiceLoggingDecorator(new GoogleService(), new NLogLogger());
+            ICalendarService outlookCalendar = new CalendarServiceLoggingDecorator(new OutlookCalendarService(), new NLogLogger());
+            ICalendarService googleCalendar = new CalendarServiceLoggingDecorator(new GoogleCalendarService(), new NLogLogger());
             _calendarStore = new CalendarStore(new List<ICalendarService> { outlookCalendar, googleCalendar });
             _synchronizer = new SynchronizerLoggingDecorator(new Synchronizer(), new NLogLogger());
         }
@@ -95,7 +96,7 @@ namespace CalendarSynchronizer
             var finishDate = (DateTime)To_DatePicker.SelectedDate;            
             try
             {
-                _synchronizer.SynchronizeAll(_calendarStore, startDate, finishDate);
+                _synchronizer.Synchronize(_calendarStore, startDate, finishDate.AddHours(23).AddMinutes(59));
             }
             catch
             {                
